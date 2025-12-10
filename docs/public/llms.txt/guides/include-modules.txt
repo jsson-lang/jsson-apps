@@ -1,0 +1,462 @@
+# JSSON Documentation — LLM Mode
+Source: include-modules.mdx
+Version: 0.0.5.2
+Generated: 2025-12-10T14:15:49.465Z
+
+## Table of Contents
+- 0.1. Why Use Includes?
+- 0.2. Basic Usage
+- 0.2.1. Example: Database Config
+- 0.3. File Paths
+- 0.3.1. Relative Paths
+- 0.3.2. Organizing Your Project
+- 0.4. Real-World Example
+- 0.4.1. app.jsson
+- 0.4.2. database.jsson
+- 0.4.3. api.jsson
+- 0.4.4. cache.jsson
+- 0.4.5. main.jsson
+- 0.5. Multiple Includes
+- 0.6. Environment-Specific Configs
+- 0.6.1. base.jsson (shared settings)
+- 0.6.2. dev.jsson
+- 0.6.3. prod.jsson
+- 0.7. Best Practices
+- 0.7.1. 1. Organize by Concern
+- 0.7.2. 2. Use Descriptive Names
+- 0.7.3. 3. Keep Includes at the Top
+- 0.7.4. 4. Don't Nest Too Deeply
+- 0.7.5. 5. Document Your Includes
+- 0.8. Common Patterns
+- 0.8.1. Pattern 1: Shared + Environment
+- 0.8.2. Pattern 2: Feature Modules
+- 0.8.3. Pattern 3: Service-Based
+- 0.9. Troubleshooting
+- 0.9.1. File Not Found
+- 1. The file exists
+- 2. The path is correct (relative to the including file)
+- 3. The file extension is .jsson
+- 0.9.2. Circular Dependencies
+- 0.9.3. main.jsson
+- 0.10. Multiple Includes
+- 0.11. Environment-Specific Configs
+- 0.11.1. base.jsson (shared settings)
+- 0.11.2. dev.jsson
+- 0.11.3. prod.jsson
+- 0.12. Best Practices
+- 0.12.1. 1. Organize by Concern
+- 0.12.2. 2. Use Descriptive Names
+- 0.12.3. 3. Keep Includes at the Top
+- 0.12.4. 4. Don't Nest Too Deeply
+- 0.12.5. 5. Document Your Includes
+- 0.13. Common Patterns
+- 0.13.1. Pattern 1: Shared + Environment
+- 0.13.2. Pattern 2: Feature Modules
+- 0.13.3. Pattern 3: Service-Based
+- 0.14. Troubleshooting
+- 0.14.1. File Not Found
+- 1. The file exists
+- 2. The path is correct (relative to the including file)
+- 3. The file extension is .jsson
+- 0.14.2. Circular Dependencies
+- 0.15. Includes and Multi-Format
+- 1. MERGE INCLUDES AND OUTPUT YAML
+- 2. MERGE INCLUDES AND OUTPUT TYPESCRIPT
+- 2.1. What's Next?
+
+## Content
+
+As your configurations grow, keeping everything in one file becomes messy. JSSON's include statement lets you split your configs into logical, reusable modules. Let's learn how! 🧩
+
+0.1. Why Use Includes?
+
+Without includes:
+
+``jsson
+// One massive 500-line config file 😰
+app {
+  // 50 lines of app config...
+}
+
+database {
+  // 100 lines of database config...
+}
+
+api {
+  // 150 lines of API config...
+}
+
+// ... and so on
+`
+
+With includes:
+
+`jsson
+// main.jsson - Clean and organized! 😎
+include "app.jsson"
+include "database.jsson"
+include "api.jsson"
+`
+
+Much better, right?
+
+0.2. Basic Usage
+
+The include statement is simple:
+
+
+
+That's it! The contents of the included file are merged into your main file.
+
+0.2.1. Example: Database Config
+
+database.jsson:
+
+
+
+main.jsson:
+
+
+
+Result (JSON):
+
+
+
+0.3. File Paths
+
+JSSON resolves include paths relative to the file containing the include statement.
+
+0.3.1. Relative Paths
+
+
+
+0.3.2. Organizing Your Project
+
+Here's a recommended structure for large projects:
+
+`
+project/
+├── config/
+│   ├── main.jsson          # Main entry point
+│   ├── app.jsson           # Application settings
+│   ├── database.jsson      # Database config
+│   ├── api.jsson           # API settings
+│   └── environments/
+│       ├── dev.jsson       # Development overrides
+│       ├── staging.jsson   # Staging overrides
+│       └── prod.jsson      # Production overrides
+`
+
+main.jsson:
+
+
+
+0.4. Real-World Example
+
+Let's build a complete application configuration using modules.
+
+0.4.1. app.jsson
+
+
+
+0.4.2. database.jsson
+
+
+
+0.4.3. api.jsson
+
+
+
+0.4.4. cache.jsson
+
+
+
+0.4.5. main.jsson
+
+
+
+Now you have a clean, modular configuration that's easy to maintain!
+
+0.5. Multiple Includes
+
+You can include as many files as you need:
+
+
+
+Files are processed in order, top to bottom.
+
+0.6. Environment-Specific Configs
+
+Use includes to handle different environments:
+
+0.6.1. base.jsson (shared settings)
+
+
+
+0.6.2. dev.jsson
+
+
+
+0.6.3. prod.jsson
+
+
+
+Then use the appropriate file for each environment!
+
+0.7. Best Practices
+
+0.7.1. 1. Organize by Concern
+
+Group related settings together:
+
+`
+config/
+├── app.jsson          # Application settings
+├── database.jsson     # All database config
+├── api.jsson          # API configuration
+├── auth.jsson         # Authentication
+└── monitoring.jsson   # Monitoring & logging
+`
+
+0.7.2. 2. Use Descriptive Names
+
+
+
+0.7.3. 3. Keep Includes at the Top
+
+
+
+0.7.4. 4. Don't Nest Too Deeply
+
+
+
+0.7.5. 5. Document Your Includes
+
+
+
+0.8. Common Patterns
+
+0.8.1. Pattern 1: Shared + Environment
+
+`
+config/
+├── shared.jsson       # Common settings
+├── dev.jsson          # Development (includes shared)
+├── staging.jsson      # Staging (includes shared)
+└── prod.jsson         # Production (includes shared)
+`
+
+0.8.2. Pattern 2: Feature Modules
+
+`
+config/
+├── main.jsson
+└── features/
+    ├── auth.jsson
+    ├── payments.jsson
+    ├── notifications.jsson
+    └── analytics.jsson
+`
+
+0.8.3. Pattern 3: Service-Based
+
+`
+config/
+├── main.jsson
+└── services/
+    ├── database.jsson
+    ├── cache.jsson
+    ├── queue.jsson
+    └── storage.jsson
+`
+
+0.9. Troubleshooting
+
+0.9.1. File Not Found
+
+`
+Error: include file not found: database.jsson
+`
+
+Solution: Check that:
+
+1. The file exists
+2. The path is correct (relative to the including file)
+3. The file extension is .jsson
+
+0.9.2. Circular Dependencies
+
+`
+Error: circular include detected
+`
+
+Solution: Don't have files include each other:
+
+`
+// ❌ Bad
+// a.jsson includes b.jsson
+// b.jsson includes a.jsson
+  }
+}} />
+
+0.9.3. main.jsson
+
+
+Now you have a clean, modular configuration that's easy to maintain!
+
+0.10. Multiple Includes
+
+You can include as many files as you need:
+
+
+
+Files are processed in order, top to bottom.
+
+0.11. Environment-Specific Configs
+
+Use includes to handle different environments:
+
+0.11.1. base.jsson (shared settings)
+
+
+0.11.2. dev.jsson
+
+
+0.11.3. prod.jsson
+
+
+Then use the appropriate file for each environment!
+
+0.12. Best Practices
+
+0.12.1. 1. Organize by Concern
+
+Group related settings together:
+
+``
+
+config/
+├── app.jsson # Application settings
+├── database.jsson # All database config
+├── api.jsson # API configuration
+├── auth.jsson # Authentication
+└── monitoring.jsson # Monitoring & logging
+
+`
+
+0.12.2. 2. Use Descriptive Names
+
+
+
+0.12.3. 3. Keep Includes at the Top
+
+
+
+0.12.4. 4. Don't Nest Too Deeply
+
+
+
+0.12.5. 5. Document Your Includes
+
+
+
+0.13. Common Patterns
+
+0.13.1. Pattern 1: Shared + Environment
+
+`
+
+config/
+├── shared.jsson # Common settings
+├── dev.jsson # Development (includes shared)
+├── staging.jsson # Staging (includes shared)
+└── prod.jsson # Production (includes shared)
+
+`
+
+0.13.2. Pattern 2: Feature Modules
+
+`
+
+config/
+├── main.jsson
+└── features/
+├── auth.jsson
+├── payments.jsson
+├── notifications.jsson
+└── analytics.jsson
+
+`
+
+0.13.3. Pattern 3: Service-Based
+
+`
+
+config/
+├── main.jsson
+└── services/
+├── database.jsson
+├── cache.jsson
+├── queue.jsson
+└── storage.jsson
+
+`
+
+0.14. Troubleshooting
+
+0.14.1. File Not Found
+
+`
+
+Error: include file not found: database.jsson
+
+`
+
+Solution: Check that:
+1. The file exists
+2. The path is correct (relative to the including file)
+3. The file extension is .jsson
+
+0.14.2. Circular Dependencies
+
+`
+
+Error: circular include detected
+
+`
+
+Solution: Don't have files include each other:
+`
+
+// ❌ Bad
+// a.jsson includes b.jsson
+// b.jsson includes a.jsson
+
+// ✅ Good
+// main.jsson includes both a.jsson and b.jsson
+
+``
+
+0.15. Includes and Multi-Format
+
+Includes work seamlessly with all output formats. The merging happens before transpilation, so you can use includes to organize your config and then output to whatever format you need:
+
+`bash
+
+1. MERGE INCLUDES AND OUTPUT YAML
+------------------------------
+jsson -i main.jsson -f yaml > config.yaml
+
+
+2. MERGE INCLUDES AND OUTPUT TYPESCRIPT
+------------------------------------
+jsson -i main.jsson -f ts > config.ts
+```
+
+This makes JSSON a powerful way to manage complex configurations for any tool!
+
+2.1. What's Next?
+
+Now that you can organize your configs with includes, explore more advanced features:• [Templates Guide](/guides/templates/) — Structure tabular data efficiently• [Syntax Reference](/reference/syntax/) — Learn about ranges, expressions, and map clauses• [CLI Guide](/guides/cli/) — Master the command-line tool
+
+Happy modularizing! 🎯

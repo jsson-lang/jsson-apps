@@ -1,0 +1,15 @@
+# Astro specific
+.astro/
+dist/
+
+# Dependencies
+node_modules/
+
+# Build
+*.tsbuildinfo
+
+# Environment
+.env*
+
+# Logs
+*.log

@@ -1,0 +1,174 @@
+# JSSON Documentation — LLM Mode
+Source: syntax.mdx
+Version: 0.0.5.2
+Generated: 2025-12-10T14:15:49.726Z
+
+## Table of Contents
+- 0.1. Comments
+- 0.2. Data Types
+- 0.3. Variable Declarations
+- 0.3.1. Arrays in Objects
+- 0.4. Ranges 🔢
+- 0.4.1. Basic Ranges
+- 0.4.2. Universal Range Support (v0.0.5+)
+- 0.5. Member Access
+- 0.6. Conditional Logic 🔀
+- 0.6.1. Comparison Operators
+- 0.6.2. Combinatorial Data Generation
+- 0.7. Keywords Reference
+- 0.8. Operators
+- 0.9. What's New in v0.0.5? 🎉
+
+## Content
+
+Let's dive in!
+
+0.1. Comments
+
+Keep your configs documented with single-line comments:
+
+
+
+  
+</Tabs>
+
+When to use quotes:• Use quotes when your value contains spaces: title = "Software Engineer"• Skip quotes for simple identifiers: name = João
+
+0.2. Data Types
+
+JSSON supports all JSON data types with a cleaner syntax:
+
+
+
+  
+</Tabs>
+
+Nested objects are clean and intuitive — perfect for configuration files:
+
+
+  
+</Tabs>
+
+0.3. Variable Declarations
+
+Variables allow you to store values for reuse and cleaner configuration. Use := to declare a variable. Variables are not included in the final JSON output; they are only for internal use.
+
+
+
+  
+</Tabs>
+
+> Power move: The map clause lets you transform each row. Add prefixes, compute values, or inject default fields — all in one place!
+
+0.3.1. Arrays in Objects
+
+You can use arrays directly as values for object properties:
+
+
+
+  
+</Tabs>
+
+Nested arrays work everywhere:• ✅ Inside templates• ✅ Inside map clauses• ✅ As direct literal values• ✅ As intermediate evaluated expressions
+
+> Use Case: Perfect for matrices, grids, coordinate systems, and multi-dimensional data structures.
+
+0.4. Ranges 🔢
+
+Generate numeric sequences effortlessly with the .. operator.
+
+0.4.1. Basic Ranges
+
+
+
+  
+</Tabs>
+
+0.4.2. Universal Range Support (v0.0.5+)
+
+Since v0.0.5, ranges work everywhere expressions are allowed:
+
+
+
+  
+</Tabs>
+
+Supported operators:• Arithmetic: +, -, , /, % (modulo)• Grouping: ( ) for precedence
+
+> Use Case: Perfect for configs where values depend on each other — no need to manually calculate!
+
+0.5. Member Access
+
+Access object properties using dot notation:
+
+
+
+  
+</Tabs>
+
+> Pro Tip: Combine member access with expressions to build dynamic values from existing config!
+
+0.6. Conditional Logic 🔀
+
+JSSON supports powerful conditional logic with comparison operators and ternary expressions.
+
+0.6.1. Comparison Operators
+
+Compare values to get boolean results:
+
+
+
+  
+</Tabs>
+
+0.6.2. Combinatorial Data Generation
+
+Create all combinations of two sets:
+
+
+
+  
+
+  
+</Tabs>
+
+Organization: Split by concern (database.jsson, api.jsson). Use main file to include others.
+
+Expressions: Great for derived values. Reduces errors, makes configs self-documenting.
+
+Ranges: Perfect for sequential data. Use step for custom increments.
+
+0.7. Keywords Reference
+
+ •  Keyword           •  Description                                 • 
+ •  ----------------  •  ------------------------------------------  • 
+ •  template        •  Defines the structure for array items       • 
+ •  map             •  Transforms template data with custom logic  • 
+ •  include         •  Imports another JSSON file                  • 
+ •  step            •  Defines the increment in ranges             • 
+ •  true / false  •  Boolean values                              • 
+
+0.8. Operators
+
+ •  Operator   •  Description                 • 
+ •  ---------  •  --------------------------  • 
+ •  =        •  Assignment                  • 
+ •  +        •  Addition / Concatenation    • 
+ •  -        •  Subtraction                 • 
+ •          •  Multiplication              • 
+ •  /        •  Division                    • 
+ •  %        •  Modulo (remainder)          • 
+ •  == !=  •  Equality / Inequality       • 
+ •  > <    •  Greater / Less than         • 
+ •  >= <=  •  Greater/Less than or equal  • 
+ •  ? :      •  Ternary conditional         • 
+ •  ..       •  Range operator              • 
+ •  .        •  Member access              |
+
+---
+
+0.9. What's New in v0.0.5? 🎉
+
+JSSON v0.0.5 introduced powerful new capabilities:• Nested Maps 🔄 — Map transformations inside other maps for multi-level pipelines• Nested Arrays 📦 — Full support for arrays within arrays at any depth• Universal Ranges 🔢 — Use ranges anywhere expressions are allowed• Stable Arithmetic ➗ — Division and modulo work everywhere with clear error messages
+
+These features turn JSSON into a true data-generation powerhouse! 🚀
