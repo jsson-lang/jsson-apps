@@ -1,55 +1,0 @@
-# JSSON Documentation — LLM Mode
-Source: i18n.mdx
-Version: 0.0.5.2
-Generated: 2025-12-10T14:15:49.627Z
-
-## Table of Contents
-- 0.1. The Problem
-- 0.2. The JSSON Solution
-- 0.3. Benefits
-- 0.4. Error Messages
-- 0.5. When to Use
-- 0.6. Try It!
-- 1. Save to i18n.jsson
-- 2. Run: jsson -i i18n.jsson
-- 3. Manage your translations!
-- 0.7. What's Next?• [Database Seed](/real-world/database-seed/) — Relational data• [Overview](/real-world/overview/) — All examples
-
-## Content
-
-Manage internationalization (i18n) translation keys across multiple languages with consistency and reduced duplication.
-
-0.1. The Problem
-
-Translation files across languages require:• Duplicate keys — Same keys repeated in each language file• Inconsistency — Easy to miss keys in some languages• Hard to maintain — Adding a key requires updating 4+ files
-
-0.2. The JSSON Solution
-
-
-  
-</Tabs>
-
-0.3. Benefits
-
-Consistency — All languages have the same keys  
-Easy to add — New language = new rows  
-Metadata — Attach category, lastUpdated, etc.  
-Scalability — Handle thousands of keys
-
-0.4. Error Messages
-
-
-
-0.5. When to Use
-
-Perfect for:• Multi-language applications• Translation management• Error message catalogs• Email templates
-
-0.6. Try It!
-
-1. Save to i18n.jsson
-2. Run: jsson -i i18n.jsson
-3. Manage your translations!
-
-0.7. What's Next?• [Database Seed](/real-world/database-seed/) — Relational data• [Overview](/real-world/overview/) — All examples
-
-Translate once, use everywhere! 🌍

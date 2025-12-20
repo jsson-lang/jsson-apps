@@ -1,0 +1,13 @@
+{
+  "title": "Guides",
+  "pages": [
+    "getting-started",
+    "basic-syntax",
+    "templates",
+    "cli",
+    "include-modules",
+    "multi-format",
+    "advanced-patterns",
+    "transpiler"
+  ]
+}

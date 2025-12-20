@@ -1,0 +1,46 @@
+---
+title: Welcome to JSSON
+description: JSSON is a universal meta-format for configuration. Write once, transpile to JSON, YAML, TOML, and TypeScript.
+---
+
+import { Cards, Card } from 'fumadocs-ui/components/card';
+
+## Why JSSON?
+
+JSSON (**JavaScript Simplified Object Notation**) is a modern, lightweight
+meta-format that makes writing configuration faster, cleaner, and way more readable.
+
+It's **not just for JSON anymore**.  
+You write JSSON → it outputs **JSON, YAML, TOML, or TypeScript**.
+
+Perfect for:
+
+- API configs (JSON/YAML)
+- Infrastructure as Code (YAML)
+- Application Configs (TOML)
+- Frontend Constants (TypeScript)
+- Seed files & Mock data
+
+## What makes it different?
+
+<Cards>
+  <Card title="Multi-Format Output" description="Write once, deploy everywhere. Transpile to JSON, YAML, TOML, or fully typed TypeScript." href="/docs/guides/multi-format" />
+  <Card title="Template Arrays" description="Generate structured objects using row-based syntax — perfect for lists, tables, seed data and mock files." href="/docs/guides/templates" />
+  <Card title="Map Transformations" description="Apply transformations inside the syntax using JSSON's `map (item)` blocks." href="/docs/guides/templates#map-transformation" />
+  <Card title="Nested Maps" description="Maps can be nested inside other maps for multi-level data generation." href="/docs/guides/advanced-patterns#matrix-generation" />
+  <Card title="Variables" description="Variables can be used to store values that are used multiple times." href="/docs/reference/syntax#variable-declarations" />
+  <Card title="Includes & Modularization" description="Split large files with `include file.jsson` and avoid repetition." href="/docs/guides/include-modules" />
+  <Card title="Ranges & Steps" description="Write lists like `[ 0..10 step 2 ]` — cleaner and faster than ever." href="/docs/reference/syntax#ranges" />
+  <Card title="Zero Runtime" description="JSSON only transpiles. No hidden logic, no magic, no interpreter needed." href="/docs/guides/transpiler" />
+  <Card title="Fun Error Messages" description="Wizards, gremlins and goblins guide you when something breaks." href="/docs/reference/errors" />
+</Cards>
+
+## Ready to begin?
+
+Start with the basic syntax and real examples in the  
+**[Getting Started guide →](/docs/guides/getting-started)**
+
+Or explore everything the language offers in the  
+**Reference section →** located in the sidebar.
+
+Happy JSSONing! 🚀

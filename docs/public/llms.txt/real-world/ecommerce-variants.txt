@@ -1,99 +1,0 @@
-# JSSON Documentation — LLM Mode
-Source: ecommerce-variants.mdx
-Version: 0.0.5.2
-Generated: 2025-12-10T14:15:49.605Z
-
-## Table of Contents
-- 0.1. The Problem
-- 0.2. The JSSON Solution
-- 0.3. Output
-- 0.4. Advanced: Conditional Pricing
-- 0.5. Flattening for APIs
-- 0.6. Key Features Used• Nested Maps — Three levels deep for size × color × material• Conditional Logic — Dynamic pricing based on attributes• String Concatenation — Generate SKUs automatically• Computed Fields — Calculate prices, determine featured products
-- 0.7. Real-World Applications
-- 0.8. Benefits
-- 0.9. Next Steps• [Nested Maps Reference](/reference/syntax/#nested-map-transformations)• [Advanced Patterns](/guides/advanced-patterns/)• [Scheduling Matrix Example](/real-world/scheduling/)
-
-## Content
-
-Managing product variants in e-commerce is a common challenge. When you have multiple sizes, colors, and materials, manually creating every combination becomes tedious and error-prone.
-
-0.1. The Problem
-
-An e-commerce store sells t-shirts in:• 5 sizes: XS, S, M, L, XL• 4 colors: Black, White, Navy, Gray• 2 materials: Cotton, Polyester
-
-That's 40 unique product variants to manage. In traditional JSON, you'd need to manually write all 40 objects:
-
-``json
-{
-  "products": [
-    {
-      "sku": "XS-Black-Cotton",
-      "size": "XS",
-      "color": "Black",
-      "material": "Cotton",
-      "price": 29.99,
-      "inStock": true
-    },
-    {
-      "sku": "XS-Black-Polyester",
-      "size": "XS",
-      "color": "Black",
-      "material": "Polyester",
-      "price": 24.99,
-      "inStock": true
-    },
-    {
-      "sku": "XS-White-Cotton",
-      "size": "XS",
-      "color": "White",
-      "material": "Cotton",
-      "price": 29.99,
-      "inStock": true
-    }
-    // ... 37 more variants 😰
-  ]
-}
-``
-
-Problems:• ❌ Extremely repetitive• ❌ Easy to make mistakes• ❌ Hard to update pricing• ❌ Difficult to add new sizes/colors
-
-0.2. The JSSON Solution
-
-With nested maps (v0.0.5), generate all combinations automatically:
-
-
-
-That's it! 8 lines generate all 40 variants.
-
-0.3. Output
-
-
-
-0.4. Advanced: Conditional Pricing
-
-Add dynamic pricing based on multiple factors:
-
-
-
-0.5. Flattening for APIs
-
-If you need a flat array instead of nested arrays, use a template with ranges:
-
-
-
-0.6. Key Features Used• Nested Maps — Three levels deep for size × color × material• Conditional Logic — Dynamic pricing based on attributes• String Concatenation — Generate SKUs automatically• Computed Fields — Calculate prices, determine featured products
-
-0.7. Real-World Applications
-
-This pattern is perfect for:• Fashion E-commerce — Clothing with multiple size/color options• Furniture Stores — Products with material/finish/size variants• Electronics — Devices with storage/color/carrier combinations• Food Products — Items with flavor/size/packaging options• Subscription Plans — Feature matrix across tiers and billing cycles
-
-0.8. Benefits
-
-90% less code — 8 lines vs 200+ lines of JSON  
-Zero duplication — Define logic once  
-Easy updates — Change pricing in one place  
-No mistakes — Automatic generation prevents typos  
-Scalable — Add new sizes/colors instantly
-
-0.9. Next Steps• [Nested Maps Reference](/reference/syntax/#nested-map-transformations)• [Advanced Patterns](/guides/advanced-patterns/)• [Scheduling Matrix Example](/real-world/scheduling/)

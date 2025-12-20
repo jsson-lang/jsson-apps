@@ -1,0 +1,645 @@
+---
+title: Syntax Reference
+description: Complete reference guide for JSSON syntax. Learn all the features that make JSSON simple, human-friendly, and incredibly productive.
+---
+
+import { Tabs, Tab } from 'fumadocs-ui/components/tabs';
+
+Let's dive in!
+
+## Comments
+
+Keep your configs documented with single-line comments:
+
+```javascript
+// This is a comment
+name = João  // Inline comment
+age = 20
+```
+
+> **Pro Tip:** Use comments to explain _why_ a configuration exists, not just _what_ it is.
+
+## Basic Assignments
+
+The heart of JSSON: simple key-value pairs without the quote ceremony.
+
+<Tabs items={['JSSON', 'JSON Output']}>
+  <Tab value="JSSON">
+```javascript
+name = João
+age = 20
+height = 1.75
+admin = true
+```
+  </Tab>
+  <Tab value="JSON Output">
+```json
+{
+  "name": "João",
+  "age": 20,
+  "height": 1.75,
+  "admin": true
+}
+```
+  </Tab>
+</Tabs>
+
+**When to use quotes:**
+
+- Use quotes when your value contains spaces: `title = "Software Engineer"`
+- Skip quotes for simple identifiers: `name = João`
+
+## Data Types
+
+JSSON supports all JSON data types with a cleaner syntax:
+
+<Tabs items={['JSSON', 'JSON Output']}>
+  <Tab value="JSSON">
+```javascript
+// Strings (with or without quotes)
+name = João
+title = "Software Engineer"
+
+// Numbers (integers and floats)
+age = 25
+price = 19.99
+
+// Booleans
+active = true
+disabled = false
+```
+  </Tab>
+  <Tab value="JSON Output">
+```json
+{
+  "name": "João",
+  "title": "Software Engineer",
+  "age": 25,
+  "price": 19.99,
+  "active": true,
+  "disabled": false
+}
+```
+  </Tab>
+</Tabs>
+
+Nested objects are clean and intuitive — perfect for configuration files:
+
+<Tabs items={['JSSON', 'JSON Output']}>
+  <Tab value="JSSON">
+```javascript
+user {
+  name = João
+  age = 20
+  admin = true
+  config {
+    theme = dark
+    notifications = true
+  }
+}
+```
+  </Tab>
+  <Tab value="JSON Output">
+```json
+{
+  "user": {
+    "name": "João",
+    "age": 20,
+    "admin": true,
+    "config": {
+      "theme": "dark",
+      "notifications": true
+    }
+  }
+}
+```
+  </Tab>
+</Tabs>
+
+## Variable Declarations
+
+Variables allow you to store values for reuse and cleaner configuration. Use `:=` to declare a variable. Variables are **not** included in the final JSON output; they are only for internal use.
+
+```javascript
+// Declare variables
+host := "localhost"
+port := 8080
+
+// Use them
+server {
+  url = host + ":" + port
+  timeout = 5000
+}
+```
+
+### Local Scope
+
+Variables declared inside an object or map are **local** to that scope and do not leak to the outside.
+
+```javascript
+global := 100
+
+obj {
+  local := 50
+  value = local // 50
+  outer = global // 100
+}
+
+// 'local' is not accessible here
+```
+
+### Shadowing
+
+Inner scopes can shadow outer variables:
+
+```javascript
+x := 10
+
+inner {
+  x := 20 // Shadows outer x
+  val = x // 20
+}
+
+outer = x // 10
+```
+
+> **Use Case:** Perfect for app configs, server settings, and any hierarchical data.
+
+## Arrays
+
+Mix any types freely — no quotes needed for simple values:
+
+<Tabs items={['JSSON', 'JSON Output']}>
+  <Tab value="JSSON">
+```javascript
+numbers = [ 1, 2, 3, 4, 5 ]
+colors = [ red, blue, green ]
+mixed = [ João, 25, true, 1.75 ]
+```
+  </Tab>
+  <Tab value="JSON Output">
+```json
+{
+  "numbers": [1, 2, 3, 4, 5],
+  "colors": ["red", "blue", "green"],
+  "mixed": ["João", 25, true, 1.75]
+}
+```
+  </Tab>
+</Tabs>
+
+> **Power move:** The `map` clause lets you transform each row. Add prefixes, compute values, or inject default fields — all in one place!
+
+### Arrays in Objects
+
+You can use arrays directly as values for object properties:
+
+```javascript
+server {
+  allowedMethods = [ GET, POST ]
+  features = [ logging, metrics ]
+}
+```
+
+### Arrays in Maps
+
+You can also use arrays inside `map` transformations:
+
+```javascript
+users [
+  template { name }
+  map (u) = {
+    name = u.name
+    roles = [ user, viewer ] // Default roles
+  }
+  João
+]
+```
+
+### Nested Arrays 📦
+
+Since **v0.0.5**, JSSON fully supports nested arrays at any depth:
+
+<Tabs items={['JSSON', 'JSON Output']}>
+  <Tab value="JSSON">
+```javascript
+// Matrix / 2D arrays
+matrix = [
+  [ 1, 2, 3 ],
+  [ 4, 5, 6 ],
+  [ 7, 8, 9 ]
+]
+
+// Nested arrays in objects
+config {
+  permissions = [
+    [ read, write ],
+    [ admin, sudo ]
+  ]
+  grid = [
+    [ 0, 0 ],
+    [ 1, 1 ],
+    [ 2, 2 ]
+  ]
+}
+
+// Deeply nested
+deep = [ [ [ 1, 2 ], [ 3, 4 ] ], [ [ 5, 6 ], [ 7, 8 ] ] ]
+```
+  </Tab>
+  <Tab value="JSON Output">
+```json
+{
+  "matrix": [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9]
+  ],
+  "config": {
+    "permissions": [
+      ["read", "write"],
+      ["admin", "sudo"]
+    ],
+    "grid": [
+      [0, 0],
+      [1, 1],
+      [2, 2]
+    ]
+  },
+  "deep": [[[[1, 2], [3, 4]], [[5, 6], [7, 8]]]]
+}
+```
+  </Tab>
+</Tabs>
+
+Nested arrays work everywhere:
+
+- ✅ Inside templates
+- ✅ Inside map clauses
+- ✅ As direct literal values
+- ✅ As intermediate evaluated expressions
+
+> **Use Case:** Perfect for matrices, grids, coordinate systems, and multi-dimensional data structures.
+
+## Ranges 🔢
+
+Generate numeric sequences effortlessly with the `..` operator.
+
+### Basic Ranges
+
+<Tabs items={['JSSON', 'JSON Output']}>
+  <Tab value="JSSON">
+```javascript
+// Simple range
+ports = [ 8080..8085 ]
+
+// Direct assignment (no array)
+ids = 1..100
+
+// With step
+evens = [ 0..10 step 2 ]
+odds = [ 1..10 step 2 ]
+```
+  </Tab>
+  <Tab value="JSON Output">
+```json
+{
+  "ports": [8080, 8081, 8082, 8083, 8084, 8085],
+  "ids": [1, 2, 3, ... 100],
+  "evens": [0, 2, 4, 6, 8, 10],
+  "odds": [1, 3, 5, 7, 9]
+}
+```
+  </Tab>
+</Tabs>
+
+### Universal Range Support (v0.0.5+)
+
+Since **v0.0.5**, ranges work **everywhere** expressions are allowed:
+
+```javascript
+// Inside arrays
+numbers = [ 1..5, 10..15, 20..25 ]
+
+// Inside map arguments
+data = (0..9 map (x) = {
+  id = x
+  value = x * 2
+})
+
+// Inside templates
+users [
+  template { id, name }
+  0..99, "User"
+]
+
+// Large-scale generation
+bigData = 0..9999 // Generates 10,000 items!
+
+// Combined with expressions
+hundreds = (0..9 map (x) = x * 100)
+// Output: [0, 100, 200, 300, 400, 500, 600, 700, 800, 900]
+```
+
+> **Pro Tip:** Ranges + map transformations = powerful data generation! Perfect for creating test data, seed files, and large datasets.
+
+### Range Limitations
+
+Invalid operations on range literals produce clear semantic errors:
+
+```javascript
+// ❌ Invalid: Can't apply modulo to range literal
+result = 0..10 % 5  // Error!
+
+// ✅ Valid: Apply modulo inside map
+result = (0..10 map (x) = x % 5) // Works!
+```
+
+## Expressions 🧮
+
+Compute values instead of hardcoding them:
+
+<Tabs items={['JSSON', 'JSON Output']}>
+  <Tab value="JSSON">
+```javascript
+price = 100
+tax = 15
+total = price + tax
+
+discount = 20
+final = total - discount
+
+quantity = 5
+itemPrice = 10
+subtotal = quantity * itemPrice
+```
+  </Tab>
+  <Tab value="JSON Output">
+```json
+{
+  "price": 100,
+  "tax": 15,
+  "total": 115,
+  "discount": 20,
+  "final": 95,
+  "quantity": 5,
+  "itemPrice": 10,
+  "subtotal": 50
+}
+```
+  </Tab>
+</Tabs>
+
+**Supported operators:**
+
+- Arithmetic: `+`, `-`, `*`, `/`, `%` (modulo)
+- Grouping: `( )` for precedence
+
+> **Use Case:** Perfect for configs where values depend on each other — no need to manually calculate!
+
+## Member Access
+
+Access object properties using dot notation:
+
+<Tabs items={['JSSON', 'JSON Output']}>
+  <Tab value="JSSON">
+```javascript
+config {
+  host = localhost
+  port = 5432
+}
+
+connectionString = config.host + ":" + config.port
+```
+  </Tab>
+  <Tab value="JSON Output">
+```json
+{
+  "config": {
+    "host": "localhost",
+    "port": 5432
+  },
+  "connectionString": "localhost:5432"
+}
+```
+  </Tab>
+</Tabs>
+
+> **Pro Tip:** Combine member access with expressions to build dynamic values from existing config!
+
+## Conditional Logic 🔀
+
+JSSON supports powerful conditional logic with comparison operators and ternary expressions.
+
+### Comparison Operators
+
+Compare values to get boolean results:
+
+```javascript
+age = 20
+isAdult = age >= 18      // true
+canRentCar = age >= 25   // false
+isTeenager = age >= 13
+hasDiscount = age < 12
+```
+
+Supported operators: `==`, `!=`, `>`, `<`, `>=`, `<=`
+
+### Ternary Operator
+
+Choose between two values based on a condition:
+
+```javascript
+status = age >= 18 ? "adult" : "minor"
+access = role == "admin" ? "full" : "limited"
+```
+
+You can even nest them for complex logic:
+
+```javascript
+salary = level == "senior" ? 120000 :
+         level == "mid"    ? 80000  :
+                             50000
+```
+
+## Nested Map Transformations 🔄
+
+Since **v0.0.5**, JSSON supports **nested `map()` transformations** — maps inside other maps!
+
+This unlocks powerful multi-level data pipelines, matrix generation, and combinatorial data creation.
+
+### Basic Nested Maps
+
+<Tabs items={['JSSON', 'JSON Output']}>
+  <Tab value="JSSON">
+```javascript
+// Generate a matrix using nested maps
+matrix = (0..2 map (row) = (0..2 map (col) = row * 3 + col))
+
+// Nested transformation with objects
+grid = (0..2 map (y) = (0..2 map (x) = {
+  x = x
+  y = y
+  id = y * 3 + x
+}))
+```
+  </Tab>
+  <Tab value="JSON Output">
+```json
+{
+  "matrix": [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8]
+  ],
+  "grid": [
+    [
+      { "x": 0, "y": 0, "id": 0 },
+      { "x": 1, "y": 0, "id": 1 },
+      { "x": 2, "y": 0, "id": 2 }
+    ],
+    [
+      { "x": 0, "y": 1, "id": 3 },
+      { "x": 1, "y": 1, "id": 4 },
+      { "x": 2, "y": 1, "id": 5 }
+    ],
+    [
+      { "x": 0, "y": 2, "id": 6 },
+      { "x": 1, "y": 2, "id": 7 },
+      { "x": 2, "y": 2, "id": 8 }
+    ]
+  ]
+}
+```
+  </Tab>
+</Tabs>
+
+### Combinatorial Data Generation
+
+Create all combinations of two sets:
+
+```javascript
+// All combinations of sizes and colors
+products = ([ S, M, L ] map (size) = (
+  [ red, blue, green ] map (color) = {
+    size = size
+    color = color
+    sku = size + "-" + color
+  }
+))
+
+// Output: [
+//   [ {size:"S", color:"red", sku:"S-red"}, ... ],
+//   [ {size:"M", color:"red", sku:"M-red"}, ... ],
+//   [ {size:"L", color:"red", sku:"L-red"}, ... ]
+// ]
+```
+
+### Multi-Level Pipelines
+
+```javascript
+// Complex nested transformation
+data = (0..2 map (group) = {
+  groupId = group
+  items = (5..7 map (item) = {
+    id = item
+    value = group + item
+    hash = "uid-" + ((group * 10 + item) % 17)
+  })
+})
+```
+
+**What you can build:**
+
+- 🎯 Matrix-like data structures
+- 🔀 Combinatorial product catalogs
+- 📊 Multi-dimensional datasets
+- 🧪 Complex test data scenarios
+- 🌐 Nested coordinate systems
+
+> **Power Move:** Combine nested maps with ranges for explosive data generation capabilities!
+
+## Include Files 🧩
+
+Split large configurations across multiple files for better organization:
+
+<Tabs items={['database.jsson', 'apiconfig.jsson', 'JSON Output']}>
+  <Tab value="database.jsson">
+```javascript
+database {
+  host = "localhost"
+  port = 5432
+}
+```
+  </Tab>
+  <Tab value="apiconfig.jsson">
+```javascript
+api {
+  url = "https://api.example.com"
+  timeout = 5000
+}
+
+include "database.jsson"
+```
+  </Tab>
+  <Tab value="JSON Output">
+```json
+{
+  "api": {
+    "url": "https://api.example.com",
+    "timeout": 5000
+  },
+  "database": {
+    "host": "localhost",
+    "port": 5432
+  }
+}
+```
+  </Tab>
+</Tabs>
+
+**Organization:** Split by concern (`database.jsson`, `api.jsson`). Use main file to include others.
+
+**Expressions:** Great for derived values. Reduces errors, makes configs self-documenting.
+
+**Ranges:** Perfect for sequential data. Use `step` for custom increments.
+
+## Keywords Reference
+
+| Keyword          | Description                                |
+| ---------------- | ------------------------------------------ |
+| `template`       | Defines the structure for array items      |
+| `map`            | Transforms template data with custom logic |
+| `include`        | Imports another JSSON file                 |
+| `step`           | Defines the increment in ranges            |
+| `true` / `false` | Boolean values                             |
+
+## Operators
+
+| Operator  | Description                |
+| --------- | -------------------------- |
+| `=`       | Assignment                 |
+| `+`       | Addition / Concatenation   |
+| `-`       | Subtraction                |
+| `*`       | Multiplication             |
+| `/`       | Division                   |
+| `%`       | Modulo (remainder)         |
+| `==` `!=` | Equality / Inequality      |
+| `>` `<`   | Greater / Less than        |
+| `>=` `<=` | Greater/Less than or equal |
+| `? :`     | Ternary conditional        |
+| `..`      | Range operator             |
+| `.`       | Member access              |
+
+---
+
+## What's New in v0.0.5? 🎉
+
+JSSON v0.0.5 introduced powerful new capabilities:
+
+- **Nested Maps** 🔄 — Map transformations inside other maps for multi-level pipelines
+- **Nested Arrays** 📦 — Full support for arrays within arrays at any depth
+- **Universal Ranges** 🔢 — Use ranges anywhere expressions are allowed
+- **Stable Arithmetic** ➗ — Division and modulo work everywhere with clear error messages
+
+These features turn JSSON into a true data-generation powerhouse! 🚀

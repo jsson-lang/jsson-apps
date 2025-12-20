@@ -1,15 +1,26 @@
-# Astro specific
-.astro/
-dist/
+# deps
+/node_modules
 
-# Dependencies
-node_modules/
+# generated content
+.source
 
-# Build
+# test & build
+/coverage
+/.next/
+/out/
+/build
 *.tsbuildinfo
 
-# Environment
-.env*
+# misc
+.DS_Store
+*.pem
+/.pnp
+.pnp.js
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
-# Logs
-*.log
+# others
+.env*.local
+.vercel
+next-env.d.ts

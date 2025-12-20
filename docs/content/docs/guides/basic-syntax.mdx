@@ -1,0 +1,496 @@
+---
+title: Basic Syntax
+description: Master the fundamentals of JSSON syntax. Learn assignments, objects, arrays, and all the core concepts you need to write effective JSSON.
+---
+
+import { Tabs, Tab } from 'fumadocs-ui/components/tabs';
+import { Callout } from 'fumadocs-ui/components/callout';
+
+Ready to master JSSON? This guide covers all the fundamental syntax you need to know. Let's build your JSSON skills from the ground up! 💪
+
+## Core Concepts
+
+JSSON has just a few simple rules. Master these, and you'll be writing clean configs in no time.
+
+### Assignments
+
+The foundation of JSSON: key-value pairs.
+
+```javascript
+name := João
+age := 25
+active := true
+```
+
+**Rules:**
+
+- No quotes needed around keys
+- Use `=` for assignment and `:=` for variable declarations
+- One assignment per line (no commas!)
+
+### When to Use Quotes
+
+This is the #1 question! Here's the simple rule:
+
+<Tabs items={['No Quotes Needed', 'Quotes Required']}>
+  <Tab value="No Quotes Needed">
+```javascript
+// Single words
+name := João
+city := Tokyo
+status := active
+
+// Numbers
+age := 25
+price := 19.99
+
+// Booleans
+admin := true
+disabled := false
+```
+  </Tab>
+  <Tab value="Quotes Required">
+```javascript
+// Values with spaces
+title := "Software Engineer"
+message := "Hello, World!"
+
+// Values with special characters
+email := "user@example.com"
+url := "https://example.com"
+
+// Empty strings
+empty := ""
+```
+  </Tab>
+</Tabs>
+
+<Callout type="info">
+**Pro Tip:** When in doubt, use quotes! They always work. But skipping them makes your JSSON cleaner.
+</Callout>
+
+## Data Types
+
+JSSON supports all JSON data types with a friendlier syntax.
+
+### Strings
+
+<Tabs items={['JSSON', 'JSON Output']}>
+  <Tab value="JSSON">
+```javascript
+// Without quotes (simple identifiers)
+firstName = João
+lastName = Silva
+
+// With quotes (spaces or special chars)
+fullName = "João Silva"
+email = "joao@example.com"
+bio = "Developer from Brazil 🇧🇷"
+```
+  </Tab>
+  <Tab value="JSON Output">
+```json
+{
+  "firstName": "João",
+  "lastName": "Silva",
+  "fullName": "João Silva",
+  "email": "joao@example.com",
+  "bio": "Developer from Brazil 🇧🇷"
+}
+```
+  </Tab>
+</Tabs>
+
+### Numbers
+
+<Tabs items={['JSSON', 'JSON Output']}>
+  <Tab value="JSSON">
+```javascript
+// Integers
+age = 25
+count = 100
+negative = -42
+
+// Floats
+price = 19.99
+temperature = 36.5
+pi = 3.14159
+```
+  </Tab>
+  <Tab value="JSON Output">
+```json
+{
+  "age": 25,
+  "count": 100,
+  "negative": -42,
+  "price": 19.99,
+  "temperature": 36.5,
+  "pi": 3.14159
+}
+```
+  </Tab>
+</Tabs>
+
+### Booleans
+
+<Tabs items={['JSSON', 'JSON Output']}>
+  <Tab value="JSSON">
+```javascript
+active = true
+disabled = false
+isAdmin = true
+hasAccess = false
+```
+  </Tab>
+  <Tab value="JSON Output">
+```json
+{
+  "active": true,
+  "disabled": false,
+  "isAdmin": true,
+  "hasAccess": false
+}
+```
+  </Tab>
+</Tabs>
+
+## Objects
+
+Objects in JSSON are beautifully simple — no colons, no commas, just clean nesting.
+
+### Simple Objects
+
+<Tabs items={['JSSON', 'JSON Output']}>
+  <Tab value="JSSON">
+```javascript
+user {
+  name = João
+  age = 25
+  email = "joao@example.com"
+}
+```
+  </Tab>
+  <Tab value="JSON Output">
+```json
+{
+  "user": {
+    "name": "João",
+    "age": 25,
+    "email": "joao@example.com"
+  }
+}
+```
+  </Tab>
+</Tabs>
+
+### Nested Objects
+
+<Tabs items={['JSSON', 'JSON Output']}>
+  <Tab value="JSSON">
+```javascript
+user {
+  name = João
+  contact {
+    email = "joao@example.com"
+    phone = "+55 11 99999-9999"
+  }
+  preferences {
+    theme = dark
+    language = pt-BR
+    notifications {
+      email = true
+      push = false
+    }
+  }
+}
+```
+  </Tab>
+  <Tab value="JSON Output">
+```json
+{
+  "user": {
+    "name": "João",
+    "contact": {
+      "email": "joao@example.com",
+      "phone": "+55 11 99999-9999"
+    },
+    "preferences": {
+      "theme": "dark",
+      "language": "pt-BR",
+      "notifications": {
+        "email": true,
+        "push": false
+      }
+    }
+  }
+}
+```
+  </Tab>
+</Tabs>
+
+<Callout type="info">
+**Use Case:** Objects are perfect for configuration files, API responses, and any hierarchical data.
+</Callout>
+
+## Arrays
+
+Arrays in JSSON are just like JSON, but cleaner — no quotes needed for simple values!
+
+### Simple Arrays
+
+<Tabs items={['JSSON', 'JSON Output']}>
+  <Tab value="JSSON">
+```javascript
+// Numbers
+numbers = [ 1, 2, 3, 4, 5 ]
+
+// Strings (no quotes needed!)
+colors = [ red, blue, green, yellow ]
+
+// Mixed types
+mixed = [ João, 25, true, 1.75 ]
+
+// With quotes when needed
+cities = [ "São Paulo", "Rio de Janeiro", Tokyo ]
+```
+  </Tab>
+  <Tab value="JSON Output">
+```json
+{
+  "numbers": [1, 2, 3, 4, 5],
+  "colors": ["red", "blue", "green", "yellow"],
+  "mixed": ["João", 25, true, 1.75],
+  "cities": ["São Paulo", "Rio de Janeiro", "Tokyo"]
+}
+```
+  </Tab>
+</Tabs>
+
+### Arrays of Objects
+
+<Tabs items={['JSSON', 'JSON Output']}>
+  <Tab value="JSSON">
+```javascript
+users = [
+  { name = João, age = 25 },
+  { name = Maria, age = 30 },
+  { name = Pedro, age = 28 }
+]
+```
+  </Tab>
+  <Tab value="JSON Output">
+```json
+{
+  "users": [
+    { "name": "João", "age": 25 },
+    { "name": "Maria", "age": 30 },
+    { "name": "Pedro", "age": 28 }
+  ]
+}
+```
+  </Tab>
+</Tabs>
+
+### Arrays in Objects
+
+You can use arrays directly as values for object properties:
+
+<Tabs items={['JSSON', 'JSON Output']}>
+  <Tab value="JSSON">
+```javascript
+server {
+  host = localhost
+  port = 8080
+  allowedMethods = [ GET, POST, PUT, DELETE ]
+  features = [ logging, metrics, tracing ]
+}
+```
+  </Tab>
+  <Tab value="JSON Output">
+```json
+{
+  "server": {
+    "host": "localhost",
+    "port": 8080,
+    "allowedMethods": ["GET", "POST", "PUT", "DELETE"],
+    "features": ["logging", "metrics", "tracing"]
+  }
+}
+```
+  </Tab>
+</Tabs>
+
+<Callout type="info">
+**Better way:** For arrays of objects, use [template arrays](/docs/guides/templates/) — they're much cleaner!
+</Callout>
+
+## Comments
+
+Document your configs with comments — they're ignored during transpilation.
+
+```javascript
+// This is a single-line comment
+
+// Application settings
+app {
+  name = "My App"  // Inline comments work too!
+  version = "1.0.0"
+
+  // Server configuration
+  server {
+    port = 8080  // Default port
+    host = localhost
+  }
+}
+```
+
+<Callout type="info">
+**Pro Tip:** Use comments to explain _why_ a setting exists, not just _what_ it is.
+</Callout>
+
+## Variables
+
+Declare variables with `:=` to store values for reuse. Variables are **not** included in the final JSON output.
+
+<Tabs items={['JSSON', 'JSON Output']}>
+  <Tab value="JSSON">
+```javascript
+// Declare variables
+api_key := "sk-1234567890"
+base_url := "https://api.example.com"
+timeout := 5000
+
+// Use them in configuration
+production {
+  apiKey = api_key
+  endpoint = base_url + "/v1"
+  timeout = timeout
+}
+
+development {
+  apiKey = api_key
+  endpoint = base_url + "/dev"
+  timeout = timeout
+}
+```
+  </Tab>
+  <Tab value="JSON Output">
+```json
+{
+  "production": {
+    "apiKey": "sk-1234567890",
+    "endpoint": "https://api.example.com/v1",
+    "timeout": 5000
+  },
+  "development": {
+    "apiKey": "sk-1234567890",
+    "endpoint": "https://api.example.com/dev",
+    "timeout": 5000
+  }
+}
+```
+  </Tab>
+</Tabs>
+
+### Local Variables
+
+Variables declared inside objects are **local** to that scope:
+
+```javascript
+global := 100
+
+obj {
+  local := 50
+  value = local   // Uses local (50)
+  outer = global  // Uses global (100)
+}
+
+// 'local' is not accessible here
+```
+
+<Callout type="info">
+**Use Case:** Variables are perfect for configuration constants, API keys, and any value you use multiple times.
+</Callout>
+
+## Building from Simple to Complex
+
+Let's build a real-world example step by step.
+
+### Step 1: Basic Info
+
+```javascript
+name = "My Application"
+version = "1.0.0"
+debug = true
+```
+
+### Step 2: Add Objects
+
+```javascript
+name = "My Application"
+version = "1.0.0"
+debug = true
+
+server {
+  host = localhost
+  port = 8080
+}
+```
+
+### Step 3: Add Arrays
+
+```javascript
+name = "My Application"
+version = "1.0.0"
+debug = true
+
+server {
+  host = localhost
+  port = 8080
+  allowedOrigins = [ "http://localhost:3000", "https://example.com" ]
+}
+```
+
+### Step 4: Add Nesting
+
+```javascript
+name = "My Application"
+version = "1.0.0"
+debug = true
+
+server {
+  host = localhost
+  port = 8080
+  allowedOrigins = [ "http://localhost:3000", "https://example.com" ]
+}
+
+database {
+  connection {
+    host = localhost
+    port = 5432
+    name = myapp_db
+  }
+  pool {
+    min = 2
+    max = 10
+  }
+}
+```
+
+See how natural it feels? No JSON ceremony, just clean configuration!
+
+## Multi-Format Output
+
+Remember, JSSON isn't just for JSON! You can transpile all of this to **YAML**, **TOML**, or **TypeScript** too.
+
+See the [Multi-Format Guide](/docs/guides/multi-format/) for details.
+
+## What's Next?
+
+You've mastered the basics! Here's where to go from here:
+
+- **[Templates Guide](/docs/guides/templates/)** — Learn about template arrays for structured data
+- **[Syntax Reference](/docs/reference/syntax/)** — Explore advanced features like ranges, expressions, and map clauses
+- **[CLI Guide](/docs/guides/cli/)** — Master the command-line tool
+
+Ready for more power? Check out the [Templates Guide](/docs/guides/templates/) to see how JSSON handles tabular data! 🚀

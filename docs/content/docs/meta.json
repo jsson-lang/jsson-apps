@@ -1,0 +1,15 @@
+{
+  "root": true,
+  "pages": [
+    "index",
+    "guides",
+    "reference",
+    "examples",
+    "real-world",
+    "api",
+    "cli",
+    "faq",
+    "changelog",
+    "contributing"
+  ]
+}
