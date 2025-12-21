@@ -30,6 +30,7 @@ dist/
 *.pem
 *.lock
 pnpm-lock.yaml
+package-lock.json
 
 # Debug logs
 npm-debug.log*
