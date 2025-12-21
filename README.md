@@ -1,6 +1,6 @@
 # JSSON
 
-[![JSSON Banner](https://i.postimg.cc/yx4C3YqC/og.png)](https://postimg.cc/WFnHQVb5)
+[![JSSON Banner](https://www.jssonlang.tech/og-image.png)](https://www.jssonlang.tech)
 
 **JavaScript Simplified Object Notation** – A human-friendly syntax that transpiles to JSON, YAML, TOML, and TypeScript.
 
