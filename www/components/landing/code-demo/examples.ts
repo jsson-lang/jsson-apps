@@ -51,7 +51,7 @@ api {
 export type Api = typeof api;`,
     },
     {
-        title: "Product Variants (v0.0.5)",
+        title: "Product Variants",
         jsson: `// Generate all size/color combinations
 products = (["S", "M", "L"] map (size) = (
   ["Black", "White", "Navy"] map (color) = {

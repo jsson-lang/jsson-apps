@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "motion/react";
 import { Check } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
@@ -27,34 +26,20 @@ export function CodeDemo() {
   };
 
   return (
-    <section className="py-24 overflow-hidden">
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+    <section className="py-32 border-t border-border/10">
+      <div className="container mx-auto px-6">
+        <div className="grid lg:grid-cols-2 gap-24 items-start">
           <div>
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl mb-6"
-            >
-              Write Logic, <br />
-              <span className="text-primary">
-                Get JSON, YAML, TOML, TypeScript.
-              </span>
-            </motion.h2>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
-              className="text-lg text-muted-foreground mb-8"
-            >
-              JSSON brings the power of a real programming language to your
-              configuration files. No more copy-pasting or manual error-prone
-              editing.
-            </motion.p>
+            <h2 className="text-xs font-black uppercase tracking-[0.4em] text-muted-foreground mb-4">Universal Logic</h2>
+            <p className="text-4xl sm:text-5xl font-bold tracking-tighter uppercase mb-8">
+              Write Logic. <br />
+              Get Config.
+            </p>
+            <p className="text-lg text-muted-foreground font-light mb-12 uppercase tracking-tight">
+              JSSON brings power to your configuration. No more manual copying.
+            </p>
 
-            <div className="space-y-4">
+            <div className="space-y-6">
               {[
                 "Native variables & constants",
                 "Arithmetic & Conditional Logic",
@@ -62,98 +47,76 @@ export function CodeDemo() {
                 "Smart Ranges with steps",
                 "Modular configuration (include)",
               ].map((item, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.2 + i * 0.1 }}
-                  className="flex items-center gap-3"
-                >
-                  <div className="flex h-6 w-6 items-center justify-center rounded-full bg-primary/10 text-primary">
-                    <Check className="h-3.5 w-3.5" />
-                  </div>
-                  <span className="text-muted-foreground">{item}</span>
-                </motion.div>
+                <div key={i} className="flex items-center gap-4 group">
+                  <div className="h-1.5 w-1.5 bg-foreground rotate-45 group-hover:rotate-90 transition-transform" />
+                  <span className="text-sm font-black uppercase tracking-widest opacity-80 group-hover:opacity-100 transition-opacity">{item}</span>
+                </div>
               ))}
             </div>
           </div>
 
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="relative"
-          >
-            <div className="relative rounded-xl border border-border bg-card overflow-hidden">
-              <div className="flex border-b border-border bg-muted/30">
-                {codeExamples.map((example, i) => (
-                  <button
-                    key={i}
-                    onClick={() => setActiveTab(i)}
-                    className={cn(
-                      "px-6 py-3 font-medium transition-colors border-r text-xs border-border",
-                      activeTab === i
-                        ? "bg-card text-foreground"
-                        : "bg-transparent text-muted-foreground hover:text-foreground"
-                    )}
-                  >
-                    {example.title}
-                  </button>
-                ))}
-              </div>
+          <div className="flex flex-col border border-border/50 bg-muted/5 overflow-hidden relative group">
+            
+            <div className="absolute top-0 left-0 -translate-x-1/2 -translate-y-1/2 z-10 text-muted-foreground/30 font-light text-xl pointer-events-none">+</div>
+            <div className="absolute top-0 right-0 translate-x-1/2 -translate-y-1/2 z-10 text-muted-foreground/30 font-light text-xl pointer-events-none">+</div>
+            <div className="absolute bottom-0 left-0 -translate-x-1/2 translate-y-1/2 z-10 text-muted-foreground/30 font-light text-xl pointer-events-none">+</div>
+            <div className="absolute bottom-0 right-0 translate-x-1/2 translate-y-1/2 z-10 text-muted-foreground/30 font-light text-xl pointer-events-none">+</div>
 
-              <div className="grid grid-cols-2 divide-x divide-border">
-                <div className="p-0">
-                  <div className="px-4 py-2 text-xs font-mono text-muted-foreground border-b border-border bg-muted/10 flex justify-between">
-                    <span>input.jsson</span>
-                    <span className="text-primary">JSSON</span>
-                  </div>
-                  <div className="h-[400px] overflow-hidden bg-card">
-                    <CodeBlock
-                      code={codeExamples[activeTab].jsson}
-                      language="jsson"
-                      className="p-4 h-full overflow-auto"
-                    />
+            <div className="flex border-b border-border/50 bg-muted/10 overflow-x-auto">
+              {codeExamples.map((example, i) => (
+                <button
+                  key={i}
+                  onClick={() => setActiveTab(i)}
+                  className={cn(
+                    "px-6 py-4 text-[10px] font-black uppercase tracking-widest transition-colors border-r border-border/50 whitespace-nowrap",
+                    activeTab === i
+                      ? "bg-foreground text-background"
+                      : "text-muted-foreground hover:bg-muted/30"
+                  )}
+                >
+                  {example.title}
+                </button>
+              ))}
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-border/50 divide-dashed">
+              <div className="flex flex-col">
+                <div className="px-4 py-2 text-[10px] font-black uppercase tracking-widest bg-muted/20 border-b border-border/50 border-dashed">
+                  Input JSSON
+                </div>
+                <div className="p-4 bg-background relative overflow-hidden">
+                  {/* Subtle Grid Background */}
+                  <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
+                       style={{ backgroundImage: 'linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)', backgroundSize: '20px 20px' }}></div>
+                  <CodeBlock code={codeExamples[activeTab].jsson} language="jsson" className="text-xs relative z-10" />
+                </div>
+              </div>
+              <div className="flex flex-col">
+                <div className="px-4 py-2 flex justify-between items-center bg-muted/20 border-b border-border/50 border-dashed">
+                  <span className="text-[10px] font-black uppercase tracking-widest">Output</span>
+                  <div className="flex gap-2">
+                    {(["json", "yaml", "toml", "ts"] as const).map((format) => (
+                      <button
+                        key={format}
+                        onClick={() => setOutputFormat(format === "ts" ? "typescript" : format)}
+                        className={cn(
+                          "text-[9px] font-black uppercase px-2 py-0.5 rounded-none transition-colors",
+                          (outputFormat === "typescript" ? "ts" : outputFormat) === format
+                            ? "bg-foreground text-background"
+                            : "text-muted-foreground hover:bg-muted/50 border border-transparent hover:border-border/50"
+                        )}
+                      >
+                        {format}
+                      </button>
+                    ))}
                   </div>
                 </div>
-                <div className="p-0 bg-muted/5">
-                  <div className="px-4 py-2 text-xs font-mono text-muted-foreground border-b border-border bg-muted/10 flex justify-between items-center">
-                    <span>
-                      output.
-                      {outputFormat === "typescript" ? "ts" : outputFormat}
-                    </span>
-                    <div className="flex gap-1">
-                      {(["json", "yaml", "toml", "typescript"] as const).map(
-                        (format) => (
-                          <button
-                            key={format}
-                            onClick={() => setOutputFormat(format)}
-                            className={cn(
-                              "px-2 py-0.5 text-[10px] rounded transition-colors uppercase font-semibold",
-                              outputFormat === format
-                                ? "bg-primary text-primary-foreground"
-                                : "bg-muted/50 text-muted-foreground hover:bg-muted hover:text-foreground"
-                            )}
-                          >
-                            {format === "typescript" ? "TS" : format}
-                          </button>
-                        )
-                      )}
-                    </div>
-                  </div>
-                  <div className="h-[400px] overflow-hidden">
-                    <CodeBlock
-                      code={getOutput(codeExamples[activeTab])}
-                      language="json"
-                      className="p-4 h-full overflow-auto"
-                    />
-                  </div>
+                <div className="p-4 bg-muted/5 relative overflow-hidden">
+                  <CodeBlock code={getOutput(codeExamples[activeTab])} language="json" className="text-xs opacity-80 relative z-10" />
                 </div>
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>
