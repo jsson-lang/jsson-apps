@@ -9,16 +9,18 @@ node_modules/
 !.yarn/versions
 
 # Testing
-/coverage
+coverage/
 
 # Next.js
-/.next/
-/out/
+.next/
+out/
+
+# Docs
+.source/
 
 # Production builds
-/build
+build/
 dist/
-**/dist/
 
 # Astro
 .astro/
