@@ -4,6 +4,7 @@ import { ExternalLink, GitBranch } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { releases } from "./releaseData";
+import DecoratorsGrid from "@/components/shared/decorators-grid";
 
 export function Releases() {
   return (
@@ -29,10 +30,7 @@ export function Releases() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 border border-border/50 relative">
           
-          <div className="absolute top-0 left-0 -translate-x-1/2 -translate-y-1/2 z-10 text-muted-foreground/30 font-light text-xl pointer-events-none">+</div>
-          <div className="absolute top-0 right-0 translate-x-1/2 -translate-y-1/2 z-10 text-muted-foreground/30 font-light text-xl pointer-events-none">+</div>
-          <div className="absolute bottom-0 left-0 -translate-x-1/2 translate-y-1/2 z-10 text-muted-foreground/30 font-light text-xl pointer-events-none">+</div>
-          <div className="absolute bottom-0 right-0 translate-x-1/2 translate-y-1/2 z-10 text-muted-foreground/30 font-light text-xl pointer-events-none">+</div>
+          <DecoratorsGrid />
 
           {releases.map((release, index) => {
             const isFeatured = index === 0 || index === releases.length - 1;

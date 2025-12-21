@@ -1,5 +1,7 @@
 "use client";
 
+import DecoratorsGrid from "@/components/shared/decorators-grid";
+
 const features = [
   {
     title: "Universal Output",
@@ -59,9 +61,10 @@ export function Features() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-24">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 relative border border-border/50 bg-muted/5">
+          <DecoratorsGrid />
           {features.map((feature, index) => (
-            <div key={index} className="flex flex-col gap-4">
+            <div key={index} className="flex flex-col gap-4 p-8 border border-border/50">
               <span className="text-[10px] font-black uppercase tracking-[0.4em] text-muted-foreground">
                 {(index + 1).toString().padStart(2, '0')}
               </span>

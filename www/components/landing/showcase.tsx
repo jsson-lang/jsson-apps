@@ -3,6 +3,7 @@
 import { Grid3x3, ShoppingCart, Sparkles, Route, Calendar, ToggleLeft } from "lucide-react";
 import { CodeBlock } from "../shared/code-block";
 import { cn } from "@/lib/utils";
+import DecoratorsGrid from "@/components/shared/decorators-grid";
 
 const showcaseItems = [
   {
@@ -184,10 +185,7 @@ export function Showcase() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 border border-border/50 relative">
-          <div className="absolute top-0 left-0 -translate-x-1/2 -translate-y-1/2 z-10 text-muted-foreground/30 font-light text-xl pointer-events-none">+</div>
-          <div className="absolute top-0 right-0 translate-x-1/2 -translate-y-1/2 z-10 text-muted-foreground/30 font-light text-xl pointer-events-none">+</div>
-          <div className="absolute bottom-0 left-0 -translate-x-1/2 translate-y-1/2 z-10 text-muted-foreground/30 font-light text-xl pointer-events-none">+</div>
-          <div className="absolute bottom-0 right-0 translate-x-1/2 translate-y-1/2 z-10 text-muted-foreground/30 font-light text-xl pointer-events-none">+</div>
+          <DecoratorsGrid />
 
           {showcaseItems.map((item, index) => (
             <div
