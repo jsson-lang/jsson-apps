@@ -26,7 +26,7 @@ The repository is structured as follows:
   Public-facing website for JSSON, including landing pages and product information.
 
 - `docs/`  
-  Documentation built with Next.js, including guides, references, and LLM-optimized text exports.
+  Documentation built with Next.js (Fumadocs), including guides, references, and LLM-optimized text exports.
 
 - `playground/`  
   A web-based environment that allows users to write and transpile JSSON directly in the browser.
@@ -40,7 +40,7 @@ Additional applications may be added over time as the ecosystem evolves.
 All applications inside this repository use modern web technologies such as:
 
 - Next.js (App Router)
-- Astro
+- Fumadocs
 - TypeScript
 - Tailwind CSS
 - Vercel for deployments
