@@ -41,15 +41,20 @@
       "semicolons": "always"
     }
   },
+  "css": {
+    "parser": {
+      "tailwindDirectives": true
+    }
+  },
   "files": {
     "includes": [
       "**",
-      "!.next/**",
-      "!node_modules/**",
-      "!build/**",
-      "!out/**",
-      "!dist/**",
-      "!.source/**",
+      "!.next",
+      "!node_modules",
+      "!build",
+      "!out",
+      "!dist",
+      "!.source",
       "!*.min.js",
       "!*.d.ts"
     ]

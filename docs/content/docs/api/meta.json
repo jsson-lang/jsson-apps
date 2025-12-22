@@ -1,6 +1,4 @@
 {
   "title": "API",
-  "pages": [
-    "transpiler"
-  ]
+  "pages": ["transpiler"]
 }

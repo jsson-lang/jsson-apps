@@ -1,5 +1,5 @@
-import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
+import Link from 'next/link';
 
 export function Hero() {
   return (
@@ -7,9 +7,10 @@ export function Hero() {
       <h1 className="text-6xl font-black tracking-tighter sm:text-8xl lg:text-9xl text-foreground uppercase leading-[0.8]">
         Just Fucking Use Jsson
       </h1>
-      
+
       <p className="mt-12 max-w-2xl text-xl text-muted-foreground sm:text-2xl font-light tracking-tight">
-        JSON is verbose. YAML is confusing. TOML is boring. Writing configurations should not be painful.
+        JSON is verbose. YAML is confusing. TOML is boring. Writing configurations should not be
+        painful.
       </p>
 
       <div className="mt-16">

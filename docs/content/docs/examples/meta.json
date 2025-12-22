@@ -1,7 +1,4 @@
 {
   "title": "Examples",
-  "pages": [
-    "demo",
-    "template"
-  ]
+  "pages": ["demo", "template"]
 }

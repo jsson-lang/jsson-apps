@@ -1,7 +1,7 @@
 import { RootProvider } from 'fumadocs-ui/provider/next';
 import './global.css';
-import { Inter } from 'next/font/google';
 import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -12,7 +12,8 @@ export const metadata: Metadata = {
     template: '%s | JSSON Language',
     default: 'JSSON | Universal Configuration Meta-format',
   },
-  description: 'JSSON is a universal configuration meta-format that allows you to write declarative logic once and transpile to JSON, YAML, TOML, or TypeScript.',
+  description:
+    'JSSON is a universal configuration meta-format that allows you to write declarative logic once and transpile to JSON, YAML, TOML, or TypeScript.',
   keywords: [
     'JSSON',
     'JSSON Language',
@@ -44,8 +45,8 @@ export const metadata: Metadata = {
     images: ['/logo.png'],
   },
   verification: {
-    google: "6qeyW-HDbBat5RyhEyy94NNXlTpn_gyBGuX9kCi8EBw",
-  }
+    google: '6qeyW-HDbBat5RyhEyy94NNXlTpn_gyBGuX9kCi8EBw',
+  },
 };
 
 export default function Layout({ children }: LayoutProps<'/'>) {

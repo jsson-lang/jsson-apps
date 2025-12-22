@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 
 interface LogoProps {
   width?: number | string;
@@ -6,11 +6,7 @@ interface LogoProps {
   className?: string;
 }
 
-export const Logo: React.FC<LogoProps> = ({
-  width = 512,
-  height = 512,
-  className = '',
-}) => (
+export const Logo: React.FC<LogoProps> = ({ width = 512, height = 512, className = '' }) => (
   <svg
     width={width}
     height={height}

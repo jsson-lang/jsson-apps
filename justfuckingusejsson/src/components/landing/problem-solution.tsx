@@ -16,7 +16,9 @@ export function ProblemSolution() {
 }`}</code>
               </pre>
             </div>
-            <p className="text-lg text-muted-foreground italic">Verbose, repetitive, and manually intensive.</p>
+            <p className="text-lg text-muted-foreground italic">
+              Verbose, repetitive, and manually intensive.
+            </p>
           </div>
 
           {/* Solution */}
