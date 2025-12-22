@@ -1,7 +1,7 @@
 export const codeExamples = [
-    {
-        title: "Basic Configuration",
-        jsson: `// Simple configuration
+  {
+    title: 'Basic Configuration',
+    jsson: `// Simple configuration
 api {
   url = "https://api.example.com"
   timeout = 5000
@@ -12,7 +12,7 @@ api {
     auth_token = "bearer-token-123"
   }
 }`,
-        json: `{
+    json: `{
   "api": {
     "url": "https://api.example.com",
     "timeout": 5000,
@@ -23,21 +23,21 @@ api {
     }
   }
 }`,
-        yaml: `api:
+    yaml: `api:
     headers:
         auth_token: bearer-token-123
         content_type: application/json
     retries: 3
     timeout: 5000
     url: https://api.example.com`,
-        toml: `[api]
+    toml: `[api]
   retries = 3
   timeout = 5000
   url = "https://api.example.com"
   [api.headers]
     auth_token = "bearer-token-123"
     content_type = "application/json"`,
-        typescript: `export const api = {
+    typescript: `export const api = {
   url: "https://api.example.com",
   timeout: 5000,
   retries: 3,
@@ -49,10 +49,10 @@ api {
 
 // Generated types
 export type Api = typeof api;`,
-    },
-    {
-        title: "Product Variants",
-        jsson: `// Generate all size/color combinations
+  },
+  {
+    title: 'Product Variants',
+    jsson: `// Generate all size/color combinations
 products = (["S", "M", "L"] map (size) = (
   ["Black", "White", "Navy"] map (color) = {
     sku = size + "-" + color
@@ -62,7 +62,7 @@ products = (["S", "M", "L"] map (size) = (
     inStock = true
   }
 ))`,
-        json: `{
+    json: `{
   "products": [
     [
       { "sku": "S-Black", "size": "S", "color": "Black", "price": 29.99, "inStock": true },
@@ -81,7 +81,7 @@ products = (["S", "M", "L"] map (size) = (
     ]
   ]
 }`,
-        yaml: `products:
+    yaml: `products:
     - - color: Black
         inStock: true
         price: 29.99
@@ -109,7 +109,7 @@ products = (["S", "M", "L"] map (size) = (
         size: L
         sku: L-Black
       # ... L-White, L-Navy`,
-        toml: `[[products]]
+    toml: `[[products]]
   [[products.products]]
     color = "Black"
     inStock = true
@@ -132,7 +132,7 @@ products = (["S", "M", "L"] map (size) = (
     sku = "S-Navy"
 
 # ... M and L variants`,
-        typescript: `export const products = [
+    typescript: `export const products = [
   [
     { sku: "S-Black", size: "S", color: "Black", price: 29.99, inStock: true },
     { sku: "S-White", size: "S", color: "White", price: 29.99, inStock: true },
@@ -152,10 +152,10 @@ products = (["S", "M", "L"] map (size) = (
 
 // Generated types
 export type Products = typeof products;`,
-    },
-    {
-        title: "Multi-Region Deployment",
-        jsson: `servers [
+  },
+  {
+    title: 'Multi-Region Deployment',
+    jsson: `servers [
   template { id, region, tier }
   
   map (s) = {
@@ -178,7 +178,7 @@ export type Products = typeof products;`,
   // APAC - Dev
   400..402, "ap-south-1", dev
 ]`,
-        json: `
+    json: `
 {
   "servers": [
     {
@@ -219,7 +219,7 @@ export type Products = typeof products;`,
     }
   ]
 }`,
-        yaml: `
+    yaml: `
 servers:
     - id: srv-100
       ip: 10.1.0.0
@@ -248,7 +248,7 @@ servers:
       replicas: 2
       tier: dev
     `,
-        toml: `
+    toml: `
 [[servers]]
   id = "srv-100"
   ip = "10.1.0.0"
@@ -286,7 +286,7 @@ servers:
   replicas = 2
   tier = "dev"
 `,
-        typescript: `
+    typescript: `
 export const servers = [
   {
     tier: "prod",
@@ -337,10 +337,10 @@ export const servers = [
 export type Servers = typeof servers;
 
     `,
-    },
-    {
-        title: "Dynamic Resources",
-        jsson: `
+  },
+  {
+    title: 'Dynamic Resources',
+    jsson: `
 resources [
 template { name, type, region }
 
@@ -361,7 +361,7 @@ template { name, type, region }
   "web-server", ec2, "us-east-1" 
   "db-primary", rds, "us-west-2"
 ]`,
-        json: `{
+    json: `{
 "resources": [
     {
       "id": "ec2-web-server-us-east-1",
@@ -385,7 +385,7 @@ template { name, type, region }
     }
   ]
 }`,
-        yaml: `
+    yaml: `
 resources:
     - id: ec2-web-server-us-east-1
       name: web-server
@@ -402,7 +402,7 @@ resources:
         managed_by: jsson
       type: rds    
     `,
-        toml: `
+    toml: `
 [[resources]]
     id = "ec2-web-server-us-east-1"
     name = "web-server"
@@ -417,7 +417,7 @@ resources:
     tags = { env = "production", managed_by = "jsson" }
     type = "rds"
     `,
-        typescript: `
+    typescript: `
 export const resources = [
   {
     id: "ec2-web-server-us-east-1",
@@ -444,5 +444,5 @@ export const resources = [
 // Generated types
 export type Resources = typeof resources;
     `,
-    },
+  },
 ];

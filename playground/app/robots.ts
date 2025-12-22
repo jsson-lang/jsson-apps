@@ -2,10 +2,10 @@ export default function robots() {
   return {
     rules: [
       {
-        userAgent: "*",
-        allow: "/",
+        userAgent: '*',
+        allow: '/',
       },
     ],
-    sitemap: "https://playground.jssonlang.tech/sitemap.xml",
+    sitemap: 'https://playground.jssonlang.tech/sitemap.xml',
   };
 }

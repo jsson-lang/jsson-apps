@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import { Grid3x3, ShoppingCart, Sparkles, Route, Calendar, ToggleLeft } from "lucide-react";
-import { CodeBlock } from "../shared/code-block";
-import { cn } from "@/lib/utils";
-import DecoratorsGrid from "@/components/shared/decorators-grid";
+import { Calendar, Grid3x3, Route, ShoppingCart, Sparkles, ToggleLeft } from 'lucide-react';
+import DecoratorsGrid from '@/components/shared/decorators-grid';
+import { cn } from '@/lib/utils';
+import { CodeBlock } from '../shared/code-block';
 
 const showcaseItems = [
   {
     icon: Grid3x3,
-    title: "Nested Maps",
-    subtitle: "Matrix Generation",
-    badge: "25 numbers / 1 line",
+    title: 'Nested Maps',
+    subtitle: 'Matrix Generation',
+    badge: '25 numbers / 1 line',
     code: `// Multiplication table 5x5
 rows := 5
 cols := 5
@@ -37,9 +37,9 @@ table = (1..rows map (row) = (
   },
   {
     icon: ShoppingCart,
-    title: "Product Variants",
-    subtitle: "E-commerce Power",
-    badge: "6 variants auto",
+    title: 'Product Variants',
+    subtitle: 'E-commerce Power',
+    badge: '6 variants auto',
     code: `products = (["S", "M", "L"] map (size) = (
   ["Red", "Blue"] map (color) = {
     sku = size + "-" + color
@@ -48,8 +48,8 @@ table = (1..rows map (row) = (
 ))`,
     visual: (
       <div className="grid grid-cols-2 gap-2 p-8">
-        {["S", "L"].map((size) =>
-          ["Red", "Blue"].map((color) => {
+        {['S', 'L'].map((size) =>
+          ['Red', 'Blue'].map((color) => {
             return (
               <div
                 key={`${size}-${color}`}
@@ -61,16 +61,16 @@ table = (1..rows map (row) = (
                 <div className="text-[10px] text-muted-foreground">$29.99</div>
               </div>
             );
-          })
+          }),
         )}
       </div>
     ),
   },
   {
     icon: Sparkles,
-    title: "Massive Generation",
-    subtitle: "Large Datasets",
-    badge: "1,000 records",
+    title: 'Massive Generation',
+    subtitle: 'Large Datasets',
+    badge: '1,000 records',
     code: `totalUsers := 1000
 users = (0..(totalUsers - 1) map (id) = {
   id = id
@@ -79,9 +79,7 @@ users = (0..(totalUsers - 1) map (id) = {
 })`,
     visual: (
       <div className="flex flex-col items-center justify-center p-8 space-y-2">
-        <div className="text-6xl font-black tracking-tighter uppercase">
-          1k
-        </div>
+        <div className="text-6xl font-black tracking-tighter uppercase">1k</div>
         <div className="text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground">
           Records Generated
         </div>
@@ -90,9 +88,9 @@ users = (0..(totalUsers - 1) map (id) = {
   },
   {
     icon: Route,
-    title: "API Endpoints",
-    subtitle: "Route Generation",
-    badge: "Full CRUD",
+    title: 'API Endpoints',
+    subtitle: 'Route Generation',
+    badge: 'Full CRUD',
     code: `resources := ["users", "posts", "comments"]
 methods := ["GET", "POST", "PUT", "DELETE"]
 
@@ -104,14 +102,22 @@ routes = (resources map (r) = (
 ))`,
     visual: (
       <div className="flex flex-col gap-1 p-8">
-        {["GET", "POST", "PUT", "DEL"].map((method) => (
+        {['GET', 'POST', 'PUT', 'DEL'].map((method) => (
           <div key={method} className="flex items-center gap-2 text-[10px] font-mono">
-            <span className={cn(
-              "px-1.5 py-0.5 rounded font-bold text-background",
-              method === "GET" ? "bg-emerald-500" :
-              method === "POST" ? "bg-blue-500" :
-              method === "PUT" ? "bg-amber-500" : "bg-red-500"
-            )}>{method}</span>
+            <span
+              className={cn(
+                'px-1.5 py-0.5 rounded font-bold text-background',
+                method === 'GET'
+                  ? 'bg-emerald-500'
+                  : method === 'POST'
+                    ? 'bg-blue-500'
+                    : method === 'PUT'
+                      ? 'bg-amber-500'
+                      : 'bg-red-500',
+              )}
+            >
+              {method}
+            </span>
             <span className="text-muted-foreground">/api/users</span>
           </div>
         ))}
@@ -120,9 +126,9 @@ routes = (resources map (r) = (
   },
   {
     icon: Calendar,
-    title: "Schedule Slots",
-    subtitle: "Time Generation",
-    badge: "24 slots / 3 lines",
+    title: 'Schedule Slots',
+    subtitle: 'Time Generation',
+    badge: '24 slots / 3 lines',
     code: `startHour := 9
 endHour := 17
 slotMinutes := 30
@@ -132,7 +138,7 @@ slots = (startHour..endHour map (h) = (
 ))`,
     visual: (
       <div className="grid grid-cols-4 gap-1 p-8">
-        {["09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30"].map((time) => (
+        {['09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30'].map((time) => (
           <div key={time} className="text-[9px] font-mono text-center p-1 bg-muted rounded">
             {time}
           </div>
@@ -142,9 +148,9 @@ slots = (startHour..endHour map (h) = (
   },
   {
     icon: ToggleLeft,
-    title: "Feature Flags",
-    subtitle: "Conditional Config",
-    badge: "Env-aware",
+    title: 'Feature Flags',
+    subtitle: 'Conditional Config',
+    badge: 'Env-aware',
     code: `env := "production"
 
 features = {
@@ -156,16 +162,20 @@ features = {
     visual: (
       <div className="flex flex-col gap-2 p-8">
         {[
-          { name: "darkMode", on: true },
-          { name: "beta", on: false },
-          { name: "analytics", on: true },
+          { name: 'darkMode', on: true },
+          { name: 'beta', on: false },
+          { name: 'analytics', on: true },
         ].map((flag) => (
           <div key={flag.name} className="flex items-center justify-between text-[10px]">
             <span className="font-bold uppercase">{flag.name}</span>
-            <span className={cn(
-              "px-1.5 py-0.5 rounded font-black text-[9px]",
-              flag.on ? "bg-emerald-500/20 text-emerald-400" : "bg-red-500/20 text-red-400"
-            )}>{flag.on ? "ON" : "OFF"}</span>
+            <span
+              className={cn(
+                'px-1.5 py-0.5 rounded font-black text-[9px]',
+                flag.on ? 'bg-emerald-500/20 text-emerald-400' : 'bg-red-500/20 text-red-400',
+              )}
+            >
+              {flag.on ? 'ON' : 'OFF'}
+            </span>
           </div>
         ))}
       </div>
@@ -178,7 +188,9 @@ export function Showcase() {
     <section className="py-32 border-t border-border/10">
       <div className="container mx-auto px-6">
         <div className="mb-24">
-          <h2 className="text-xs font-black uppercase tracking-[0.4em] text-muted-foreground mb-4">Showcase</h2>
+          <h2 className="text-xs font-black uppercase tracking-[0.4em] text-muted-foreground mb-4">
+            Showcase
+          </h2>
           <p className="text-4xl sm:text-5xl font-bold tracking-tighter uppercase max-w-2xl">
             Powerhouse data generation. Zero repetition.
           </p>
@@ -199,8 +211,10 @@ export function Showcase() {
                     {item.badge}
                   </span>
                 </div>
-                <p className="text-xs text-muted-foreground uppercase tracking-widest">{item.subtitle}</p>
-              </div>  
+                <p className="text-xs text-muted-foreground uppercase tracking-widest">
+                  {item.subtitle}
+                </p>
+              </div>
 
               <div className="p-4 bg-muted/10 font-mono text-xs">
                 <CodeBlock code={item.code} language="jsson" className="bg-transparent" />

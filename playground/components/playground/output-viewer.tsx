@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { useState, useEffect, useMemo } from "react";
-import Editor from "@monaco-editor/react";
-import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
-import { Button } from "../ui/button";
-import { Copy, Download } from "lucide-react";
-import { toastManager } from "@/components/ui/toast";
+import Editor from '@monaco-editor/react';
+import { Copy, Download } from 'lucide-react';
+import { useEffect, useMemo } from 'react';
+import { toastManager } from '@/components/ui/toast';
+import { usePlaygroundContext } from '@/contexts/playground-context';
+import { Button } from '../ui/button';
 import {
   Select,
   SelectContent,
@@ -14,9 +14,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../ui/select";
-
-import { usePlaygroundContext } from "@/contexts/playground-context";
+} from '../ui/select';
 
 interface OutputViewerProps {
   output: string;
@@ -26,35 +24,27 @@ interface OutputViewerProps {
 
 const structuredFormats = [
   {
-    value: "json",
-    label: "JSON",
+    value: 'json',
+    label: 'JSON',
   },
   {
-    value: "yaml",
-    label: "YAML",
+    value: 'yaml',
+    label: 'YAML',
   },
   {
-    value: "toml",
-    label: "TOML",
+    value: 'toml',
+    label: 'TOML',
   },
 ];
 const typedFormats = [
   {
-    value: "ts",
-    label: "TypeScript",
+    value: 'ts',
+    label: 'TypeScript',
   },
 ];
 
-export function OutputViewer({
-  output,
-  error,
-  compilationTime,
-}: OutputViewerProps) {
-  const {
-    format,
-    setFormat,
-    setOutput: setContextOutput,
-  } = usePlaygroundContext();
+export function OutputViewer({ output, error, compilationTime }: OutputViewerProps) {
+  const { format, setFormat, setOutput: setContextOutput } = usePlaygroundContext();
 
   function approxTokens(text: string) {
     if (!text) return 0;
@@ -65,12 +55,12 @@ export function OutputViewer({
   // Map format to Monaco language
   function getMonacoLanguage(format: string): string {
     const languageMap: Record<string, string> = {
-      json: "json",
-      yaml: "yaml",
-      toml: "ini",
-      ts: "typescript",
+      json: 'json',
+      yaml: 'yaml',
+      toml: 'ini',
+      ts: 'typescript',
     };
-    return languageMap[format] || "json";
+    return languageMap[format] || 'json';
   }
 
   useEffect(() => {
@@ -89,7 +79,7 @@ export function OutputViewer({
     }
 
     return {
-      lines: output.split("\n").length,
+      lines: output.split('\n').length,
       chars: output.length,
       tokens: approxTokens(output),
     };
@@ -99,9 +89,9 @@ export function OutputViewer({
 
   function generateDownload() {
     try {
-      const blob = new Blob([output], { type: "text/plain" });
+      const blob = new Blob([output], { type: 'text/plain' });
       const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
+      const a = document.createElement('a');
       a.href = url;
       a.download = `output.${format}`;
       document.body.appendChild(a);
@@ -109,15 +99,15 @@ export function OutputViewer({
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
       toastManager.add({
-        title: "Downloaded!",
-        description: "Output downloaded.",
-        type: "success",
+        title: 'Downloaded!',
+        description: 'Output downloaded.',
+        type: 'success',
       });
     } catch (error) {
       toastManager.add({
-        title: "Error",
-        description: "Failed to download output.",
-        type: "error",
+        title: 'Error',
+        description: 'Failed to download output.',
+        type: 'error',
       });
     }
   }
@@ -125,8 +115,8 @@ export function OutputViewer({
   function copyToClipboard() {
     navigator.clipboard.writeText(output);
     toastManager.add({
-      title: "Copied!",
-      description: "Output copied to clipboard.",
+      title: 'Copied!',
+      description: 'Output copied to clipboard.',
     });
   }
 
@@ -137,10 +127,10 @@ export function OutputViewer({
   }
 
   return (
-    <div className="h-full w-full flex flex-col border-l overflow-hidden shadow-sm">
-      <div className="flex items-center justify-between px-6 py-2 border-b border-border bg-muted/30">
-        <div className="flex items-center gap-2">
-          <span className="text-xs font-medium text-muted-foreground">
+    <div className="h-full w-full flex flex-col overflow-hidden bg-background relative">
+      <div className="flex items-center justify-between px-6 h-12 border-b dashed-separator relative z-10">
+        <div className="flex items-center gap-6">
+          <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
             output.{format}
           </span>
           <Select
@@ -149,22 +139,34 @@ export function OutputViewer({
             items={[...structuredFormats, ...typedFormats]}
             onValueChange={(value) => value !== null && setFormat(value)}
           >
-            <SelectTrigger>
+            <SelectTrigger className="h-7 text-[9px] font-bold uppercase tracking-wider border-border bg-background hover:bg-foreground hover:text-background transition-colors px-3 min-w-[100px] border">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                <SelectGroupLabel>Structured Formats</SelectGroupLabel>
+                <SelectGroupLabel className="text-[9px] font-bold uppercase tracking-wider">
+                  Structured
+                </SelectGroupLabel>
                 {structuredFormats.map((fmt) => (
-                  <SelectItem key={fmt.value} value={fmt.value}>
+                  <SelectItem
+                    key={fmt.value}
+                    value={fmt.value}
+                    className="text-[10px] uppercase font-bold"
+                  >
                     {fmt.label}
                   </SelectItem>
                 ))}
               </SelectGroup>
               <SelectGroup>
-                <SelectGroupLabel>Typed Formats</SelectGroupLabel>
+                <SelectGroupLabel className="text-[9px] font-bold uppercase tracking-wider">
+                  Typed
+                </SelectGroupLabel>
                 {typedFormats.map((fmt) => (
-                  <SelectItem key={fmt.value} value={fmt.value}>
+                  <SelectItem
+                    key={fmt.value}
+                    value={fmt.value}
+                    className="text-[10px] uppercase font-bold"
+                  >
                     {fmt.label}
                   </SelectItem>
                 ))}
@@ -173,27 +175,37 @@ export function OutputViewer({
           </Select>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-4">
           <Button
             variant="ghost"
             size="sm"
             onClick={copyToClipboard}
             disabled={!output}
+            className="text-[10px] font-bold uppercase tracking-wider hover:bg-foreground hover:text-background px-3 h-8"
           >
-            <Copy className="h-4 w-4" />
+            <Copy className="h-3 w-3 mr-2" />
             Copy
           </Button>
-          <Button size="sm" disabled={!output} onClick={generateDownload}>
-            <Download className="h-4 w-4" />
-            Download File
+          <Button
+            size="sm"
+            disabled={!output}
+            onClick={generateDownload}
+            className="text-[10px] font-bold uppercase tracking-wider bg-foreground text-background hover:bg-primary px-4 border border-foreground transition-all h-8"
+          >
+            <Download className="h-3 w-3 mr-2" />
+            Export
           </Button>
         </div>
       </div>
 
-      <div className="flex-1 min-h-0">
+      <div className="flex-1 min-h-0 relative bg-grid">
         {displayError ? (
-          <div className="p-4 text-red-400 font-mono text-sm">
-            Error: {displayError}
+          <div className="p-8 text-red-500 font-mono text-sm uppercase leading-relaxed max-w-2xl">
+            <div className="flex items-center gap-2 mb-4">
+              <div className="h-2 w-2 rounded-full bg-red-500 animate-pulse" />
+              <span className="font-black tracking-widest text-xs">Compilation Error</span>
+            </div>
+            {displayError}
           </div>
         ) : (
           <Editor
@@ -205,31 +217,42 @@ export function OutputViewer({
               readOnly: true,
               minimap: { enabled: false },
               fontSize: 14,
-              fontFamily: "Geist Mono, monospace",
-              padding: { top: 16 },
+              fontFamily: 'var(--font-google-sans-code), monospace',
+              padding: { top: 24 },
               scrollBeyondLastLine: false,
               automaticLayout: true,
-              lineNumbers: "on",
-              renderLineHighlight: "none",
+              lineNumbers: 'on',
+              renderLineHighlight: 'none',
               scrollbar: {
-                vertical: "visible",
-                horizontal: "visible",
+                vertical: 'visible',
+                horizontal: 'visible',
+                verticalScrollbarSize: 8,
+                horizontalScrollbarSize: 8,
               },
             }}
           />
         )}
       </div>
 
-      <div className="flex items-center justify-between px-6 py-2 border-t border-border bg-muted/30">
-        <div className="text-muted-foreground text-xs">
-          <span className="font-semibold">{metrics.lines}</span> lines |
-          <span className="font-semibold"> {metrics.chars}</span> chars |
-          <span className="font-semibold"> ~ {approxTokens(output)}</span>{" "}
-          tokens
+      <div className="flex items-center justify-between px-6 py-2 border-t dashed-separator relative z-10 bg-muted/5 select-none">
+        <div className="flex items-center gap-6 text-[9px] font-bold uppercase tracking-wider text-muted-foreground/70">
+          <div className="flex items-center gap-2">
+            <span>LN</span>
+            <span className="font-mono text-muted-foreground">{metrics.lines}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span>CH</span>
+            <span className="font-mono text-muted-foreground">{metrics.chars}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span>TK</span>
+            <span className="font-mono text-muted-foreground">~{approxTokens(output)}</span>
+          </div>
         </div>
         {compilationTime !== null && (
-          <div className="text-xs text-green-400 font-medium">
-            ✓ Compiled in {formatTime(compilationTime!)}
+          <div className="text-[9px] text-emerald-500 font-bold uppercase tracking-wider flex items-center gap-2">
+            <div className="h-1 w-1 rounded-none bg-emerald-500" />
+            Compiled in {formatTime(compilationTime!)}
           </div>
         )}
       </div>

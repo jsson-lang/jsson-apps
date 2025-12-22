@@ -1,5 +1,5 @@
-import Link from "next/link";
-import Logo from "../shared/logo";
+import Link from 'next/link';
+import Logo from '../shared/logo';
 
 export function Footer() {
   return (
@@ -16,27 +16,68 @@ export function Footer() {
 
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-12">
             <div className="flex flex-col gap-4">
-              <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-muted-foreground">Product</h3>
+              <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-muted-foreground">
+                Product
+              </h3>
               <div className="flex flex-col gap-2">
-                <Link href="https://playground.jssonlang.tech" className="text-sm font-bold uppercase tracking-tight hover:opacity-70 transition-opacity">Playground</Link>
-                <Link href="https://docs.jssonlang.tech" className="text-sm font-bold uppercase tracking-tight hover:opacity-70 transition-opacity">Docs</Link>
-                <Link href="https://docs.jssonlang.tech/changelog" className="text-sm font-bold uppercase tracking-tight hover:opacity-70 transition-opacity">Changelog</Link>
+                <Link
+                  href="https://playground.jssonlang.tech"
+                  className="text-sm font-bold uppercase tracking-tight hover:opacity-70 transition-opacity"
+                >
+                  Playground
+                </Link>
+                <Link
+                  href="https://docs.jssonlang.tech"
+                  className="text-sm font-bold uppercase tracking-tight hover:opacity-70 transition-opacity"
+                >
+                  Docs
+                </Link>
+                <Link
+                  href="https://docs.jssonlang.tech/changelog"
+                  className="text-sm font-bold uppercase tracking-tight hover:opacity-70 transition-opacity"
+                >
+                  Changelog
+                </Link>
               </div>
             </div>
 
             <div className="flex flex-col gap-4">
-              <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-muted-foreground">Source</h3>
+              <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-muted-foreground">
+                Source
+              </h3>
               <div className="flex flex-col gap-2">
-                <Link href="https://github.com/jssonlang/jsson" className="text-sm font-bold uppercase tracking-tight hover:opacity-70 transition-opacity">GitHub</Link>
-                <Link href="https://x.com/jssonlang" className="text-sm font-bold uppercase tracking-tight hover:opacity-70 transition-opacity">X / Twitter</Link>
+                <Link
+                  href="https://github.com/jssonlang/jsson"
+                  className="text-sm font-bold uppercase tracking-tight hover:opacity-70 transition-opacity"
+                >
+                  GitHub
+                </Link>
+                <Link
+                  href="https://x.com/jssonlang"
+                  className="text-sm font-bold uppercase tracking-tight hover:opacity-70 transition-opacity"
+                >
+                  X / Twitter
+                </Link>
               </div>
             </div>
 
             <div className="flex flex-col gap-4">
-              <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-muted-foreground">Legal</h3>
+              <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-muted-foreground">
+                Legal
+              </h3>
               <div className="flex flex-col gap-2">
-                <Link href="/privacy" className="text-sm font-bold uppercase tracking-tight hover:opacity-70 transition-opacity">Privacy</Link>
-                <Link href="/terms" className="text-sm font-bold uppercase tracking-tight hover:opacity-70 transition-opacity">Terms</Link>
+                <Link
+                  href="/privacy"
+                  className="text-sm font-bold uppercase tracking-tight hover:opacity-70 transition-opacity"
+                >
+                  Privacy
+                </Link>
+                <Link
+                  href="/terms"
+                  className="text-sm font-bold uppercase tracking-tight hover:opacity-70 transition-opacity"
+                >
+                  Terms
+                </Link>
               </div>
             </div>
           </div>

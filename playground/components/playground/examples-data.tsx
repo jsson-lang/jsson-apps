@@ -1,36 +1,36 @@
 import {
-  FileJson,
   Database,
-  Server,
-  Users,
-  Globe,
-  Map as MapIcon,
-  Settings,
-  Zap,
-  LayoutTemplate,
+  FileJson,
   Flag,
+  Globe,
   Grid3x3,
-  ShoppingCart,
-  Table,
   Layers,
+  LayoutTemplate,
+  Map as MapIcon,
+  Server,
+  Settings,
+  ShoppingCart,
   Sparkles,
-} from "lucide-react";
+  Table,
+  Users,
+  Zap,
+} from 'lucide-react';
 
 interface Example {
   id: string;
   title: string;
   description: string;
-  category: "Basics" | "Infrastructure" | "Data" | "Config";
+  category: 'Basics' | 'Infrastructure' | 'Data' | 'Config';
   icon: React.ElementType;
   code: string;
 }
 
 export const EXAMPLES: Example[] = [
   {
-    id: "demo",
-    title: "Basic Structure",
-    description: "A minimal example showing core JSSON syntax.",
-    category: "Basics",
+    id: 'demo',
+    title: 'Basic Structure',
+    description: 'A minimal example showing core JSSON syntax.',
+    category: 'Basics',
     icon: Zap,
     code: `profile {
   name = Lucas
@@ -45,10 +45,10 @@ export const EXAMPLES: Example[] = [
 }`,
   },
   {
-    id: "template",
-    title: "Reusable Templates",
-    description: "Define structures once and reuse them across datasets.",
-    category: "Basics",
+    id: 'template',
+    title: 'Reusable Templates',
+    description: 'Define structures once and reuse them across datasets.',
+    category: 'Basics',
     icon: LayoutTemplate,
     code: `employees [
   template { name, age, department, salary }
@@ -61,10 +61,10 @@ export const EXAMPLES: Example[] = [
   },
 
   {
-    id: "map-advanced",
-    title: "Mapping Logic",
-    description: "Apply inline transformations and computed fields.",
-    category: "Basics",
+    id: 'map-advanced',
+    title: 'Mapping Logic',
+    description: 'Apply inline transformations and computed fields.',
+    category: 'Basics',
     icon: FileJson,
     code: `inventory [
   template { id, name, qty, category }
@@ -86,10 +86,10 @@ export const EXAMPLES: Example[] = [
   },
 
   {
-    id: "database",
-    title: "Database Settings",
-    description: "Readable and structured DB configuration.",
-    category: "Config",
+    id: 'database',
+    title: 'Database Settings',
+    description: 'Readable and structured DB configuration.',
+    category: 'Config',
     icon: Database,
     code: `db {
   engine = "postgres"
@@ -100,10 +100,10 @@ export const EXAMPLES: Example[] = [
   },
 
   {
-    id: "user-gen",
-    title: "User Seeder",
-    description: "Automatically generate users based on ranges.",
-    category: "Data",
+    id: 'user-gen',
+    title: 'User Seeder',
+    description: 'Automatically generate users based on ranges.',
+    category: 'Data',
     icon: Users,
     code: `accounts [
   template { id, team }
@@ -125,10 +125,10 @@ export const EXAMPLES: Example[] = [
   },
 
   {
-    id: "feature-flags",
-    title: "Environment Toggles",
-    description: "Simple and scalable feature toggle management.",
-    category: "Config",
+    id: 'feature-flags',
+    title: 'Environment Toggles',
+    description: 'Simple and scalable feature toggle management.',
+    category: 'Config',
     icon: Flag,
     code: `featureToggles [
   template { flag, env, value }
@@ -149,10 +149,10 @@ export const EXAMPLES: Example[] = [
   },
 
   {
-    id: "k8s",
-    title: "Kubernetes Pods",
-    description: "Generate multiple environment deployment configs.",
-    category: "Infrastructure",
+    id: 'k8s',
+    title: 'Kubernetes Pods',
+    description: 'Generate multiple environment deployment configs.',
+    category: 'Infrastructure',
     icon: Server,
     code: `services [
   template { name, env, scale }
@@ -179,10 +179,10 @@ export const EXAMPLES: Example[] = [
   },
 
   {
-    id: "i18n",
-    title: "i18n Packs",
-    description: "Manage interface translations in multiple languages.",
-    category: "Config",
+    id: 'i18n',
+    title: 'i18n Packs',
+    description: 'Manage interface translations in multiple languages.',
+    category: 'Config',
     icon: Globe,
     code: `translations [
   template { key, locale, text }
@@ -204,10 +204,10 @@ export const EXAMPLES: Example[] = [
   },
 
   {
-    id: "api-gateway",
-    title: "Gateway Routes",
-    description: "Conditional routing and dynamic API generation.",
-    category: "Infrastructure",
+    id: 'api-gateway',
+    title: 'Gateway Routes',
+    description: 'Conditional routing and dynamic API generation.',
+    category: 'Infrastructure',
     icon: Settings,
     code: `apiRoutes [
   template { name, version, path }
@@ -227,10 +227,10 @@ export const EXAMPLES: Example[] = [
   },
 
   {
-    id: "geo",
-    title: "Geo Grid",
-    description: "Math-heavy dataset generation for geospatial apps.",
-    category: "Data",
+    id: 'geo',
+    title: 'Geo Grid',
+    description: 'Math-heavy dataset generation for geospatial apps.',
+    category: 'Data',
     icon: MapIcon,
     code: `geoPoints [
   template { id, tag }
@@ -248,11 +248,10 @@ export const EXAMPLES: Example[] = [
 ]`,
   },
   {
-    id: "nested-maps-matrix",
-    title: "Matrix Generation",
-    description:
-      "Generate 2D matrices using nested map transformations (> v0.0.5).",
-    category: "Data",
+    id: 'nested-maps-matrix',
+    title: 'Matrix Generation',
+    description: 'Generate 2D matrices using nested map transformations (> v0.0.5).',
+    category: 'Data',
     icon: Grid3x3,
     code: `// Multiplication table using nested maps
 table = (1..5 map (row) = (1..5 map (col) = row * col))
@@ -266,11 +265,10 @@ grid = (0..2 map (y) = (0..2 map (x) = {
   },
 
   {
-    id: "product-variants",
-    title: "Product Variants",
-    description:
-      "Generate all size/color combinations for e-commerce (> v0.0.5).",
-    category: "Data",
+    id: 'product-variants',
+    title: 'Product Variants',
+    description: 'Generate all size/color combinations for e-commerce (> v0.0.5).',
+    category: 'Data',
     icon: ShoppingCart,
     code: `// All product variants
 products = (["S", "M", "L", "XL"] map (size) = (
@@ -285,10 +283,10 @@ products = (["S", "M", "L", "XL"] map (size) = (
   },
 
   {
-    id: "nested-arrays",
-    title: "Nested Arrays",
-    description: "Multi-dimensional arrays and matrices (> v0.0.5).",
-    category: "Data",
+    id: 'nested-arrays',
+    title: 'Nested Arrays',
+    description: 'Multi-dimensional arrays and matrices (> v0.0.5).',
+    category: 'Data',
     icon: Layers,
     code: `// 2D Matrix
 matrix = [
@@ -311,10 +309,10 @@ permissions = {
   },
 
   {
-    id: "large-scale-gen",
-    title: "Large-Scale Generation",
-    description: "Generate thousands of records effortlessly (> v0.0.5).",
-    category: "Data",
+    id: 'large-scale-gen',
+    title: 'Large-Scale Generation',
+    description: 'Generate thousands of records effortlessly (> v0.0.5).',
+    category: 'Data',
     icon: Sparkles,
     code: `// Generate 1000 test users
 testUsers = (0..999 map (id) = {
@@ -328,10 +326,10 @@ testUsers = (0..999 map (id) = {
   },
 
   {
-    id: "schedule-matrix",
-    title: "Schedule Matrix",
-    description: "Generate time slots for scheduling apps (> v0.0.5).",
-    category: "Data",
+    id: 'schedule-matrix',
+    title: 'Schedule Matrix',
+    description: 'Generate time slots for scheduling apps (> v0.0.5).',
+    category: 'Data',
     icon: Table,
     code: `// Weekly schedule (7 days × 8 hours)
 schedule = (["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"] map (day) = (

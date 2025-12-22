@@ -1,6 +1,6 @@
-import { cn } from "@/lib/utils";
-import { Terminal } from "lucide-react";
-import { motion } from "motion/react";
+import { Terminal } from 'lucide-react';
+import { motion } from 'motion/react';
+import { cn } from '@/lib/utils';
 
 interface TerminalCommandProps {
   filename: string;
@@ -8,17 +8,13 @@ interface TerminalCommandProps {
   className?: string;
 }
 
-export default function TerminalCommand({
-  filename,
-  children,
-  className,
-}: TerminalCommandProps) {
+export default function TerminalCommand({ filename, children, className }: TerminalCommandProps) {
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0, y: 40 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.7, delay: 0.4 }}
-      className={cn("mt-20 w-fit", className)}
+      className={cn('mt-20 w-fit', className)}
     >
       <div className="relative rounded-xl border border-border bg-card/50 shadow-2xl backdrop-blur-sm">
         <div className="flex items-center gap-2 border-b border-border px-4 py-3">

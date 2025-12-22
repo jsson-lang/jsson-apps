@@ -1,46 +1,69 @@
-"use client";
+'use client';
 
-import { cn } from "@/lib/utils";
-import Image from "next/image";
-import Link from "next/link";
-import { Badge } from "../ui/badge";
+import Image from 'next/image';
+import Link from 'next/link';
+import type React from 'react';
+import { cn } from '@/lib/utils';
 
 interface LogoProps {
-  size?: "sm" | "md" | "lg" | "xl";
-  variant?: "default" | "icon";
+  size?: 'sm' | 'md' | 'lg' | 'xl';
+  variant?: 'default' | 'icon';
 }
 
+interface LogoSvgProps {
+  width?: number | string;
+  height?: number | string;
+  className?: string;
+}
+
+export const LogoSvg: React.FC<LogoSvgProps> = ({ width = 512, height = 512, className = '' }) => (
+  <svg
+    width={width}
+    height={height}
+    viewBox="0 0 512 512"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className={className}
+    role="img"
+    aria-label="JSSON Logo"
+  >
+    <title>JSSON Logo</title>
+    <path
+      d="M92.233 270.151V259.142C102.117 259.142 109.012 257.071 112.918 252.928C116.884 248.785 118.866 241.86 118.866 232.153V203.744C118.866 195.577 119.636 188.504 121.175 182.526C122.773 176.549 125.347 171.607 128.898 167.7C132.45 163.794 137.184 160.894 143.103 159C149.022 157.106 156.331 156.159 165.031 156.159V173.56C158.166 173.56 152.75 174.625 148.785 176.756C144.879 178.886 142.097 182.201 140.44 186.699C138.842 191.138 138.043 196.82 138.043 203.744V239.256C138.043 243.872 137.421 248.074 136.178 251.862C134.995 255.65 132.775 258.905 129.52 261.628C126.265 264.35 121.619 266.451 115.582 267.931C109.604 269.411 101.821 270.151 92.233 270.151ZM165.031 383.432C156.331 383.432 149.022 382.485 143.103 380.591C137.184 378.697 132.45 375.797 128.898 371.891C125.347 367.984 122.773 363.042 121.175 357.065C119.636 351.087 118.866 344.014 118.866 335.847V307.438C118.866 297.731 116.884 290.806 112.918 286.663C109.012 282.52 102.117 280.449 92.233 280.449V269.44C101.821 269.44 109.604 270.18 115.582 271.66C121.619 273.139 126.265 275.241 129.52 277.963C132.775 280.686 134.995 283.941 136.178 287.729C137.421 291.517 138.043 295.719 138.043 300.335V335.847C138.043 342.771 138.842 348.453 140.44 352.892C142.097 357.331 144.879 360.616 148.785 362.746C152.75 364.936 158.166 366.031 165.031 366.031V383.432ZM92.233 280.449V259.142H113.185V280.449H92.233ZM246.019 334.071V216.884H265.906V334.071H246.019ZM197.369 285.42V265.534H314.556V285.42H197.369ZM419.692 269.44V280.449C409.808 280.449 402.883 282.52 398.918 286.663C395.012 290.806 393.059 297.731 393.059 307.438V335.847C393.059 344.014 392.26 351.087 390.662 357.065C389.123 363.042 386.578 367.984 383.027 371.891C379.475 375.797 374.741 378.697 368.822 380.591C362.904 382.485 355.594 383.432 346.894 383.432V366.031C353.759 366.031 359.145 364.936 363.051 362.746C367.017 360.616 369.799 357.331 371.397 352.892C373.054 348.453 373.882 342.771 373.882 335.847V300.335C373.882 295.719 374.474 291.517 375.658 287.729C376.901 283.941 379.15 280.686 382.405 277.963C385.66 275.241 390.277 273.139 396.255 271.66C402.292 270.18 410.104 269.44 419.692 269.44ZM346.894 156.159C355.594 156.159 362.904 157.106 368.822 159C374.741 160.894 379.475 163.794 383.027 167.7C386.578 171.607 389.123 176.549 390.662 182.526C392.26 188.504 393.059 195.577 393.059 203.744V232.153C393.059 241.86 395.012 248.785 398.918 252.928C402.883 257.071 409.808 259.142 419.692 259.142V270.151C410.104 270.151 402.292 269.411 396.255 267.931C390.277 266.451 385.66 264.35 382.405 261.628C379.15 258.905 376.901 255.65 375.658 251.862C374.474 248.074 373.882 243.872 373.882 239.256V203.744C373.882 196.82 373.054 191.138 371.397 186.699C369.799 182.201 367.017 178.886 363.051 176.756C359.145 174.625 353.759 173.56 346.894 173.56V156.159ZM419.692 259.142V280.449H398.74V259.142H419.692Z"
+      fill="#F5DE19"
+    />
+  </svg>
+);
+
 const textSizes = {
-  sm: "text-sm",
-  md: "text-md",
-  lg: "text-lg",
-  xl: "text-xl",
+  sm: 'text-sm',
+  md: 'text-md',
+  lg: 'text-lg',
+  xl: 'text-xl',
 };
 
-export default function Logo({ size = "xl", variant = "default" }: LogoProps) {
+export default function Logo({ size = 'xl', variant = 'default' }: LogoProps) {
   return (
     <Link
       href="https://jssonlang.tech"
-      className={cn("flex items-center gap-2 font-bold", textSizes[size])}
+      className={cn(
+        'flex items-center gap-3 font-black transition-opacity hover:opacity-80',
+        textSizes[size],
+      )}
     >
-      <div className="flex h-8 w-8 items-center justify-center rounded-lg">
-        <Image
-          src="/logo.svg"
-          alt="JSSON"
-          width={
-            size === "sm" ? 24 : size === "md" ? 32 : size === "lg" ? 48 : 64
-          }
-          height={
-            size === "sm" ? 24 : size === "md" ? 32 : size === "lg" ? 48 : 64
-          }
-          className={cn("rounded-md", variant === "icon" && textSizes[size])}
+      <div className="flex items-center justify-center rounded-none border border-foreground/10 p-1">
+        <LogoSvg
+          width={size === 'sm' ? 20 : size === 'md' ? 28 : size === 'lg' ? 40 : 56}
+          height={size === 'sm' ? 20 : size === 'md' ? 28 : size === 'lg' ? 40 : 56}
         />
       </div>
-      {variant === "default" && (
-        <>
-          <span className="text-primary">JSSON</span>
-          <Badge variant={"secondary"}>V0.0.5.2</Badge>
-        </>
+      {variant === 'default' && (
+        <div className="flex items-baseline gap-2">
+          <span className="text-foreground tracking-tight uppercase">JSSON Playground</span>
+          <span className="text-[10px] font-mono text-muted-foreground/40 border-l border-border pl-2 tracking-widest">
+            V0.0.5.2
+          </span>
+        </div>
       )}
     </Link>
   );

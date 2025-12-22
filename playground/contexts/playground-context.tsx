@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, type ReactNode, useContext, useState } from 'react';
 
 interface PlaygroundContextType {
   jssonCode: string;
@@ -11,14 +11,12 @@ interface PlaygroundContextType {
   setFormat: (format: string) => void;
 }
 
-const PlaygroundContext = createContext<PlaygroundContextType | undefined>(
-  undefined
-);
+const PlaygroundContext = createContext<PlaygroundContextType | undefined>(undefined);
 
 export function PlaygroundProvider({ children }: { children: ReactNode }) {
-  const [jssonCode, setJssonCode] = useState("");
-  const [output, setOutput] = useState("");
-  const [format, setFormat] = useState("json");
+  const [jssonCode, setJssonCode] = useState('');
+  const [output, setOutput] = useState('');
+  const [format, setFormat] = useState('json');
 
   return (
     <PlaygroundContext.Provider
@@ -32,9 +30,7 @@ export function PlaygroundProvider({ children }: { children: ReactNode }) {
 export function usePlaygroundContext() {
   const context = useContext(PlaygroundContext);
   if (context === undefined) {
-    throw new Error(
-      "usePlaygroundContext must be used within a PlaygroundProvider"
-    );
+    throw new Error('usePlaygroundContext must be used within a PlaygroundProvider');
   }
   return context;
 }

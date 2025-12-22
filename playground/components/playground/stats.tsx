@@ -1,19 +1,19 @@
-"use client";
+'use client';
 
-import { ChartCandlestick } from "lucide-react";
-import { Button } from "../ui/button";
+import { ChartCandlestick } from 'lucide-react';
+import { usePlaygroundContext } from '@/contexts/playground-context';
+import { Button } from '../ui/button';
 import {
   Dialog,
-  DialogTrigger,
-  DialogPopup,
-  DialogHeader,
-  DialogTitle,
   DialogDescription,
+  DialogHeader,
   DialogPanel,
-} from "../ui/dialog";
-import { StatsOverview } from "./stats-overview";
-import { calculateStats } from "./stats-utils";
-import { usePlaygroundContext } from "@/contexts/playground-context";
+  DialogPopup,
+  DialogTitle,
+  DialogTrigger,
+} from '../ui/dialog';
+import { StatsOverview } from './stats-overview';
+import { calculateStats } from './stats-utils';
 
 export function Stats() {
   const { jssonCode, output, format } = usePlaygroundContext();
@@ -23,25 +23,29 @@ export function Stats() {
   return (
     <Dialog>
       <DialogTrigger render={<Button />}>
-        <ChartCandlestick />
-        Productivity Overview
+        <div className="flex items-center gap-2 group">
+          <ChartCandlestick className="h-4 w-4 text-muted-foreground group-hover:text-emerald-500 transition-colors" />
+          <span className="text-[10px] font-black uppercase tracking-widest">Overview</span>
+        </div>
       </DialogTrigger>
-      <DialogPopup className="md:max-w-5xl">
-        <DialogHeader>
-          <DialogTitle className={"text-2xl font-bold tracking-tight"}>
-            JSSON Productivity Overview
+      <DialogPopup className="md:max-w-5xl rounded-none border border-border bg-background p-0 overflow-hidden">
+        <DialogHeader className="p-8 border-b dashed-separator bg-muted/5">
+          <DialogTitle className="text-2xl font-black uppercase tracking-tight">
+            Transpilation Intelligence
           </DialogTitle>
-          <DialogDescription className={"text-sm text-muted-foreground"}>
-            Comprehensive statistics about your JSSON transpilation efficiency
+          <DialogDescription className="text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground/60 mt-2">
+            Transpilation & Generation Efficiency Metrics
           </DialogDescription>
         </DialogHeader>
-        <DialogPanel>
+        <DialogPanel className="p-0">
           {hasData ? (
             <StatsOverview stats={stats} format={format} />
           ) : (
-            <div className="py-12 text-center text-muted-foreground">
-              <ChartCandlestick className="mx-auto h-12 w-12 mb-4 opacity-50" />
-              <p>Write some JSSON code to see productivity stats</p>
+            <div className="py-24 text-center text-muted-foreground bg-grid">
+              <ChartCandlestick className="mx-auto h-12 w-12 mb-6 opacity-20" />
+              <p className="text-[10px] font-black uppercase tracking-[0.3em]">
+                No data points analyzed yet
+              </p>
             </div>
           )}
         </DialogPanel>

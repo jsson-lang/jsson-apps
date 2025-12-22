@@ -1,29 +1,20 @@
-"use client";
+'use client';
 
-import { StatsData } from "./stats-utils";
+import { Activity, ArrowRight, Box, FileText, Hash, Layers, Type, Zap } from 'lucide-react';
 import {
-  PieChart,
-  Pie,
-  Cell,
-  BarChart,
   Bar,
+  BarChart,
+  CartesianGrid,
+  Cell,
+  Legend,
+  Pie,
+  PieChart,
+  ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-} from "recharts";
-import {
-  ArrowRight,
-  Box,
-  FileText,
-  Hash,
-  Layers,
-  Type,
-  Zap,
-  Activity,
-} from "lucide-react";
+} from 'recharts';
+import type { StatsData } from './stats-utils';
 
 interface StatsOverviewProps {
   stats: StatsData;
@@ -34,7 +25,7 @@ export function StatsOverview({ stats, format }: StatsOverviewProps) {
   // Data for donut chart
   const donutData = [
     {
-      name: "Input",
+      name: 'Input',
       value: stats.input.chars,
       percentage: stats.ratios.inputPercentage,
     },
@@ -48,19 +39,19 @@ export function StatsOverview({ stats, format }: StatsOverviewProps) {
   // Consolidated data for comparison
   const comparisonData = [
     {
-      name: "Lines",
+      name: 'Lines',
       Input: stats.input.lines,
       Output: stats.output.lines,
       ratio: stats.expansion.lines,
     },
     {
-      name: "Chars",
+      name: 'Chars',
       Input: stats.input.chars,
       Output: stats.output.chars,
       ratio: stats.expansion.chars,
     },
     {
-      name: "Tokens",
+      name: 'Tokens',
       Input: stats.input.tokens,
       Output: stats.output.tokens,
       ratio: stats.expansion.tokens,
@@ -68,27 +59,35 @@ export function StatsOverview({ stats, format }: StatsOverviewProps) {
   ];
 
   const COLORS = {
-    input: "#8b5cf6", // purple-500
-    output: "#10b981", // emerald-500
-    grid: "#27272a", // zinc-800
-    text: "#a1a1aa", // zinc-400
+    input: '#444444',
+    output: '#10b981',
+    grid: '#111111',
+    text: '#666666',
   };
 
-  const CustomTooltip = ({ active, payload, label }: any) => {
+  const CustomTooltip = ({
+    active,
+    payload,
+    label,
+  }: {
+    active?: boolean;
+    payload?: readonly { name: string; value: number; color: string }[];
+    label?: string | number;
+  }) => {
     if (active && payload && payload.length) {
       return (
-        <div className="rounded-lg border border-border bg-popover p-3 shadow-md">
-          <p className="mb-2 font-medium text-popover-foreground">{label}</p>
-          {payload.map((entry: any, index: number) => (
-            <div key={index} className="flex items-center gap-2 text-sm">
-              <div
-                className="h-2 w-2 rounded-full"
-                style={{ backgroundColor: entry.color }}
-              />
-              <span className="text-muted-foreground">{entry.name}:</span>
-              <span className="font-mono font-medium text-foreground">
-                {entry.value.toLocaleString()}
-              </span>
+        <div className="rounded-none border border-border bg-background p-4 shadow-xl">
+          <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-3">
+            {label}
+          </p>
+          {payload.map((entry, index) => (
+            <div
+              key={`${entry.name}-${index}`}
+              className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-widest mb-1.5 last:mb-0"
+            >
+              <div className="h-1.5 w-1.5" style={{ backgroundColor: entry.color }} />
+              <span className="text-muted-foreground/60">{entry.name}:</span>
+              <span className="font-mono text-foreground">{entry.value.toLocaleString()}</span>
             </div>
           ))}
         </div>
@@ -98,156 +97,159 @@ export function StatsOverview({ stats, format }: StatsOverviewProps) {
   };
 
   return (
-    <div className="space-y-6 animate-in fade-in duration-500">
+    <div className="space-y-8 p-8 max-h-[80vh] overflow-y-auto">
       {/* Header Section */}
-      <div className="flex items-center justify-between">
-        <div className="space-y-1">
-          <h2 className="text-2xl font-bold tracking-tight flex items-center gap-2">
-            <Activity className="h-6 w-6 text-primary" />
-            Stats Overview
+      <div className="flex items-center justify-between border-b dashed-separator pb-8">
+        <div className="space-y-2">
+          <h2 className="text-2xl font-bold uppercase tracking-tight flex items-center gap-3">
+            <Activity className="h-5 w-5 text-emerald-500" />
+            Optimization Metrics
           </h2>
-          <p className="text-sm text-muted-foreground">
-            Real-time analysis of your JSSON transformation
+          <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-muted-foreground/60">
+            Real-time analysis of JSSON transpilation footprint
           </p>
         </div>
         {stats.expansion.lines > 1 && (
-          <div className="hidden sm:flex items-center gap-2 rounded-full bg-primary px-4 py-1.5 text-sm font-medium text-background">
-            <Zap className="h-4 w-4" />
-            <span className="text-background">
-              {stats.expansion.lines.toFixed(1)}x Efficiency Boost
-            </span>
+          <div className="hidden sm:flex items-center gap-3 border border-emerald-500/30 bg-emerald-500/5 px-4 py-2 text-[10px] font-bold uppercase tracking-widest text-emerald-500">
+            <Zap className="h-3 w-3 fill-current" />
+            <span>{stats.expansion.lines.toFixed(1)}x Efficiency Boost</span>
           </div>
         )}
       </div>
 
-      <div className="grid gap-4 md:grid-cols-3">
-        <div className="rounded-xl bg-card p-4 shadow-sm">
-          <div className="flex items-center justify-between pb-2">
-            <p className="text-sm font-medium text-muted-foreground">Input</p>
-            <FileText className="h-4 w-4 text-purple-500" />
+      <div className="grid gap-6 md:grid-cols-3">
+        <div className="rounded-none border border-border bg-muted/5 p-6 relative group overflow-hidden">
+          <div className="absolute top-0 right-0 p-2 opacity-5">
+            <FileText className="h-12 w-12" />
           </div>
+          <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground mb-4">
+            Input Load
+          </p>
           <div className="space-y-1">
-            <div className="text-2xl font-bold">{stats.input.lines}</div>
-            <p className="text-xs text-muted-foreground">lines of code</p>
+            <div className="text-4xl font-bold font-mono tracking-tighter">{stats.input.lines}</div>
+            <p className="text-[9px] font-bold uppercase tracking-widest text-muted-foreground/40">
+              Lines of Code
+            </p>
           </div>
-          <div className="mt-3 flex items-center gap-3 text-xs text-muted-foreground">
-            <div className="flex items-center gap-1">
+          <div className="mt-6 pt-6 border-t dashed-separator flex items-center gap-4 text-[9px] font-bold uppercase tracking-widest text-muted-foreground/60">
+            <div className="flex items-center gap-1.5">
               <Type className="h-3 w-3" /> {stats.input.chars}
             </div>
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-1.5">
               <Hash className="h-3 w-3" /> ~{stats.input.tokens}
             </div>
           </div>
         </div>
 
-        <div className="rounded-xl bg-card p-4 shadow-sm">
-          <div className="flex items-center justify-between pb-2">
-            <p className="text-sm font-medium text-muted-foreground">
-              {format.toUpperCase()} Output
-            </p>
-            <Box className="h-4 w-4 text-emerald-500" />
+        <div className="rounded-none border border-border bg-muted/5 p-6 relative group overflow-hidden">
+          <div className="absolute top-0 right-0 p-2 opacity-5 text-emerald-500">
+            <Box className="h-12 w-12" />
           </div>
+          <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground mb-4">
+            {format.toUpperCase()} Output
+          </p>
           <div className="space-y-1">
-            <div className="text-2xl font-bold">{stats.output.lines}</div>
-            <p className="text-xs text-muted-foreground">lines generated</p>
+            <div className="text-4xl font-bold font-mono tracking-tighter text-emerald-500">
+              {stats.output.lines}
+            </div>
+            <p className="text-[9px] font-bold uppercase tracking-widest text-muted-foreground/40">
+              Lines Generated
+            </p>
           </div>
-          <div className="mt-3 flex items-center gap-3 text-xs text-muted-foreground">
-            <div className="flex items-center gap-1">
+          <div className="mt-6 pt-6 border-t dashed-separator flex items-center gap-4 text-[9px] font-bold uppercase tracking-widest text-muted-foreground/60">
+            <div className="flex items-center gap-1.5">
               <Type className="h-3 w-3" /> {stats.output.chars}
             </div>
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-1.5">
               <Hash className="h-3 w-3" /> ~{stats.output.tokens}
             </div>
           </div>
         </div>
 
-        <div className="rounded-xl bg-card p-4 shadow-sm relative overflow-hidden group">
-          <div className="absolute inset-0 bg-linear-to-br from-background/10 to-foreground/10 opacity-0 group-hover:opacity-100 transition-opacity" />
-          <div className="flex items-center justify-between pb-2 relative">
-            <p className="text-sm font-medium text-muted-foreground">
-              Expansion
-            </p>
-            <Layers className="h-4 w-4 text-blue-500" />
+        <div className="rounded-none border border-border bg-foreground text-background p-6 relative overflow-hidden group">
+          <div className="absolute top-0 right-0 p-2 opacity-10">
+            <Layers className="h-12 w-12" />
           </div>
-          <div className="space-y-1 relative">
-            <div className="text-2xl font-bold text-foreground">
+          <p className="text-[10px] font-bold uppercase tracking-[0.2em] opacity-60 mb-4">
+            Expansion Ratio
+          </p>
+          <div className="space-y-1">
+            <div className="text-4xl font-bold font-mono tracking-tighter">
               {stats.expansion.lines.toFixed(1)}x
             </div>
-            <p className="text-xs text-emerald-500 font-medium flex items-center">
-              <ArrowRight className="h-3 w-3 mr-1" />
+            <p className="text-[9px] font-bold uppercase tracking-widest opacity-60">
               Multiplication Factor
             </p>
           </div>
-          <div className="mt-3 text-xs text-muted-foreground relative">
-            {stats.input.lines} lines → {stats.output.lines} lines
+          <div className="mt-6 pt-6 border-t border-background/20 text-[9px] font-bold uppercase tracking-widest opacity-60">
+            {stats.input.lines} L <ArrowRight className="inline h-2 w-2 mx-1" />{' '}
+            {stats.output.lines} L
           </div>
         </div>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-7">
-        <div className="col-span-4 rounded-xl bg-card p-6 shadow-sm">
-          <div className="mb-6">
-            <h3 className="font-semibold">Growth Metrics</h3>
-            <p className="text-sm text-muted-foreground">
-              Side-by-side comparison of structure size
+      <div className="grid gap-6 md:grid-cols-7">
+        <div className="col-span-4 rounded-none border border-border p-8 bg-muted/2">
+          <div className="mb-10">
+            <h3 className="text-[10px] font-bold uppercase tracking-[0.3em]">Growth Metrics</h3>
+            <p className="text-[9px] font-bold uppercase tracking-widest text-muted-foreground/40 mt-1">
+              Structure Size Comparison
             </p>
           </div>
-          <div className="h-[250px] w-full">
+          <div className="h-[250px] w-full bg-grid/30">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart
                 data={comparisonData}
                 margin={{ top: 10, right: 10, left: -20, bottom: 0 }}
-                barSize={32}
+                barSize={24}
               >
                 <CartesianGrid
                   strokeDasharray="3 3"
                   vertical={false}
                   stroke={COLORS.grid}
-                  opacity={0.4}
+                  opacity={0.8}
                 />
                 <XAxis
                   dataKey="name"
                   axisLine={false}
                   tickLine={false}
-                  tick={{ fill: COLORS.text, fontSize: 12 }}
+                  tick={{
+                    fill: COLORS.text,
+                    fontSize: 9,
+                    fontWeight: 900,
+                  }}
                   dy={10}
                 />
                 <YAxis
                   axisLine={false}
                   tickLine={false}
-                  tick={{ fill: COLORS.text, fontSize: 12 }}
+                  tick={{ fill: COLORS.text, fontSize: 9, fontWeight: 900 }}
+                  dy={10}
                 />
-                <Tooltip
-                  cursor={{ fill: "transparent" }}
-                  content={CustomTooltip}
-                />
+                <Tooltip cursor={{ fill: 'rgba(255,255,255,0.02)' }} content={CustomTooltip} />
                 <Legend
-                  wrapperStyle={{ paddingTop: "20px" }}
-                  iconType="circle"
-                  iconSize={8}
+                  wrapperStyle={{
+                    paddingTop: '30px',
+                    fontSize: '9px',
+                    fontWeight: 900,
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.1em',
+                  }}
+                  iconType="rect"
+                  iconSize={6}
                 />
-                <Bar
-                  dataKey="Input"
-                  fill={COLORS.input}
-                  radius={[4, 4, 0, 0]}
-                  animationDuration={1000}
-                />
-                <Bar
-                  dataKey="Output"
-                  fill={COLORS.output}
-                  radius={[4, 4, 0, 0]}
-                  animationDuration={1000}
-                />
+                <Bar dataKey="Input" fill="#444444" radius={0} animationDuration={0} />
+                <Bar dataKey="Output" fill="#ffffff" radius={0} animationDuration={0} />
               </BarChart>
             </ResponsiveContainer>
           </div>
         </div>
 
-        <div className="col-span-3 rounded-xl bg-card p-6 shadow-sm">
-          <div className="mb-6">
-            <h3 className="font-semibold">Volume Distribution</h3>
-            <p className="text-sm text-muted-foreground">
-              Character count breakdown
+        <div className="col-span-3 rounded-none border border-border p-8 bg-muted/2">
+          <div className="mb-10">
+            <h3 className="text-[10px] font-bold uppercase tracking-[0.3em]">Payload Density</h3>
+            <p className="text-[9px] font-bold uppercase tracking-widest text-muted-foreground/40 mt-1">
+              Character Distribution
             </p>
           </div>
           <div className="h-[250px] w-full relative">
@@ -256,59 +258,62 @@ export function StatsOverview({ stats, format }: StatsOverviewProps) {
                 <Pie
                   data={donutData}
                   cx="50%"
-                  cy="50%"
-                  innerRadius={60}
-                  outerRadius={85}
-                  paddingAngle={4}
+                  cy="42%"
+                  innerRadius={55}
+                  outerRadius={80}
+                  paddingAngle={0}
                   dataKey="value"
-                  stroke="none"
+                  stroke="#000"
+                  strokeWidth={2}
+                  animationDuration={0}
                 >
-                  <Cell fill={COLORS.input} />
-                  <Cell fill={COLORS.output} />
+                  <Cell fill="#222222" />
+                  <Cell fill="#10b981" />
                 </Pie>
                 <Tooltip content={CustomTooltip} />
                 <Legend
                   verticalAlign="bottom"
                   height={36}
-                  iconType="circle"
-                  iconSize={8}
+                  iconType="rect"
+                  iconSize={6}
+                  wrapperStyle={{
+                    fontSize: '9px',
+                    fontWeight: 700,
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.1em',
+                  }}
                 />
               </PieChart>
             </ResponsiveContainer>
 
-            <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none pb-8">
-              <span className="text-2xl font-bold">
+            <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none pb-12">
+              <span className="text-2xl font-bold font-mono">
                 {stats.expansion.chars.toFixed(1)}x
               </span>
-              <span className="text-xs text-muted-foreground">Growth</span>
+              <span className="text-[8px] font-bold uppercase tracking-widest text-muted-foreground/60">
+                Growth
+              </span>
             </div>
           </div>
         </div>
       </div>
 
       {stats.expansion.lines > 1 && (
-        <div className="mt-2 rounded-lg border-purple-500/20 bg-purple-500/5 p-4 flex items-start gap-3">
-          <div className="rounded-full bg-purple-500/10 p-1.5 mt-0.5">
-            <Zap className="h-4 w-4 text-purple-500" />
+        <div className="mt-4 border border-emerald-500/20 bg-emerald-500/5 p-6 flex items-start gap-4">
+          <div className="border border-emerald-500/30 p-2">
+            <Zap className="h-4 w-4 text-emerald-500 fill-current" />
           </div>
-          <div className="space-y-1">
-            <p className="text-sm font-medium text-foreground">
-              High Efficiency Detected
+          <div className="space-y-2">
+            <p className="text-[10px] font-bold uppercase tracking-widest text-emerald-500">
+              High-Efficiency JSSON Profile
             </p>
-            <p className="text-xs text-muted-foreground leading-relaxed">
-              You generated{" "}
-              <span className="font-medium text-foreground">
-                {stats.output.lines} lines
-              </span>{" "}
-              of output from just{" "}
-              <span className="font-medium text-foreground">
-                {stats.input.lines} lines
-              </span>{" "}
-              of JSSON. That's a{" "}
-              <span className="font-medium text-purple-500">
-                {stats.expansion.lines.toFixed(1)}x
-              </span>{" "}
-              productivity boost compared to writing raw {format.toUpperCase()}.
+            <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60 leading-relaxed">
+              Synthesized <span className="text-foreground">{stats.output.lines} lines</span> of
+              configuration from{' '}
+              <span className="text-foreground">{stats.input.lines} input points</span>. Output
+              density is{' '}
+              <span className="text-emerald-500">{stats.expansion.lines.toFixed(1)}x</span> higher
+              than standard {format.toUpperCase()} entry.
             </p>
           </div>
         </div>
