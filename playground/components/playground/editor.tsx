@@ -5,6 +5,7 @@ import { Play } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { Button } from '../ui/button';
 import ExamplesSheet from './examples';
+import { toastManager } from '@/components/ui/toast';
 
 interface JSSONEditorProps {
   value: string;
@@ -17,7 +18,7 @@ interface JSSONEditorProps {
   };
 }
 
-export function JSSONEditor({ value, onChange, runCode, metrics }: JSSONEditorProps) {
+export function JSSONEditor({ value, onChange, runCode: runCodeCallback, metrics }: JSSONEditorProps) {
   const monaco = useMonaco();
   const editorRef = useRef<Parameters<OnMount>[0] | null>(null);
   const [cursorPos, setCursorPos] = useState({ ln: 1, col: 1 });
@@ -39,18 +40,24 @@ export function JSSONEditor({ value, onChange, runCode, metrics }: JSSONEditorPr
 
       monaco.languages.setMonarchTokensProvider('jsson', {
         keywords: ['include', 'template', 'map', 'step'],
-        constants: ['true', 'false', 'null'],
+        constants: ['true', 'false', 'null', 'yes', 'no', 'on', 'off'],
 
         tokenizer: {
           root: [
             // Comments
             [/\/\/.*$/, 'comment'],
 
+            // Presets (@preset and @use)
+            [/@(preset|use)\b/, 'keyword.preset'],
+
+            // Validators (@uuid, @email, @int(min, max), etc)
+            [/@\w+(\([^)]*\))?/, 'variable.validator'],
+
             // Keywords
             [/\b(include|template|map|step)\b/, 'keyword'],
 
-            // Booleans and null
-            [/\b(true|false|null)\b/, 'constant.language'],
+            // Booleans (including yes/no/on/off)
+            [/\b(true|false|null|yes|no|on|off)\b/, 'constant.language'],
 
             // Strings
             [/"([^"\\]|\\.)*$/, 'string.invalid'], // non-terminated string
@@ -59,6 +66,9 @@ export function JSSONEditor({ value, onChange, runCode, metrics }: JSSONEditorPr
             // Numbers (floats first, then integers)
             [/\d+\.\d+/, 'number.float'],
             [/\d+/, 'number'],
+
+            // Variable declaration operator (:=)
+            [/:=/, 'keyword.operator.declaration'],
 
             // Range operator
             [/\.\./, 'keyword.operator.range'],
@@ -70,7 +80,10 @@ export function JSSONEditor({ value, onChange, runCode, metrics }: JSSONEditorPr
             [/[+\-*/%]/, 'keyword.operator.arithmetic'],
 
             // Comparison operators
-            [/[<>]=?|[!=]=/, 'keyword.operator.comparison'],
+            [/<>]=?|[!=]=?/, 'keyword.operator.comparison'],
+
+            // Logical operators
+            [/&&|\|\||!/, 'keyword.operator.logical'],
 
             // Ternary operators
             [/[?:]/, 'keyword.operator.ternary'],
@@ -102,12 +115,17 @@ export function JSSONEditor({ value, onChange, runCode, metrics }: JSSONEditorPr
         rules: [
           { token: 'comment', foreground: '6A9955', fontStyle: 'italic' },
           { token: 'keyword', foreground: 'C586C0', fontStyle: 'bold' },
+          { token: 'keyword.preset', foreground: 'DCDCAA', fontStyle: 'bold' },
+          { token: 'keyword.operator.declaration', foreground: 'C586C0' },
+          { token: 'keyword.operator.logical', foreground: 'C586C0' },
+          { token: 'variable.validator', foreground: '4FC1FF' },
           { token: 'constant.language', foreground: '569CD6' },
           { token: 'string', foreground: 'CE9178' },
           { token: 'string.escape', foreground: 'D7BA7D' },
           { token: 'number', foreground: 'B5CEA8' },
           { token: 'number.float', foreground: 'B5CEA8' },
           { token: 'keyword.operator', foreground: 'D4D4D4' },
+          { token: 'keyword.operator.range', foreground: 'C586C0' },
           { token: 'identifier', foreground: '9CDCFE' },
           { token: 'delimiter', foreground: 'D4D4D4' },
         ],
@@ -127,6 +145,14 @@ export function JSSONEditor({ value, onChange, runCode, metrics }: JSSONEditorPr
     }
   }, [monaco]);
 
+  function runCode() {
+    runCodeCallback();
+    toastManager.add({
+      title: 'Code run successfully',
+      description: 'The code has been run successfully',
+    });
+  }
+
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (e.ctrlKey && e.altKey && e.key === 'r') {
@@ -140,17 +166,17 @@ export function JSSONEditor({ value, onChange, runCode, metrics }: JSSONEditorPr
 
   return (
     <div className="h-full w-full flex flex-col overflow-hidden bg-background relative">
-      <div className="flex items-center justify-between px-6 h-12 border-b dashed-separator relative z-10">
+      <div className="flex items-center justify-between px-4 sm:px-6 h-12 border-b dashed-separator relative z-10">
         <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
           input.jsson
         </span>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 sm:gap-4">
           <Button
             variant="ghost"
             size="sm"
             onClick={() => onChange('')}
-            className="text-[10px] font-bold uppercase tracking-wider hover:text-destructive transition-colors"
+            className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider hover:text-destructive transition-colors h-7 sm:h-8"
           >
             Clear
           </Button>
@@ -158,11 +184,11 @@ export function JSSONEditor({ value, onChange, runCode, metrics }: JSSONEditorPr
           <Button
             onClick={runCode}
             size="sm"
-            className="text-[10px] font-bold uppercase tracking-wider bg-foreground text-background hover:bg-primary transition-all flex items-center gap-2 px-4 h-8"
+            className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider bg-foreground text-background hover:bg-primary transition-all flex items-center gap-2 px-3 sm:px-4 h-7 sm:h-8"
           >
             <Play className="h-3 w-3 fill-current" />
-            Run
-            <div className="hidden sm:flex items-center gap-1 opacity-40 ml-2">
+            <span className="hidden xs:inline">Run</span>
+            <div className="hidden lg:flex items-center gap-1 opacity-40 ml-2">
               <span className="border border-background/20 rounded-none px-1 min-w-[1.2rem] text-center text-[8px]">
                 CTRL
               </span>

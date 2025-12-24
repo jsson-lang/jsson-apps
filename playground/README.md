@@ -1,8 +1,6 @@
 # JSSON Playground
 
-[![JSSON Banner](https://i.postimg.cc/yx4C3YqC/og.png)](https://postimg.cc/WFnHQVb5)
-
-JSSON is a JavaScript Simplified Object Notation.
+Test your JSSON code here!
 
 ## Go to Documentation
 

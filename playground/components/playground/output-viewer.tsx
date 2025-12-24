@@ -128,9 +128,9 @@ export function OutputViewer({ output, error, compilationTime }: OutputViewerPro
 
   return (
     <div className="h-full w-full flex flex-col overflow-hidden bg-background relative">
-      <div className="flex items-center justify-between px-6 h-12 border-b dashed-separator relative z-10">
-        <div className="flex items-center gap-6">
-          <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+      <div className="flex items-center justify-between px-4 sm:px-6 h-12 border-b dashed-separator relative z-10">
+        <div className="flex items-center gap-3 sm:gap-6">
+          <span className="hidden sm:inline text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
             output.{format}
           </span>
           <Select
@@ -139,7 +139,7 @@ export function OutputViewer({ output, error, compilationTime }: OutputViewerPro
             items={[...structuredFormats, ...typedFormats]}
             onValueChange={(value) => value !== null && setFormat(value)}
           >
-            <SelectTrigger className="h-7 text-[9px] font-bold uppercase tracking-wider border-border bg-background hover:bg-foreground hover:text-background transition-colors px-3 min-w-[100px] border">
+            <SelectTrigger className="h-7 text-[8px] sm:text-[9px] font-bold uppercase tracking-wider border-border bg-background hover:bg-foreground hover:text-background transition-colors px-2 sm:px-3 min-w-[80px] sm:min-w-[100px] border">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -175,25 +175,26 @@ export function OutputViewer({ output, error, compilationTime }: OutputViewerPro
           </Select>
         </div>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 sm:gap-4">
           <Button
             variant="ghost"
             size="sm"
             onClick={copyToClipboard}
             disabled={!output}
-            className="text-[10px] font-bold uppercase tracking-wider hover:bg-foreground hover:text-background px-3 h-8"
+            className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider hover:bg-foreground hover:text-background px-2 sm:px-3 h-7 sm:h-8"
           >
-            <Copy className="h-3 w-3 mr-2" />
-            Copy
+            <Copy className="h-3 w-3 sm:mr-2" />
+            <span className="hidden sm:inline">Copy</span>
           </Button>
           <Button
             size="sm"
             disabled={!output}
             onClick={generateDownload}
-            className="text-[10px] font-bold uppercase tracking-wider bg-foreground text-background hover:bg-primary px-4 border border-foreground transition-all h-8"
+            className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider bg-foreground text-background hover:bg-primary px-3 sm:px-4 border border-foreground transition-all h-7 sm:h-8"
           >
-            <Download className="h-3 w-3 mr-2" />
-            Export
+            <Download className="h-3 w-3 sm:mr-2" />
+            <span className="hidden sm:inline">Export</span>
+            <span className="sm:hidden">Save</span>
           </Button>
         </div>
       </div>

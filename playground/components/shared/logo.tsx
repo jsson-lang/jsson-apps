@@ -61,7 +61,7 @@ export default function Logo({ size = 'xl', variant = 'default' }: LogoProps) {
         <div className="flex items-baseline gap-2">
           <span className="text-foreground tracking-tight uppercase">JSSON Playground</span>
           <span className="text-[10px] font-mono text-muted-foreground/40 border-l border-border pl-2 tracking-widest">
-            V0.0.5.2
+            V0.0.6
           </span>
         </div>
       )}

@@ -1,17 +1,23 @@
 import {
+  AtSign,
+  Calculator,
+  Copy,
   Database,
   FileJson,
   Flag,
+  GitBranch,
   Globe,
   Grid3x3,
   Layers,
   LayoutTemplate,
   Map as MapIcon,
+  Network,
   Server,
   Settings,
   ShoppingCart,
   Sparkles,
   Table,
+  ToggleLeft,
   Users,
   Zap,
 } from 'lucide-react';
@@ -20,7 +26,7 @@ interface Example {
   id: string;
   title: string;
   description: string;
-  category: 'Basics' | 'Infrastructure' | 'Data' | 'Config';
+  category: 'Basics' | 'Advanced' | 'Infrastructure' | 'Data' | 'Config';
   icon: React.ElementType;
   code: string;
 }
@@ -33,13 +39,13 @@ export const EXAMPLES: Example[] = [
     category: 'Basics',
     icon: Zap,
     code: `profile {
-  name = Lucas
+  name = "Lucas"
   age = 27
   verified = false
   interests = [ "tech", "gaming", "fitness" ]
 
   preferences {
-    theme = light
+    theme = "light"
     notifications = true
   }
 }`,
@@ -53,10 +59,10 @@ export const EXAMPLES: Example[] = [
     code: `employees [
   template { name, age, department, salary }
   
-  Clara, 32, HR, 4800
-  Renato, 28, IT, 5200
-  Bianca, 35, Finance, 6100
-  Diego, 24, Marketing, 3900
+  "Clara", 32, "HR", 4800
+  "Renato", 28, "IT", 5200
+  "Bianca", 35, "Finance", 6100
+  "Diego", 24, "Marketing", 3900
 ]`,
   },
 
@@ -78,10 +84,10 @@ export const EXAMPLES: Example[] = [
     isEssential = item.category == "food"
   }
 
-  1, "Rice Pack", 25, food
-  2, "Dish Soap", 8, cleaning
-  3, "LED Lamp", 12, electronics
-  4, "Coffee Beans", 6, food
+  1, "Rice Pack", 25, "food"
+  2, "Dish Soap", 8, "cleaning"
+  3, "LED Lamp", 12, "electronics"
+  4, "Coffee Beans", 6, "food"
 ]`,
   },
 
@@ -117,10 +123,10 @@ export const EXAMPLES: Example[] = [
   }
 
   // Engineering team
-  300..304, engineering
+  300..304, "engineering"
 
   // Design team
-  400..402, design
+  400..402, "design"
 ]`,
   },
 
@@ -227,6 +233,39 @@ export const EXAMPLES: Example[] = [
   },
 
   {
+    id: 'load-balancer',
+    title: 'Load Balancer Config',
+    description: 'Configure load balancers with health checks and routing.',
+    category: 'Infrastructure',
+    icon: Network,
+    code: `backends [\n  template { name, port, weight }\n\n  map (b) = {\n    name = b.name\n    host = b.name + \".internal\"\n    port = b.port\n    weight = b.weight\n    health_check = {\n      path = \"/health\"\n      interval = 30\n      timeout = 5\n      healthy_threshold = 2\n      unhealthy_threshold = 3\n    }\n    ssl = b.port == 443\n  }\n\n  \"api-server-1\", 8080, 100\n  \"api-server-2\", 8080, 100\n  \"api-server-3\", 8080, 50\n]
+
+loadbalancer {
+  algorithm = \"round-robin\"
+  sticky_sessions = true
+  timeout = 60
+}`,
+  },
+
+  {
+    id: 'cicd-pipeline',
+    title: 'CI/CD Pipeline',
+    description: 'Define deployment pipelines for multiple environments.',
+    category: 'Infrastructure',
+    icon: GitBranch,
+    code: `pipeline [\n  template { stage, env, auto_deploy }\n\n  map (s) = {\n    name = s.stage + \"-\" + s.env\n    stage = s.stage\n    environment = s.env\n    auto_deploy = s.auto_deploy\n    \n    steps = s.stage == \"build\" ? [\n      \"npm install\",\n      \"npm run build\",\n      \"npm test\"\n    ] : s.stage == \"deploy\" ? [\n      \"docker build\",\n      \"docker push\",\n      \"kubectl apply\"\n    ] : [\"echo done\"]\n    \n    timeout = s.stage == \"build\" ? 600 : 300\n    retry = s.auto_deploy ? 3 : 1\n  }\n\n  \"build\", \"dev\", true\n  \"deploy\", \"dev\", true\n  \"build\", \"staging\", true\n  \"deploy\", \"staging\", false\n  \"build\", \"prod\", false\n  \"deploy\", \"prod\", false\n]`,
+  },
+
+  {
+    id: 'monitoring-rules',
+    title: 'Monitoring & Alerts',
+    description: 'Configure monitoring rules and alert thresholds.',
+    category: 'Infrastructure',
+    icon: Settings,
+    code: `alerts [\n  template { metric, threshold, severity }\n\n  map (a) = {\n    name = a.metric + \"-alert\"\n    metric = a.metric\n    threshold = a.threshold\n    severity = a.severity\n    \n    // Conditional notification channels\n    notify = a.severity == \"critical\" ? [\n      \"pagerduty\",\n      \"slack\",\n      \"email\"\n    ] : a.severity == \"warning\" ? [\n      \"slack\",\n      \"email\"\n    ] : [\"email\"]\n    \n    // Auto-scaling trigger\n    auto_scale = a.metric == \"cpu\" ? true : false\n    cooldown = 300\n  }\n\n  \"cpu\", 80, \"warning\"\n  \"cpu\", 95, \"critical\"\n  \"memory\", 85, \"warning\"\n  \"disk\", 90, \"critical\"\n  \"latency\", 1000, \"warning\"\n]`,
+  },
+
+  {
     id: 'geo',
     title: 'Geo Grid',
     description: 'Math-heavy dataset generation for geospatial apps.',
@@ -324,7 +363,6 @@ testUsers = (0..999 map (id) = {
   tier = id < 100 ? "bronze" : id < 500 ? "silver" : "gold"
 })`,
   },
-
   {
     id: 'schedule-matrix',
     title: 'Schedule Matrix',
@@ -341,5 +379,242 @@ schedule = (["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"] map (day) = (
     price = day == "Sat" || day == "Sun" ? 150 : 100
   }
 ))`,
+  },
+
+  // ADVANCED EXAMPLES (v0.0.6)
+  
+  {
+    id: 'ternary-chains',
+    title: 'Ternary Chains',
+    description: 'Complex nested ternary operators for conditional logic (v0.0.6).',
+    category: 'Advanced',
+    icon: Zap,
+    code: `// Age-based categorization
+age := 25
+
+profile {
+  age = age
+  category = age < 13 ? "child" : age < 20 ? "teen" : age < 60 ? "adult" : "senior"
+  discount = age > 60 ? 0.20 : age < 18 ? 0.15 : 0.05
+  can_vote = age >= 18 ? "yes" : "no"
+}
+
+// Score-based grading
+score := 85
+
+result {
+  score = score
+  grade = score >= 90 ? "A" : score >= 80 ? "B" : score >= 70 ? "C" : score >= 60 ? "D" : "F"
+  passed = score >= 60 ? true : false
+  message = score >= 90 ? "Excellent!" : score >= 70 ? "Good job!" : "Keep trying!"
+}`,
+  },
+
+  {
+    id: 'math-operations',
+    title: 'Math Operations',
+    description: 'Advanced arithmetic expressions and calculations (v0.0.6).',
+    category: 'Advanced',
+    icon: Calculator,
+    code: `// Price calculations
+base_price := 100
+tax_rate := 0.21
+discount := 0.10
+
+pricing {
+  base = base_price
+  discount_amount = base_price * discount
+  subtotal = base_price - (base_price * discount)
+  tax = (base_price - (base_price * discount)) * tax_rate
+  total = (base_price - (base_price * discount)) * (1 + tax_rate)
+}
+
+// Geometry calculations
+radius := 5
+
+circle {
+  radius = radius
+  diameter = radius * 2
+  circumference = 2 * 3.14159 * radius
+  area = 3.14159 * radius * radius
+}
+
+// Complex formula
+a := 10
+b := 20
+c := 5
+
+result = ((a + b) * c - 50) / 2 + (a * b) / (c + 1)`,
+  },
+
+  {
+    id: 'string-interpolation',
+    title: 'String Building',
+    description: 'Complex string concatenation and formatting (v0.0.6).',
+    category: 'Advanced',
+    icon: FileJson,
+    code: `// User profile generation
+user_id := 1001
+first_name := "John"
+last_name := "Doe"
+age := 28
+department := "Engineering"
+
+profile {
+  id = user_id
+  full_name = first_name + " " + last_name
+  email = first_name + "." + last_name + "@company.com"
+  username = first_name + last_name + user_id
+  display = first_name + " " + last_name + " (" + age + ")"
+  badge = "[" + department + "] " + first_name + " " + last_name
+}
+
+// URL building
+api_version := "v2"
+resource := "users"
+action := "list"
+
+endpoints {
+  base = "https://api.example.com"
+  full_path = "https://api.example.com/api/" + api_version + "/" + resource + "/" + action
+  query = "/api/" + api_version + "/" + resource + "?action=" + action
+}`,
+  },
+
+  {
+    id: 'conditional-maps',
+    title: 'Conditional Maps',
+    description: 'Maps with complex conditional transformations (v0.0.6).',
+    category: 'Advanced',
+    icon: MapIcon,
+    code: `// Tiered pricing with conditions
+products [
+  template { id, name, price, category }
+  
+  map (p) = {
+    id = p.id
+    name = p.name
+    base_price = p.price
+    category = p.category
+    
+    // Conditional discounts
+    discount = p.price > 100 ? 0.15 : p.price > 50 ? 0.10 : 0.05
+    final_price = p.price * (1 - (p.price > 100 ? 0.15 : p.price > 50 ? 0.10 : 0.05))
+    
+    // Category-based features
+    free_shipping = p.category == "electronics" ? true : false
+    warranty_years = p.category == "electronics" ? 2 : 1
+    
+    // Stock status
+    status = p.price > 100 ? "premium" : "standard"
+    badge = p.price > 100 ? "🌟 Premium" : p.price > 50 ? "✨ Popular" : "💰 Budget"
+  }
+  
+  1, "Laptop", 999, "electronics"
+  2, "Mouse", 29, "accessories"
+  3, "Monitor", 299, "electronics"
+  4, "Cable", 12, "accessories"
+]`,
+  },
+
+  // ===== NEW v0.0.6 EXAMPLES =====
+  
+  {
+    id: 'validators',
+    title: 'Auto-Generate Data',
+    description: 'Use validators to generate realistic test data (v0.0.6).',
+    category: 'Data',
+    icon: AtSign,
+    code: `// Validators auto-generate valid data
+user {
+  id = @uuid
+  email = @email
+  website = @url
+  created_at = @datetime
+  birth_date = @date
+}
+
+server {
+  ipv4 = @ipv4
+  ipv6 = @ipv6
+  config_file = @filepath
+}
+
+// Random numbers with ranges
+player {
+  id = @uuid
+  age = @int(18, 65)
+  score = @float(0.0, 100.0)
+  premium = @bool
+}`,
+  },
+
+  {
+    id: 'presets',
+    title: 'Reusable Presets',
+    description: 'Define and reuse object templates with @preset (v0.0.6).',
+    category: 'Config',
+    icon: Copy,
+    code: `// Define reusable presets
+@preset "user_defaults" {
+  role = "user"
+  active = true
+  permissions = ["read"]
+}
+
+@preset "admin_defaults" {
+  role = "admin"
+  active = true
+  permissions = ["read", "write", "delete"]
+}
+
+// Use presets with overrides
+users {
+  john = @use "user_defaults" {
+    name = "John Doe"
+    email = "john@example.com"
+  }
+  
+  admin = @use "admin_defaults" {
+    name = "Admin"
+    email = "admin@example.com"
+    super_admin = true
+  }
+}`,
+  },
+
+  {
+    id: 'boolean-literals',
+    title: 'Boolean Literals',
+    description: 'Multiple ways to express true/false (v0.0.6).',
+    category: 'Config',
+    icon: ToggleLeft,
+    code: `// Standard booleans
+settings {
+  enabled = true
+  disabled = false
+}
+
+// Yes/No style (great for configs)
+features {
+  dark_mode = yes
+  analytics = no
+}
+
+// On/Off style (great for flags)
+toggles {
+  maintenance = off
+  debug = on
+  cache = yes
+  logging = no
+}
+
+// Mix everything
+app {
+  production = yes
+  ssl_enabled = on
+  debug_mode = off
+  beta_features = no
+}`,
   },
 ];
