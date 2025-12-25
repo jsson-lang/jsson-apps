@@ -1,0 +1,133 @@
+---
+title: Go API
+description: Use JSSON programmatically in your Go applications.
+---
+
+import { Cards, Card } from 'fumadocs-ui/components/card';
+import { Code, FileJson, Settings } from 'lucide-react';
+
+The JSSON Go package provides a programmatic API for transpiling JSSON content in your Go applications.
+
+## Features
+
+- **Full transpilation** — Same power as the CLI
+- **Multiple outputs** — JSON, YAML, TOML, TypeScript
+- **Error handling** — Detailed error information with line/column
+- **Streaming** — Handle large files efficiently
+- **Zero external deps** — Pure Go implementation
+
+## Installation
+
+```bash
+go get github.com/carlosedujs/jsson
+```
+
+## Quick Start
+
+```go
+package main
+
+import (
+    "fmt"
+    "log"
+    
+    "jsson/internal/lexer"
+    "jsson/internal/parser"
+    "jsson/internal/transpiler"
+)
+
+func main() {
+    input := `
+        config {
+            name = "MyApp"
+            version = "1.0.0"
+            debug = true
+            
+            server {
+                host = "localhost"
+                port = 8080
+            }
+        }
+    `
+    
+    // Lex
+    l := lexer.New(input)
+    
+    // Parse
+    p := parser.New(l)
+    program := p.ParseProgram()
+    
+    // Check for parse errors
+    if len(p.Errors()) > 0 {
+        for _, err := range p.Errors() {
+            log.Printf("Parse error: %s\n", err)
+        }
+        return
+    }
+    
+    // Transpile
+    t := transpiler.New()
+    result, err := t.Transpile(program)
+    if err != nil {
+        log.Fatalf("Transpile error: %v", err)
+    }
+    
+    fmt.Println(result)
+}
+```
+
+**Output:**
+```json
+{
+  "config": {
+    "name": "MyApp",
+    "version": "1.0.0",
+    "debug": true,
+    "server": {
+      "host": "localhost",
+      "port": 8080
+    }
+  }
+}
+```
+
+## Output Formats
+
+```go
+// JSON (default)
+result, err := t.Transpile(program)
+
+// YAML
+result, err := t.TranspileToYAML(program)
+
+// TOML
+result, err := t.TranspileToTOML(program)
+
+// TypeScript
+result, err := t.TranspileToTypeScript(program)
+```
+
+## Error Handling
+
+The parser provides detailed error information:
+
+```go
+p := parser.New(l)
+program := p.ParseProgram()
+
+for _, err := range p.Errors() {
+    // err contains line, column, and message
+    fmt.Printf("Error at line %d: %s\n", err.Line, err.Message)
+}
+```
+
+## Documentation
+
+<Cards>
+  <Card 
+    icon={<Code />}
+    title="Transpiler API" 
+    description="Detailed API reference for all transpiler methods." 
+    href="/docs/api/transpiler" 
+  />
+</Cards>

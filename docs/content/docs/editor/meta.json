@@ -1,0 +1,11 @@
+{
+  "title": "Editor",
+  "description": "VS Code extension with LSP for JSSON development.",
+  "root": true,
+  "icon": "Bolt",
+  "pages": [
+    "index",
+    "features",
+    "installation"
+  ]
+}

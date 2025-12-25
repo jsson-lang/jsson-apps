@@ -1,0 +1,60 @@
+---
+title: JSSON CLI
+description: Command-line tool for transpiling JSSON files.
+---
+
+import { Cards, Card } from 'fumadocs-ui/components/card';
+import { Terminal, Server, FileJson, Settings } from 'lucide-react';
+
+The JSSON CLI transpiles `.jsson` files to JSON, YAML, TOML, or TypeScript.
+
+## Installation
+
+```bash
+# Download (Linux)
+curl -L https://github.com/carlosedujs/jsson/releases/latest/download/jsson-linux-amd64 -o jsson
+chmod +x jsson
+sudo mv jsson /usr/local/bin/
+
+# Verify
+jsson --version
+```
+
+## Quick Start
+
+```bash
+# Transpile to JSON
+jsson -i config.jsson
+
+# Transpile to YAML
+jsson -i config.jsson -f yaml
+
+# Transpile to file
+jsson -i config.jsson > config.json
+```
+
+## Commands
+
+| Command | Description |
+|---------|-------------|
+| `jsson [flags]` | Transpile JSSON file |
+| `jsson serve` | Start HTTP server |
+| `jsson help` | Show help |
+| `jsson version` | Show version |
+
+## Documentation
+
+<Cards>
+  <Card 
+    icon={<Settings />}
+    title="Usage Reference" 
+    description="All flags, options, and examples." 
+    href="/docs/cli/usage" 
+  />
+  <Card 
+    icon={<Server />}
+    title="HTTP Server" 
+    description="REST API for integration." 
+    href="/docs/cli/server" 
+  />
+</Cards>

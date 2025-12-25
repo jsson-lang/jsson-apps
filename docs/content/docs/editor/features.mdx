@@ -1,0 +1,120 @@
+---
+title: Features
+description: Complete list of JSSON VS Code extension features.
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+## Syntax Highlighting
+
+The extension provides rich semantic highlighting for all JSSON constructs:
+
+### Keywords
+- `template`, `map`, `include`, `step`
+- `true`, `false`, `yes`, `no`, `on`, `off`
+
+### Presets (v0.0.6)
+```javascript
+@preset "button" {     // @preset highlighted
+  color = "blue"
+}
+
+config = @use "button" // @use highlighted
+```
+
+### Validators (v0.0.6)
+```javascript
+user {
+  id = @uuid           // @uuid highlighted
+  email = @email       // @email highlighted
+  createdAt = @datetime
+  website = @url
+  ip = @ipv4
+}
+```
+
+### Boolean Literals
+```javascript
+settings {
+  enabled = yes        // yes/no highlighted
+  active = on          // on/off highlighted
+  debug = true         // true/false highlighted
+}
+```
+
+## Diagnostics
+
+<Callout type="info">
+  Real-time error detection powered by the JSSON Language Server.
+</Callout>
+
+The LSP provides instant feedback on:
+
+| Error Type | Example |
+|------------|---------|
+| Missing braces | `config { name = "test"` |
+| Invalid syntax | `name = =` |
+| Unknown keywords | `templat { }` |
+| Unclosed strings | `name = "hello` |
+
+## Auto-Complete
+
+Intelligent completions for:
+
+- **Keywords**: `template`, `map`, `include`
+- **Presets**: After typing `@use "`
+- **Validators**: After typing `@`
+- **Booleans**: `yes`, `no`, `on`, `off`, `true`, `false`
+
+## Go to Definition
+
+<Callout type="tip">
+  **Ctrl+Click** or **F12** on a preset reference to jump to its definition.
+</Callout>
+
+```javascript
+@preset "button" {
+  color = "blue"
+}
+
+// Ctrl+Click on "button" jumps to the @preset above
+config = @use "button"
+```
+
+## Hover Information
+
+Hover over elements to see:
+
+- Preset definitions
+- Variable values
+- Validator descriptions
+
+## Code Folding
+
+Fold/unfold:
+
+- Object blocks `{ }`
+- Array templates `[ ]`
+- Preset definitions
+
+## File Icons
+
+The extension adds custom icons for `.jsson` files in the explorer.
+
+## Bracket Matching
+
+Automatic highlighting of matching brackets:
+
+- `{ }` — Objects
+- `[ ]` — Arrays
+- `( )` — Expressions
+
+## Configuration
+
+Access settings via **File > Preferences > Settings > JSSON**:
+
+| Setting | Default | Description |
+|---------|---------|-------------|
+| `jsson.lsp.enabled` | `true` | Enable/disable LSP |
+| `jsson.lsp.path` | `jsson-lsp` | Path to LSP binary |
+| `jsson.format.indentSize` | `2` | Default indentation |

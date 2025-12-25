@@ -1,0 +1,282 @@
+---
+title: Integration Guide
+description: Integrate JSSON Server into your applications.
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+## Prerequisites
+
+<Callout type="info">
+**The JSSON HTTP Server requires the JSSON binary running.**
+
+All integrations below assume you have:
+1. Downloaded the JSSON v0.0.6 or higher binary from [GitHub Releases](https://github.com/carlosedujs/jsson/releases)
+2. Started the server with `jsson serve`
+
+The server runs locally (or in a container) and your application communicates with it via HTTP.
+</Callout>
+
+### Starting the Server
+
+```bash
+# Download binary
+curl -L https://github.com/carlosedujs/jsson/releases/latest/download/jsson-linux-amd64 -o jsson
+chmod +x jsson
+
+# Start server
+./jsson serve
+# 🚀 Listening on http://0.0.0.0:8090
+```
+
+Now your application can make HTTP requests to `http://localhost:8090`.
+
+### Fetch API
+
+```typescript
+async function transpile(source: string, format = 'json') {
+  const response = await fetch('http://localhost:8090/transpile', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ source, format })
+  });
+  
+  const data = await response.json();
+  
+  if (!data.success) {
+    throw new Error(data.errors.join('\n'));
+  }
+  
+  return data.output;
+}
+
+// Usage
+const config = await transpile(`
+  server {
+    host = localhost
+    port = 8080
+  }
+`);
+```
+
+### Axios
+
+```typescript
+import axios from 'axios';
+
+const jsson = axios.create({
+  baseURL: 'http://localhost:8090'
+});
+
+const { data } = await jsson.post('/transpile', {
+  source: 'name = João',
+  format: 'json'
+});
+
+console.log(data.output);
+```
+
+---
+
+## Python
+
+### Requests
+
+```python
+import requests
+
+def transpile(source: str, format: str = 'json'):
+    response = requests.post('http://localhost:8090/transpile', json={
+        'source': source,
+        'format': format
+    })
+    data = response.json()
+    
+    if not data['success']:
+        raise Exception('\n'.join(data['errors']))
+    
+    return data['output']
+
+# Usage
+config = transpile('''
+    database {
+        host = "localhost"
+        port = 5432
+    }
+''')
+```
+
+### Validate with Schema
+
+```python
+def validate_config(source: str, schema: str):
+    response = requests.post('http://localhost:8090/validate-schema', json={
+        'source': source,
+        'schema': schema
+    })
+    data = response.json()
+    
+    if not data['valid']:
+        for error in data['errors']:
+            print(f"Error at {error['path']}: {error['message']}")
+        return False
+    
+    return True
+```
+
+---
+
+## Docker
+
+### Dockerfile
+
+```dockerfile
+FROM alpine:latest
+
+# Download JSSON binary
+RUN wget -O /usr/local/bin/jsson \
+    https://github.com/carlosedujs/jsson/releases/latest/download/jsson-linux-amd64 && \
+    chmod +x /usr/local/bin/jsson
+
+EXPOSE 8090
+
+CMD ["jsson", "serve"]
+```
+
+### Docker Compose
+
+```yaml
+version: '3.8'
+
+services:
+  jsson:
+    image: jsson:latest
+    build: .
+    ports:
+      - "8090:8090"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8090/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+```
+
+---
+
+## CI/CD
+
+### GitHub Actions
+
+```yaml
+name: Validate Configs
+
+on: [push, pull_request]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    
+    services:
+      jsson:
+        image: ghcr.io/carlosedujs/jsson:latest
+        ports:
+          - 8090:8090
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Validate config syntax
+        run: |
+          curl -X POST http://localhost:8090/validate \
+            -H "Content-Type: application/json" \
+            -d "{\"source\": \"$(cat config.jsson)\"}" \
+            | jq -e '.valid'
+      
+      - name: Validate against schema
+        run: |
+          curl -X POST http://localhost:8090/validate-schema \
+            -H "Content-Type: application/json" \
+            -d "{
+              \"source\": \"$(cat config.jsson)\",
+              \"schema\": \"$(cat schema.json)\"
+            }" \
+            | jq -e '.valid'
+```
+
+### Shell Script
+
+```bash
+#!/bin/bash
+
+JSSON_URL="${JSSON_URL:-http://localhost:8090}"
+
+validate_file() {
+    local file="$1"
+    local source=$(cat "$file")
+    
+    result=$(curl -s -X POST "$JSSON_URL/validate" \
+        -H "Content-Type: application/json" \
+        -d "{\"source\": $(echo "$source" | jq -Rs .)}")
+    
+    if echo "$result" | jq -e '.valid' > /dev/null; then
+        echo "✓ $file is valid"
+        return 0
+    else
+        echo "✗ $file has errors:"
+        echo "$result" | jq -r '.errors[]'
+        return 1
+    fi
+}
+
+# Validate all .jsson files
+for file in *.jsson; do
+    validate_file "$file" || exit 1
+done
+```
+
+---
+
+## Kubernetes
+
+### Deployment
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jsson-server
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: jsson
+  template:
+    metadata:
+      labels:
+        app: jsson
+    spec:
+      containers:
+        - name: jsson
+          image: ghcr.io/carlosedujs/jsson:latest
+          ports:
+            - containerPort: 8090
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8090
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "100m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jsson-service
+spec:
+  selector:
+    app: jsson
+  ports:
+    - port: 80
+      targetPort: 8090
+```

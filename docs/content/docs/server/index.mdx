@@ -1,0 +1,78 @@
+---
+title: HTTP Server
+description: Built-in REST API for JSSON transpilation and validation.
+---
+
+import { Cards, Card } from 'fumadocs-ui/components/card';
+import { Server, Zap, Shield, Globe } from 'lucide-react';
+
+JSSON includes a built-in HTTP server that exposes a REST API for transpilation, syntax validation, and schema validation. Perfect for integrating JSSON into web applications, CI/CD pipelines, or microservices.
+
+## Why Use the Server?
+
+- **Web Integration** — Power playgrounds, online editors, or IDEs
+- **Microservices** — Transpile configs on-demand in your architecture
+- **CI/CD** — Validate configurations via HTTP in build pipelines
+- **Language Agnostic** — Any language can call the API
+
+## Quick Start
+
+```bash
+# Start server on default port 8090
+jsson serve
+
+# Custom port
+jsson serve -port 3000
+```
+
+**Output:**
+```
+🚀 JSSON HTTP Server v0.1.0 (JSSON v0.0.6)
+📡 Listening on http://0.0.0.0:8090
+
+Endpoints:
+  POST /transpile        - Transpile JSSON to JSON/YAML/TOML/TypeScript
+  POST /validate         - Validate JSSON syntax
+  POST /validate-schema  - Validate transpiled output against schema
+  GET  /health           - Health check
+  GET  /version          - Version info
+```
+
+## First Request
+
+```bash
+curl -X POST http://localhost:8090/transpile \
+  -H "Content-Type: application/json" \
+  -d '{
+    "source": "user { name = João, age = 25 }"
+  }'
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "output": {
+    "user": { "name": "João", "age": 25 }
+  },
+  "format": "json",
+  "transpile_time_ms": 0.123
+}
+```
+
+## Documentation
+
+<Cards>
+  <Card 
+    icon={<Zap />}
+    title="API Endpoints" 
+    description="Complete reference for all endpoints and options." 
+    href="/docs/server/endpoints" 
+  />
+  <Card 
+    icon={<Globe />}
+    title="Integration Guide" 
+    description="Examples for JavaScript, Python, Docker, and more." 
+    href="/docs/server/integration" 
+  />
+</Cards>

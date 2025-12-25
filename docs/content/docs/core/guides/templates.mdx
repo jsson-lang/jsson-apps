@@ -1,0 +1,194 @@
+---
+title: Templates Guide
+description: Generate structured arrays from tabular data.
+---
+
+## Overview
+
+Templates let you define a structure once and write data like a spreadsheet:
+
+```javascript
+users [
+  template { name, age, role }
+  "Alice", 25, "admin"
+  "Bob", 30, "user"
+  "Charlie", 28, "user"
+]
+```
+
+Output:
+```json
+{
+  "users": [
+    { "name": "Alice", "age": 25, "role": "admin" },
+    { "name": "Bob", "age": 30, "role": "user" },
+    { "name": "Charlie", "age": 28, "role": "user" }
+  ]
+}
+```
+
+## Syntax
+
+```javascript
+arrayName [
+  template { field1, field2, field3 }
+  value1, value2, value3
+  value4, value5, value6
+]
+```
+
+## Map Transformation
+
+Add computed fields with `map`:
+
+```javascript
+users [
+  template { name, age }
+  
+  map (u) = {
+    name = u.name
+    age = u.age
+    adult = u.age >= 18
+    email = u.name + "@example.com"
+  }
+  
+  "Alice", 25
+  "Bob", 17
+]
+```
+
+### String Concatenation
+
+```javascript
+employees [
+  template { first, last }
+  
+  map (e) = {
+    fullName = e.first + " " + e.last
+    email = e.first + "@company.com"
+  }
+  
+  "João", "Silva"
+  "Maria", "Santos"
+]
+```
+
+## Ranges in Templates
+
+Generate many records with ranges:
+
+```javascript
+users [
+  template { id, name }
+  
+  map (u) = {
+    id = u.id
+    name = "User " + u.id
+    email = "user" + u.id + "@example.com"
+  }
+  
+  0..99, "User"   // Generates 100 users
+]
+```
+
+Multiple ranges for segments:
+
+```javascript
+employees [
+  template { id, dept }
+  100..199, "Engineering"
+  200..299, "Sales"
+  300..399, "Support"
+]
+```
+
+## Examples
+
+### Database Seed
+
+```javascript
+users [
+  template { email, name, role, active }
+  "admin@app.com", "Admin", "admin", true
+  "john@app.com", "John", "user", true
+  "jane@app.com", "Jane", "user", false
+]
+```
+
+### API Routes
+
+```javascript
+routes [
+  template { path, method, auth }
+  "/users", "GET", true
+  "/users/:id", "GET", true
+  "/posts", "GET", false
+]
+```
+
+### Test Cases
+
+```javascript
+loginTests [
+  template { email, password, expected }
+  "valid@test.com", "correct123", true
+  "invalid@test.com", "wrong", false
+  "", "password", false
+]
+```
+
+### With Defaults
+
+```javascript
+products [
+  template { name, price }
+  
+  map (p) = {
+    name = p.name
+    price = p.price
+    currency = "USD"
+    inStock = true
+  }
+  
+  "Laptop", 999.99
+  "Mouse", 29.99
+]
+```
+
+## Best Practices
+
+**Do:**
+- Keep templates simple, use `map` for computed fields
+- Quote values with spaces: `"Software Engineer"`
+- Use ranges for large datasets
+
+**Don't:**
+- Put too many fields in template definition
+- Use templates for single objects
+- Forget matching value counts per row
+
+## Troubleshooting
+
+**Wrong number of values:**
+```javascript
+users [
+  template { name, age, email }
+  "João", 25                    // ❌ Missing email
+  "João", 25, "joao@test.com"   // ✅ Correct
+]
+```
+
+**Missing quotes:**
+```javascript
+users [
+  template { name, title }
+  "João", Software Engineer     // ❌ Space without quotes
+  "João", "Software Engineer"   // ✅ Quoted
+]
+```
+
+## Next Steps
+
+- [Syntax Reference](/docs/reference/syntax) — Ranges and expressions
+- [Include Guide](/docs/guides/include-modules) — Split large configs
+- [Presets Guide](/docs/guides/presets) — Reusable templates

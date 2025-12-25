@@ -1,0 +1,129 @@
+---
+title: Validators Guide
+description: Auto-generate realistic test data with built-in validators.
+---
+
+## Overview
+
+Validators generate valid data automatically. Prefix them with `@`.
+
+```javascript
+user {
+  id = @uuid
+  email = @email
+  age = @int(18, 65)
+}
+```
+
+## Available Validators
+
+| Validator | Description | Example Output |
+|-----------|-------------|----------------|
+| `@uuid` | UUID v4 | `550e8400-e29b-41d4-...` |
+| `@email` | Email | `user@example.com` |
+| `@url` | URL | `https://example.com` |
+| `@ipv4` | IPv4 address | `192.168.1.1` |
+| `@ipv6` | IPv6 address | `2001:0db8:85a3::...` |
+| `@date` | Date | `2025-12-23` |
+| `@datetime` | ISO datetime | `2025-12-23T15:30:00Z` |
+| `@filepath` | File path | `/var/log/app.log` |
+| `@int(min, max)` | Random integer | `42` |
+| `@float(min, max)` | Random float | `3.14159` |
+| `@bool` | Random boolean | `true` or `false` |
+
+## Examples
+
+### User Generation
+
+```javascript
+user {
+  id = @uuid
+  email = @email
+  age = @int(18, 65)
+  score = @float(0.0, 100.0)
+  verified = @bool
+  created = @datetime
+}
+```
+
+### With Templates
+
+```javascript
+users [
+  template { name }
+  
+  map (u) = {
+    id = @uuid
+    name = u.name
+    email = @email
+    age = @int(25, 60)
+  }
+  
+  "Alice"
+  "Bob"
+  "Charlie"
+]
+```
+
+### Large Dataset
+
+```javascript
+testData = 1..1000 map (i) = {
+  id = @uuid
+  index = i
+  email = @email
+  active = @bool
+  created = @datetime
+}
+```
+
+### Server Config
+
+```javascript
+servers [
+  template { name, region }
+  
+  map (s) = {
+    id = @uuid
+    name = s.name
+    region = s.region
+    ip = @ipv4
+    port = @int(8000, 9000)
+  }
+  
+  "web", "us-east"
+  "api", "us-west"
+  "db", "eu-central"
+]
+```
+
+## Use Cases
+
+- **Testing** — Realistic test data without hardcoding
+- **Database seeding** — Populate dev databases
+- **Mock APIs** — Generate API responses
+- **Load testing** — Large datasets for performance
+
+## Best Practices
+
+```javascript
+// ✅ Good: Dynamic data
+user {
+  id = @uuid
+  email = @email
+}
+
+// ❌ Bad: Hardcoded
+user {
+  id = "123"
+  email = "test@test.com"
+}
+```
+
+Use realistic ranges:
+```javascript
+player {
+  age = @int(13, 80)      // Realistic
+  score = @float(0, 100)  // Percentage
+}
+```

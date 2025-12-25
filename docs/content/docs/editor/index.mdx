@@ -1,0 +1,69 @@
+---
+title: VS Code Extension
+description: JSSON extension for Visual Studio Code with Language Server Protocol support.
+---
+
+import { Cards, Card } from 'fumadocs-ui/components/card';
+import { Callout } from 'fumadocs-ui/components/callout';
+
+The official JSSON extension for Visual Studio Code provides a first-class development experience with **Language Server Protocol (LSP)** support.
+
+<Callout type="info">
+  **New in v0.0.6!** Full LSP support with go-to-definition, diagnostics, and more.
+</Callout>
+
+## Features
+
+<Cards>
+  <Card title="Syntax Highlighting" description="Full JSSON syntax highlighting with semantic tokens." href="/docs/editor/features#syntax-highlighting" />
+  <Card title="Diagnostics" description="Real-time error detection as you type." href="/docs/editor/features#diagnostics" />
+  <Card title="Auto-Complete" description="Intelligent completions for keywords and presets." href="/docs/editor/features#auto-complete" />
+  <Card title="Go to Definition" description="Jump to preset and variable definitions." href="/docs/editor/features#go-to-definition" />
+</Cards>
+
+## Quick Install
+
+```bash
+# From VS Code Marketplace
+code --install-extension jsson.jsson-vscode
+
+# Or search "JSSON" in VS Code Extensions
+```
+
+## What's New in v0.0.6
+
+| Feature | Description |
+|---------|-------------|
+| **LSP Server** | Full Language Server Protocol support |
+| **Diagnostics** | Real-time syntax error detection |
+| **Presets** | Highlighting for `@preset` and `@use` |
+| **Validators** | Support for `@uuid`, `@email`, etc. |
+| **Booleans** | Highlighting for `yes`/`no`, `on`/`off` |
+
+## Screenshots
+
+### Syntax Highlighting
+
+The extension provides rich syntax highlighting for all JSSON features:
+
+- Keywords: `template`, `map`, `include`
+- Presets: `@preset`, `@use`
+- Validators: `@uuid`, `@email`, `@datetime`
+- Booleans: `yes`, `no`, `on`, `off`
+- Strings, numbers, operators
+
+### Error Detection
+
+Real-time diagnostics show errors as you type:
+
+- Missing closing braces
+- Invalid syntax
+- Unknown preset references
+- Type mismatches
+
+## Get Started
+
+<Cards>
+  <Card title="Installation" description="Step-by-step installation guide." href="/docs/editor/installation" />
+  <Card title="All Features" description="Complete feature documentation." href="/docs/editor/features" />
+</Cards>

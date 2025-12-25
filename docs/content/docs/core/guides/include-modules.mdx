@@ -1,0 +1,107 @@
+---
+title: Include Modules
+description: Split large JSSON files into modular, reusable pieces.
+---
+
+## Basic Usage
+
+```javascript
+include "path/to/file.jsson"
+```
+
+The included file's contents are merged into the main file.
+
+## Example
+
+**database.jsson:**
+```javascript
+database {
+  host = "localhost"
+  port = 5432
+}
+```
+
+**main.jsson:**
+```javascript
+app {
+  name = "MyApp"
+}
+
+include "database.jsson"
+```
+
+**Output:**
+```json
+{
+  "app": { "name": "MyApp" },
+  "database": { "host": "localhost", "port": 5432 }
+}
+```
+
+## File Paths
+
+Paths are relative to the file containing the `include`:
+
+```javascript
+include "database.jsson"           // Same directory
+include "config/database.jsson"    // Subdirectory
+include "../shared/common.jsson"   // Parent directory
+```
+
+## Project Structure
+
+```
+project/
+├── main.jsson
+├── database.jsson
+├── api.jsson
+└── environments/
+    ├── dev.jsson
+    └── prod.jsson
+```
+
+**main.jsson:**
+```javascript
+include "database.jsson"
+include "api.jsson"
+include "environments/dev.jsson"
+```
+
+## Merge Strategies
+
+When files have conflicting keys, use the `-include-merge` CLI flag:
+
+```bash
+# Keep first definition (default)
+jsson -i main.jsson -include-merge keep
+
+# Overwrite with later definition
+jsson -i main.jsson -include-merge overwrite
+
+# Error on duplicates
+jsson -i main.jsson -include-merge error
+```
+
+## Variables in Includes
+
+Variables are shared across included files:
+
+**main.jsson:**
+```javascript
+env := "production"
+include "database.jsson"
+```
+
+**database.jsson:**
+```javascript
+database {
+  host = env == "production" ? "db.example.com" : "localhost"
+}
+```
+
+## Best Practices
+
+- **One concern per file** — database.jsson, api.jsson, auth.jsson
+- **Use directories** — Group related configs in folders
+- **Environment files** — Include environment-specific overrides last
+- **Keep depth shallow** — Avoid deeply nested includes

@@ -1,0 +1,157 @@
+---
+title: API Endpoints
+description: Complete reference for all HTTP Server endpoints.
+---
+
+## Server Flags
+
+| Flag | Default | Description |
+|------|---------|-------------|
+| `-port` | `8090` | Port to listen on |
+| `-cors` | `true` | Enable CORS for all origins |
+
+## Endpoints Overview
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/transpile` | POST | Transpile JSSON to output format |
+| `/validate` | POST | Validate JSSON syntax |
+| `/validate-schema` | POST | Validate output against schema |
+| `/health` | GET | Health check |
+| `/version` | GET | Version info |
+
+---
+
+## POST /transpile
+
+Transpile JSSON source code to JSON, YAML, TOML, or TypeScript.
+
+### Request Body
+
+```json
+{
+  "source": "user { name = João }",
+  "format": "json",
+  "include_merge": "keep",
+  "streaming": false,
+  "stream_threshold": 10000
+}
+```
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `source` | string | (required) | JSSON source code |
+| `format` | string | `json` | Output: `json`, `yaml`, `toml`, `typescript` |
+| `include_merge` | string | `keep` | Merge strategy: `keep`, `overwrite`, `error` |
+| `streaming` | boolean | `false` | Enable streaming mode |
+| `stream_threshold` | number | `10000` | Auto-streaming threshold |
+
+### Response
+
+**Success:**
+```json
+{
+  "success": true,
+  "output": { "user": { "name": "João" } },
+  "format": "json",
+  "transpile_time_ms": 0.123
+}
+```
+
+**Error:**
+```json
+{
+  "success": false,
+  "errors": ["Line 1: unexpected token"],
+  "format": "json",
+  "transpile_time_ms": 0.05
+}
+```
+
+---
+
+## POST /validate
+
+Validate JSSON syntax without transpiling.
+
+### Request Body
+
+```json
+{
+  "source": "user { name = João }"
+}
+```
+
+### Response
+
+```json
+{
+  "valid": true,
+  "errors": []
+}
+```
+
+---
+
+## POST /validate-schema
+
+Transpile JSSON and validate output against a JSON Schema.
+
+### Request Body
+
+```json
+{
+  "source": "user { name = João, age = 25 }",
+  "schema": "{\"type\": \"object\"}",
+  "schema_format": "json",
+  "output_format": "json"
+}
+```
+
+### Response
+
+```json
+{
+  "valid": true,
+  "errors": [],
+  "format": "json",
+  "schema_type": "json-schema",
+  "transpile_time_ms": 0.1,
+  "validate_time_ms": 0.05,
+  "transpiled_data": { "user": { "name": "João", "age": 25 } }
+}
+```
+
+---
+
+## GET /health
+
+```bash
+curl http://localhost:8090/health
+```
+
+```json
+{
+  "status": "healthy",
+  "service": "jsson",
+  "version": "0.1.0",
+  "jsson_version": "0.0.6",
+  "timestamp": "2025-12-24T12:00:00Z"
+}
+```
+
+---
+
+## GET /version
+
+```bash
+curl http://localhost:8090/version
+```
+
+```json
+{
+  "server_version": "0.1.0",
+  "jsson_version": "0.0.6",
+  "go_version": "1.21+"
+}
+```

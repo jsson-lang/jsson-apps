@@ -1,0 +1,109 @@
+---
+title: Getting Started
+description: Install JSSON and write your first configuration file in 5 minutes.
+---
+
+import { Steps, Step } from 'fumadocs-ui/components/steps';
+
+## Installation
+
+<Steps>
+
+  <Step>  
+    ### Download the binary
+    - Get the latest release from [GitHub](https://github.com/carlosedujs/jsson/releases) for your platform.
+  </Step>
+
+  <Step>  
+    ### Make it executable (Linux/macOS)
+    ```bash
+    chmod +x jsson
+    sudo mv jsson /usr/local/bin/
+    ```
+  </Step>
+
+  <Step>  
+    ### Verify installation
+    ```bash
+    jsson --version
+    ```
+  </Step>
+</Steps>
+
+> **Building from source?** Clone the repo and run `go build -o jsson cmd/jsson/main.go`
+
+## Your First File
+
+Create `config.jsson`:
+
+```javascript
+app {
+  name = "My App"
+  version = "1.0.0"
+  debug = true
+}
+
+server {
+  host = "localhost"
+  port = 8080
+}
+```
+
+Transpile to JSON:
+
+```bash
+jsson -i config.jsson > config.json
+```
+
+Result:
+
+```json
+{
+  "app": {
+    "name": "My App",
+    "version": "1.0.0",
+    "debug": true
+  },
+  "server": {
+    "host": "localhost",
+    "port": 8080
+  }
+}
+```
+
+## Quick Syntax
+
+| Feature | JSSON | JSON |
+|---------|-------|------|
+| Assignment | `name = value` | `"name": value` |
+| Strings | `João` or `"João"` | `"João"` |
+| Objects | `obj { ... }` | `"obj": { ... }` |
+| Arrays | `[a, b, c]` | `["a", "b", "c"]` |
+| Comments | `// comment` | Not supported |
+| Variables | `x := 10` | Not supported |
+
+**When to use quotes:** Values with spaces or special characters need quotes.
+
+```javascript
+name = João           // OK
+title = "Software Engineer"  // Quotes for spaces
+```
+
+## Output Formats
+
+JSSON transpiles to multiple formats:
+
+```bash
+jsson -i config.jsson -f json   # Default
+jsson -i config.jsson -f yaml
+jsson -i config.jsson -f toml
+jsson -i config.jsson -f ts     # TypeScript
+```
+
+## Next Steps
+
+- [Syntax Reference](/docs/core/reference/syntax) — Complete language reference
+- [Templates](/docs/core/guides/templates) — Generate structured data from rows
+- [Presets](/docs/core/guides/presets) — Reusable configuration templates
+- [Validators](/docs/core/guides/validators) — Auto-generate test data
+- [CLI Guide](/docs/core/guides/cli) — All command-line options

@@ -1,0 +1,7 @@
+{
+  "title": "HTTP Server",
+  "description": "REST API for JSSON transpilation",
+  "icon": "Server",
+  "root": true,
+  "pages": ["index", "endpoints", "integration"]
+}

@@ -1,0 +1,107 @@
+---
+title: Installation
+description: How to install the JSSON VS Code extension.
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+import { Steps, Step } from 'fumadocs-ui/components/steps';
+
+## VS Code Marketplace
+
+<Steps>
+  <Step>
+    ### Open VS Code
+    Launch Visual Studio Code on your machine.
+  </Step>
+  <Step>
+    ### Open Extensions
+    Press `Ctrl+Shift+X` (Windows/Linux) or `Cmd+Shift+X` (macOS).
+  </Step>
+  <Step>
+    ### Search for JSSON
+    Type "JSSON" in the search bar.
+  </Step>
+  <Step>
+    ### Install
+    Click **Install** on the "JSSON Language Support" extension.
+  </Step>
+</Steps>
+
+## Command Line
+
+```bash
+code --install-extension jsson.jsson-vscode
+```
+
+## Manual Installation (VSIX)
+
+If you have the `.vsix` file:
+
+```bash
+code --install-extension jsson-vscode-0.0.6.vsix
+```
+
+Or in VS Code:
+1. Open Command Palette (`Ctrl+Shift+P`)
+2. Type "Install from VSIX"
+3. Select the `.vsix` file
+
+## LSP Server Setup
+
+<Callout type="info">
+  The extension includes the LSP server. No additional setup required!
+</Callout>
+
+If you want to use a custom LSP binary:
+
+1. Build the LSP server:
+```bash
+cd jsson
+go build -o bin/jsson-lsp ./cmd/lsp
+```
+
+2. Configure the extension:
+```json
+{
+  "jsson.lsp.path": "/path/to/jsson-lsp"
+}
+```
+
+## Verify Installation
+
+1. Create a new file: `test.jsson`
+2. Type the following:
+
+```javascript
+config {
+  name = "Hello JSSON"
+  enabled = yes
+  id = @uuid
+}
+```
+
+You should see:
+- ✅ Syntax highlighting
+- ✅ No red error squiggles
+- ✅ `yes` highlighted as boolean
+- ✅ `@uuid` highlighted as validator
+
+## Troubleshooting
+
+### Extension not working?
+
+1. **Reload VS Code**: `Ctrl+Shift+P` → "Reload Window"
+2. **Check output**: View → Output → Select "JSSON"
+3. **Verify file extension**: Must be `.jsson`
+
+### LSP not starting?
+
+1. Check the LSP path in settings
+2. Ensure the binary is executable
+3. Check the Output panel for errors
+
+## Supported VS Code Versions
+
+- VS Code 1.75.0 or later
+- VS Code Insiders
+- VSCodium

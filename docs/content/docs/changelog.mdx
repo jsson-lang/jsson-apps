@@ -3,6 +3,200 @@ title: Changelog
 description: List of changes and improvements by version.
 ---
 
+## v0.0.6 — Presets & Validators (2025-12-23)
+
+### New Features
+
+#### Presets System 🎨
+
+Define reusable configuration templates with `@preset` and apply them with `@use`. Perfect for sharing common settings across multiple objects.
+
+**Defining a preset:**
+
+```javascript
+@preset "api_defaults" {
+  timeout = 30
+  retries = 3
+  ssl = true
+  headers = ["Content-Type", "Authorization"]
+}
+```
+
+**Using a preset:**
+
+```javascript
+services {
+  auth = @use "api_defaults" {
+    port = 8080
+    path = "/auth"
+  }
+  
+  payment = @use "api_defaults" {
+    port = 8081
+    path = "/payment"
+    timeout = 60  // Override default
+  }
+}
+```
+
+**Key Features:**
+- Define once, reuse everywhere
+- Override any preset value
+- Merge preset values with custom properties
+- Perfect for DRY configuration
+
+#### Validators 🔐
+
+Auto-generate valid data with built-in validators. Perfect for testing, mocking, and seeding databases.
+
+**Available validators:**
+
+```javascript
+user {
+  // UUID generation
+  id = @uuid
+  
+  // Email generation
+  email = @email
+  
+  // URL generation
+  website = @url
+  
+  // IP addresses
+  ipv4 = @ipv4
+  ipv6 = @ipv6
+  
+  // Dates and times
+  created_at = @datetime
+  birth_date = @date
+  
+  // File paths
+  config_file = @filepath
+  
+  // Random numbers with ranges
+  age = @int(18, 65)
+  score = @float(0.0, 100.0)
+  
+  // Random boolean
+  active = @bool
+}
+```
+
+**Use cases:**
+- Generate test data
+- Mock API responses
+- Database seeding
+- Placeholder values
+
+#### Boolean Literals 💡
+
+Use `yes/no` and `on/off` as more readable alternatives to `true/false`.
+
+```javascript
+features {
+  // Standard booleans
+  enabled = true
+  disabled = false
+  
+  // Yes/No style (great for configs)
+  dark_mode = yes
+  analytics = no
+  
+  // On/Off style (great for toggles)
+  cache = on
+  debug = off
+}
+```
+
+All four styles (`true/false`, `yes/no`, `on/off`) are equivalent and can be mixed freely.
+
+### Bug Fixes
+
+#### Int/Float Comparison Fix 🔧
+
+Fixed comparison operators to correctly handle mixed int/float comparisons. Previously, comparing integers with floats would fail.
+
+**Before (broken):**
+
+```javascript
+value = 10
+result = value > 9.5  // ❌ Error: type mismatch
+```
+
+**After (fixed):**
+
+```javascript
+value = 10
+result = value > 9.5  // ✅ Works! result = true
+
+price = 99.99
+discount = price < 100  // ✅ discount = true
+```
+
+#### Bare Identifier Handling 🏷️
+
+Improved error messages for undefined variables. Now requires explicit quotes for string literals to avoid ambiguity.
+
+**Rule:** Variables have priority over bare identifiers. Always use quotes for string values.
+
+```javascript
+// ✅ Correct
+name = "Alice"
+status = "active"
+
+// ❌ Wrong (treated as undefined variables)
+name = Alice
+status = active
+```
+
+**Better error messages:**
+
+```
+Error: variable 'Alice' not found
+Did you mean to use a string? Try: name = "Alice"
+```
+
+### Examples
+
+#### Complete Example: User Management with Presets & Validators
+
+```javascript
+// Define preset for common user fields
+@preset "user_defaults" {
+  role = "user"
+  active = true
+  permissions = ["read"]
+  created_at = @datetime
+}
+
+// Admin preset extends user defaults
+@preset "admin_defaults" {
+  role = "admin"
+  active = true
+  permissions = ["read", "write", "delete", "admin"]
+  created_at = @datetime
+}
+
+// Generate users with validators
+users [
+  template { name, type }
+  
+  map (u) = @use (u.type == "admin" ? "admin_defaults" : "user_defaults") {
+    id = @uuid
+    name = u.name
+    email = u.name + "@example.com"
+    age = @int(25, 60)
+    verified = @bool
+  }
+  
+  "Alice", "admin"
+  "Bob", "user"
+  "Charlie", "user"
+]
+```
+
+---
+
 ## v0.0.5.2 — Variable Arithmetic Fix (2025-12-02)
 
 ### Bug Fixes

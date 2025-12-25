@@ -1,84 +1,162 @@
 ---
 title: CLI Usage
-description: Learn how to use the JSSON command-line interface.
+description: Complete reference for all JSSON CLI flags and options.
 ---
 
-The JSSON CLI is the primary way to transpile your `.jsson` files into JSON, YAML, TOML, or TypeScript.
-
-## Basic Usage
+## Basic Syntax
 
 ```bash
-jsson -i input.jsson [options]
+jsson -i <file.jsson> [flags]
 ```
 
-## Options
+## Transpile Flags
 
-| Flag                 | Description                                          | Default    |
-| -------------------- | ---------------------------------------------------- | ---------- |
-| `-i`, `--input`      | Input JSSON file path                                | (Required) |
-| `-f`, `--format`     | Output format (`json`, `yaml`, `toml`, `typescript`) | `json`     |
-| `--stream`           | Enable streaming mode for large datasets             | `false`    |
-| `--stream-threshold` | Auto-enable streaming for ranges > N items           | `10000`    |
-| `-h`, `--help`       | Show help message                                    | `false`    |
+| Flag | Default | Description |
+|------|---------|-------------|
+| `-i` | (required) | Input JSSON file |
+| `-f` | `json` | Output format: `json`, `yaml`, `toml`, `typescript` |
+| `-m`, `--minify` | `false` | Minify output (no whitespace) |
+| `--indent` | `2` | Number of spaces for indentation |
+| `-schema` | - | Schema file to validate output |
+| `-validate-only` | `false` | Only validate, don't output |
+| `-stream` | `false` | Enable streaming for large datasets |
+| `-stream-threshold` | `10000` | Auto-streaming threshold |
+| `-include-merge` | `keep` | Merge strategy: `keep`, `overwrite`, `error` |
 
-> **Note:** The CLI outputs to standard output (stdout). Use shell redirection (`>`) to save to a file.
-
-## Streaming Mode
-
-For large datasets (100k+ items), JSSON supports streaming mode to reduce memory usage:
+## Output Formatting
 
 ```bash
-# Enable streaming explicitly
-jsson -i large-data.jsson --stream > output.json
+# Default (pretty, 2 spaces)
+jsson -i config.jsson
 
-# Auto-enable for ranges > 5000 items
-jsson -i data.jsson --stream-threshold 5000 > output.json
+# Minified (no whitespace)
+jsson -i config.jsson -m
+
+# Custom indentation (4 spaces)
+jsson -i config.jsson --indent 4
 ```
 
-**Benefits:**
+## Output Formats
 
-- Reduces memory usage from ~500MB to < 50MB for 100k items
-- Handles millions of items efficiently
-- Automatic detection based on threshold
-
-## Examples
-
-### Transpile to JSON (Default)
+### JSON (Default)
 
 ```bash
-jsson -i config.jsson > config.json
+jsson -i config.jsson
+jsson -i config.jsson -f json
 ```
 
-### Transpile to YAML
+### YAML
 
 ```bash
 jsson -i config.jsson -f yaml > config.yaml
 ```
 
-### Transpile to TOML
+### TOML
 
 ```bash
 jsson -i config.jsson -f toml > config.toml
 ```
 
-### Transpile to TypeScript
+### TypeScript
 
-Generates TypeScript code with `as const` assertions and inferred types.
-
-```bash
-jsson -i config.jsson -f ts > config.ts
-```
-
-### Output to Console
-
-Since JSSON prints to stdout by default, you can pipe the output to other tools like `jq`:
+Generates TypeScript with `as const` and inferred types.
 
 ```bash
-jsson -i config.jsson | jq .
+jsson -i config.jsson -f typescript > config.ts
 ```
 
-## Include Modes
+## Schema Validation
 
-When using `include` statements, JSSON merges the included files. The CLI handles this automatically based on the file paths relative to the input file.
+Validate output against JSON Schema:
 
-See the [Includes Guide](/docs/guides/include-modules/) for more details on how merging works.
+```bash
+# Validate and output
+jsson -i config.jsson -schema schema.json
+
+# Validate only (no output)
+jsson -i config.jsson -schema schema.json -validate-only
+```
+
+**Validation output:**
+```
+✓ Validation passed against schema
+✓ Compiled in 1.2ms
+```
+
+**On error:**
+```
+❌ Validation failed against schema (json format):
+  • $.user.age: expected integer, got string
+    Got: "25"
+    Expected: integer
+```
+
+## Streaming Mode
+
+For large datasets (100k+ items):
+
+```bash
+# Enable streaming
+jsson -i large-data.jsson -stream
+
+# Custom threshold
+jsson -i data.jsson -stream-threshold 50000
+```
+
+**Benefits:**
+- Memory: ~500MB → under 50MB for 100k items
+- Handles millions of items efficiently
+
+## Include Merge Strategies
+
+When files have duplicate keys:
+
+```bash
+# Keep first definition (default)
+jsson -i main.jsson -include-merge keep
+
+# Overwrite with later definition
+jsson -i main.jsson -include-merge overwrite
+
+# Error on duplicates
+jsson -i main.jsson -include-merge error
+```
+
+## Examples
+
+### Pipe to jq
+
+```bash
+jsson -i config.jsson | jq '.users[0]'
+```
+
+### Watch and Rebuild
+
+```bash
+# With entr (Linux)
+ls *.jsson | entr -r jsson -i config.jsson > config.json
+
+# With nodemon
+nodemon --ext jsson --exec "jsson -i config.jsson > config.json"
+```
+
+### CI/CD Integration
+
+```yaml
+# GitHub Actions
+- name: Build config
+  run: |
+    jsson -i config.jsson -f yaml > config.yaml
+    jsson -i config.jsson -schema schema.json -validate-only
+```
+
+### Makefile
+
+```makefile
+build:
+	jsson -i config.jsson > config.json
+	jsson -i config.jsson -f yaml > config.yaml
+
+validate:
+	jsson -i config.jsson -schema schema.json -validate-only
+```

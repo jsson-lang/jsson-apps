@@ -1,4 +1,7 @@
 {
   "title": "CLI",
-  "pages": ["usage"]
+  "description": "Command-line tool for JSSON",
+  "icon": "Terminal",
+  "root": true,
+  "pages": ["index", "usage", "server"]
 }

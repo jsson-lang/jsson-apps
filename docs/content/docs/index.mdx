@@ -1,46 +1,97 @@
 ---
-title: Welcome to JSSON
-description: JSSON is a universal meta-format for configuration. Write once, transpile to JSON, YAML, TOML, and TypeScript.
+title: Introduction
+description: The philosophy, principles, and goals of JSSON.
 ---
 
-import { Cards, Card } from 'fumadocs-ui/components/card';
+import { Card, Cards } from 'fumadocs-ui/components/card';
+import { Callout } from 'fumadocs-ui/components/callout';
+import { BookOpen, Terminal, Package, Sparkles, Scale, Zap, ShieldCheck } from 'lucide-react';
 
-## Why JSSON?
+# What is JSSON?
 
-JSSON (**JavaScript Simplified Object Notation**) is a modern, lightweight
-meta-format that makes writing configuration faster, cleaner, and way more readable.
+**JSSON** (JavaScript Simplified Object Notation) is a **programming language for configuration**.
 
-It's **not just for JSON anymore**.  
-You write JSSON → it outputs **JSON, YAML, TOML, or TypeScript**.
+It sits between static data formats (JSON, YAML) and general-purpose programming languages (TypeScript, Python). It provides the **logic** needed to generate complex configurations without the **complexity** of maintaining full application code just for config files.
 
-Perfect for:
+<Callout type="info">
+  **JSSON is a meta-format.** You write JSSON, but your applications consume standard **JSON, YAML, or TOML**. No runtime dependencies required.
+</Callout>
 
-- API configs (JSON/YAML)
-- Infrastructure as Code (YAML)
-- Application Configs (TOML)
-- Frontend Constants (TypeScript)
-- Seed files & Mock data
+## The Philosophy
 
-## What makes it different?
+### 1. Configuration is Logic
+Configuration files are rarely static. They vary by environment (dev/prod), scale (1 replica vs 100), and context. Standard formats like JSON and YAML force you to duplicate data or use external templating tools (Helm, Jinja2) that break syntax highlighting.
+
+JSSON treats configuration as **code**:
+- **Variables** to avoid repetition
+- **Arithmetic** for calculated values (`port + 1`)
+- **Conditionals** for environment-specific logic
+- **Functions (Maps)** for data transformation
+
+### 2. Write Once, Output Anywhere
+Why maintain a `package.json`, a `docker-compose.yml`, and a `cargo.toml` separately? JSSON aims to be the **single source of truth**.
+
+Write your logic in `.jsson`, and let the compiler generate:
+- **JSON** for web APIs
+- **YAML** for Kubernetes/Docker
+- **TOML** for Rust/Python tools
+- **TypeScript** for type-safe frontend config
+
+### 3. Developer Experience First
+A configuration language must have excellent tooling. JSSON is built from day one with:
+- **LSP Support** (Go-to-definition, real-time errors)
+- **Syntax Highlighting**
+- **Strong Typing** (via TypeScript output)
+- **Schema Validation**
+
+## Core Concepts
 
 <Cards>
-  <Card title="Multi-Format Output" description="Write once, deploy everywhere. Transpile to JSON, YAML, TOML, or fully typed TypeScript." href="/docs/guides/multi-format" />
-  <Card title="Template Arrays" description="Generate structured objects using row-based syntax — perfect for lists, tables, seed data and mock files." href="/docs/guides/templates" />
-  <Card title="Map Transformations" description="Apply transformations inside the syntax using JSSON's `map (item)` blocks." href="/docs/guides/templates#map-transformation" />
-  <Card title="Nested Maps" description="Maps can be nested inside other maps for multi-level data generation." href="/docs/guides/advanced-patterns#matrix-generation" />
-  <Card title="Variables" description="Variables can be used to store values that are used multiple times." href="/docs/reference/syntax#variable-declarations" />
-  <Card title="Includes & Modularization" description="Split large files with `include file.jsson` and avoid repetition." href="/docs/guides/include-modules" />
-  <Card title="Ranges & Steps" description="Write lists like `[ 0..10 step 2 ]` — cleaner and faster than ever." href="/docs/reference/syntax#ranges" />
-  <Card title="Zero Runtime" description="JSSON only transpiles. No hidden logic, no magic, no interpreter needed." href="/docs/guides/transpiler" />
-  <Card title="Fun Error Messages" description="Wizards, gremlins and goblins guide you when something breaks." href="/docs/reference/errors" />
+  <Card
+    icon={<Zap />}
+    title="Expressive"
+    description="Do more with less. Generate 10,000 lines of JSON from 20 lines of JSSON using ranges and maps."
+  />
+  <Card
+    icon={<ShieldCheck />}
+    title="Safe"
+    description="Catch errors at compile time, not runtime. Validate against schemas before checking in code."
+  />
+  <Card
+    icon={<Scale />}
+    title="Scalable"
+    description="From a single config file to a modular system with includes, presets, and imports."
+  />
 </Cards>
 
-## Ready to begin?
+## Maturity & Ecosystem
 
-Start with the basic syntax and real examples in the  
-**[Getting Started guide →](/docs/guides/getting-started)**
+JSSON is currently in **v0.0.6 (Beta)**, but is built on a stable core.
 
-Or explore everything the language offers in the  
-**Reference section →** located in the sidebar.
+- **Compiler**: Written in Go, fast and dependency-free.
+- **Spec**: Strictly defined grammar.
+- **Tooling**: VS Code Extension, CLI, and HTTP Server are stable.
+- **Features**: Presets, Validators, and Streaming are production-ready.
 
-Happy JSSONing! 🚀
+## Explore the Ecosystem
+
+<Cards>
+  <Card
+    icon={<BookOpen />}
+    title="Language Core"
+    description="Learn the syntax, from variables to advanced presets."
+    href="/docs/core"
+  />
+  <Card
+    icon={<Terminal />}
+    title="CLI Tool"
+    description="The official compiler for Linux, Mac, and Windows."
+    href="/docs/cli"
+  />
+  <Card
+    icon={<Sparkles />}
+    title="VS Code Editor"
+    description="Install the extension for the best experience."
+    href="/docs/editor"
+  />
+</Cards>

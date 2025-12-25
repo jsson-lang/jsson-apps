@@ -1,0 +1,272 @@
+---
+title: Syntax Reference
+description: Complete reference for JSSON syntax.
+---
+
+## Comments
+
+```javascript
+// Single-line comment
+name = "João"  // Inline comment
+```
+
+## Assignments
+
+```javascript
+name = "João"       // String
+age = 25            // Integer
+price = 19.99       // Float
+active = true       // Boolean
+```
+
+**When to quote:** Values with spaces or special characters need quotes.
+
+```javascript
+name = João                    // OK (no spaces)
+title = "Software Engineer"    // Quotes needed (space)
+email = "user@example.com"     // Quotes needed (special char)
+```
+
+## Variables
+
+Declare with `:=`. Variables are **not** included in output.
+
+```javascript
+host := "localhost"
+port := 8080
+
+server {
+  url = host + ":" + port
+}
+```
+
+### Scope
+
+```javascript
+global := 100
+
+obj {
+  local := 50       // Only accessible inside obj
+  value = local     // 50
+  outer = global    // 100
+}
+```
+
+## Data Types
+
+### Booleans
+
+```javascript
+enabled = true      // Standard
+disabled = false
+
+dark_mode = yes     // Alternative (v0.0.6+)
+analytics = no
+
+cache = on          // Alternative (v0.0.6+)
+debug = off
+```
+
+All styles (`true/false`, `yes/no`, `on/off`) are equivalent.
+
+## Objects
+
+```javascript
+user {
+  name = "João"
+  age = 25
+  config {
+    theme = "dark"
+  }
+}
+```
+
+## Arrays
+
+```javascript
+numbers = [1, 2, 3, 4, 5]
+colors = [red, blue, green]
+mixed = ["João", 25, true]
+
+// Nested arrays
+matrix = [
+  [1, 2, 3],
+  [4, 5, 6]
+]
+```
+
+### Arrays in Objects
+
+```javascript
+server {
+  methods = [GET, POST, PUT]
+  ports = [8080, 8081, 8082]
+}
+```
+
+## Ranges
+
+```javascript
+// Basic range
+ports = [8080..8085]      // [8080, 8081, 8082, 8083, 8084, 8085]
+
+// With step
+evens = [0..10 step 2]    // [0, 2, 4, 6, 8, 10]
+
+// Large scale
+data = 0..9999            // 10,000 items
+```
+
+## Expressions
+
+```javascript
+price = 100
+tax = 15
+total = price + tax       // 115
+half = total / 2          // 57.5
+remainder = total % 10    // 5
+```
+
+**Operators:** `+`, `-`, `*`, `/`, `%`
+
+## Member Access
+
+```javascript
+config {
+  host = "localhost"
+  port = 5432
+}
+
+url = config.host + ":" + config.port
+```
+
+## Conditionals
+
+```javascript
+age = 20
+status = age >= 18 ? "adult" : "minor"
+
+// Nested ternary
+level = score > 90 ? "A" :
+        score > 80 ? "B" :
+        score > 70 ? "C" : "F"
+```
+
+**Comparison operators:** `==`, `!=`, `>`, `<`, `>=`, `<=`
+
+## Templates
+
+```javascript
+users [
+  template { id, name, role }
+  
+  1, "Alice", "admin"
+  2, "Bob", "user"
+  3, "Charlie", "user"
+]
+```
+
+### Map Transformation
+
+```javascript
+users [
+  template { name, age }
+  
+  map (u) = {
+    name = u.name
+    age = u.age
+    adult = u.age >= 18
+  }
+  
+  "Alice", 25
+  "Bob", 17
+]
+```
+
+### Nested Maps
+
+```javascript
+grid = (0..2 map (y) = (0..2 map (x) = {
+  x = x
+  y = y
+}))
+```
+
+See [Templates Guide](/docs/guides/templates) for more examples.
+
+## Presets
+
+```javascript
+@preset "defaults" {
+  timeout = 30
+  retries = 3
+}
+
+api = @use "defaults" {
+  endpoint = "/api"
+}
+```
+
+See [Presets Guide](/docs/guides/presets) for more examples.
+
+## Validators
+
+```javascript
+user {
+  id = @uuid
+  email = @email
+  age = @int(18, 65)
+  score = @float(0.0, 100.0)
+  active = @bool
+  created = @datetime
+}
+```
+
+**Available:** `@uuid`, `@email`, `@url`, `@ipv4`, `@ipv6`, `@date`, `@datetime`, `@filepath`, `@int(min, max)`, `@float(min, max)`, `@bool`
+
+See [Validators Guide](/docs/guides/validators) for more examples.
+
+## Includes
+
+```javascript
+include "database.jsson"
+include "api.jsson"
+
+app {
+  name = "MyApp"
+}
+```
+
+See [Include Guide](/docs/guides/include-modules) for more examples.
+
+## Quick Reference
+
+### Keywords
+
+| Keyword | Description |
+|---------|-------------|
+| `template` | Structure for array items |
+| `map` | Transform template data |
+| `include` | Import another file |
+| `step` | Range increment |
+| `@preset` | Define reusable config |
+| `@use` | Apply preset |
+
+### Operators
+
+| Operator | Description |
+|----------|-------------|
+| `=` | Assignment |
+| `:=` | Variable declaration |
+| `+` `-` `*` `/` `%` | Arithmetic |
+| `==` `!=` `>` `<` `>=` `<=` | Comparison |
+| `? :` | Ternary conditional |
+| `..` | Range |
+| `.` | Member access |
+
+### Booleans
+
+| Value | Equivalent |
+|-------|------------|
+| `true` | `yes`, `on` |
+| `false` | `no`, `off` |

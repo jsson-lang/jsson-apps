@@ -2,8 +2,9 @@
   "title": "Guides",
   "pages": [
     "getting-started",
-    "basic-syntax",
     "templates",
+    "presets",
+    "validators",
     "cli",
     "include-modules",
     "multi-format",

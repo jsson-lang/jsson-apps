@@ -2,14 +2,13 @@
   "root": true,
   "pages": [
     "index",
-    "guides",
-    "reference",
+    "core",
     "examples",
-    "real-world",
-    "api",
+    "editor",
     "cli",
-    "faq",
-    "changelog",
-    "contributing"
+    "server",
+    "api",
+    "contributing",
+    "changelog"
   ]
 }

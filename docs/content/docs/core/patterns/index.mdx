@@ -1,0 +1,215 @@
+---
+title: Patterns
+description: Best practices and recommended patterns for JSSON configuration.
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+Patterns are proven solutions to common configuration problems. Use them to write cleaner, more maintainable JSSON.
+
+## Data Generation
+
+### Use Ranges for Scale
+
+When you need many similar items, ranges are your best friend.
+
+```javascript
+//  Good: Generate 100 users with a range
+users = 1..100 map (id) = { id = id, name = "User " + id }
+
+//  Bad: Manually specifying each
+users = [
+  { id = 1, name = "User 1" },
+  { id = 2, name = "User 2" },
+  // ... 98 more times
+]
+```
+
+**When to use:** Database seeding, test fixtures, mock data, bulk configuration.
+
+### Use Templates for Structured Data
+
+When rows have a fixed structure, templates make the code readable.
+
+```javascript
+//  Good: Clear column headers
+users [
+  template { name, email, role }
+  
+  "Alice", "alice@example.com", "admin"
+  "Bob", "bob@example.com", "user"
+]
+
+//  Bad: Anonymous tuples are confusing
+users = [
+  ["Alice", "alice@example.com", "admin"],
+  ["Bob", "bob@example.com", "user"]
+]
+```
+
+**When to use:** User lists, feature flags, environment configs.
+
+---
+
+## Reusability
+
+### Use Presets for Shared Defaults
+
+Extract common properties into presets to avoid duplication.
+
+```javascript
+//  Good: DRY with presets
+@preset "apiDefaults" {
+  timeout = 30
+  retries = 3
+  ssl = yes
+}
+
+authService = @use "apiDefaults" { endpoint = "/auth" }
+paymentService = @use "apiDefaults" { endpoint = "/payment", timeout = 60 }
+
+//  Bad: Duplicated values
+authService = { timeout = 30, retries = 3, ssl = yes, endpoint = "/auth" }
+paymentService = { timeout = 60, retries = 3, ssl = yes, endpoint = "/payment" }
+```
+
+**When to use:** Shared defaults, component configs, multi-environment setups.
+
+### Override Selectively
+
+Presets allow you to override only what's different.
+
+```javascript
+@preset "logDefaults" {
+  level = "info"
+  format = "json"
+  output = "stdout"
+}
+
+prodLogs = @use "logDefaults" { level = "error" }
+devLogs = @use "logDefaults" { level = "debug", output = "file" }
+```
+
+---
+
+## Conditional Logic
+
+### Use Ternaries for Environment Switching
+
+```javascript
+env := "prod"
+
+config {
+  database = env == "prod" ? "db.example.com" : "localhost"
+  debug = env == "dev" ? yes : no
+  replicas = env == "prod" ? 5 : 1
+}
+```
+
+**When to use:** Environment-specific values that differ by a single variable.
+
+### Use Map with Conditions for Complex Logic
+
+```javascript
+users [
+  template { id, plan }
+  
+  map (u) = {
+    id = u.id
+    storage = u.plan == "pro" ? 100 : (u.plan == "team" ? 500 : 10)
+    features = u.plan == "free" ? ["basic"] : ["basic", "advanced"]
+  }
+  
+  1, "free"
+  2, "pro"
+  3, "team"
+]
+```
+
+---
+
+## Validators
+
+### Use Validators for Realistic Mock Data
+
+```javascript
+//  Good: Auto-generated realistic data
+users [
+  template { role }
+  map (u) = {
+    id = @uuid
+    email = @email
+    createdAt = @datetime
+    role = u.role
+  }
+  "admin", "user", "user"
+]
+
+//  Bad: Manual fake data
+users = [
+  { id = "1", email = "a@b.com", createdAt = "2025-01-01" }
+]
+```
+
+**When to use:** Test data, database seeding, API mocking.
+
+---
+
+## Modularity
+
+### Split Large Files with Include
+
+```javascript
+// main.jsson
+include "database.jsson"
+include "api.jsson"
+include "features.jsson"
+```
+
+**When to use:** Projects with 100+ lines of config, team environments.
+
+### Group Related Config in Objects
+
+```javascript
+//  Good: Grouped by concern
+config {
+  database { host = "localhost", port = 5432 }
+  cache { host = "localhost", port = 6379 }
+  api { port = 8080, timeout = 30 }
+}
+
+//  Bad: Flat namespace
+databaseHost = "localhost"
+databasePort = 5432
+cacheHost = "localhost"
+cachePort = 6379
+```
+
+---
+
+## Naming
+
+### Use Descriptive Preset Names
+
+```javascript
+//  Good
+@preset "httpServiceDefaults" { ... }
+@preset "databaseConnectionPool" { ... }
+
+//  Bad
+@preset "defaults" { ... }
+@preset "config1" { ... }
+```
+
+### Use Semantic Boolean Names
+
+```javascript
+//  Good: Clear intent
+enabled = yes
+debugMode = on
+requiresAuth = yes
+
+//  Avoid: Ambiguous  
+flag = true
+mode = 1
+```

@@ -1,0 +1,174 @@
+---
+title: HTTP Server
+description: Built-in REST API for JSSON transpilation.
+---
+
+## Start Server
+
+```bash
+# Default port 8090
+jsson serve
+
+# Custom port
+jsson serve -port 3000
+```
+
+## Server Flags
+
+| Flag | Default | Description |
+|------|---------|-------------|
+| `-port` | `8090` | Port to listen on |
+| `-cors` | `true` | Enable CORS |
+
+## Endpoints
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/transpile` | POST | Transpile JSSON source |
+| `/validate` | POST | Validate JSSON syntax |
+| `/validate-schema` | POST | Validate against schema |
+| `/health` | GET | Health check |
+| `/version` | GET | Version info |
+
+## Transpile
+
+**Request:**
+
+```bash
+curl -X POST http://localhost:8090/transpile \
+  -H "Content-Type: application/json" \
+  -d '{
+    "source": "user { name = João, age = 25 }",
+    "format": "json"
+  }'
+```
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "output": { "user": { "name": "João", "age": 25 } },
+  "format": "json",
+  "transpile_time_ms": 0.123
+}
+```
+
+**Options:**
+
+```json
+{
+  "source": "...",
+  "format": "json|yaml|toml|typescript",
+  "include_merge": "keep|overwrite|error",
+  "streaming": true,
+  "stream_threshold": 10000
+}
+```
+
+## Validate Syntax
+
+**Request:**
+
+```bash
+curl -X POST http://localhost:8090/validate \
+  -H "Content-Type: application/json" \
+  -d '{ "source": "user { name = João }" }'
+```
+
+**Response:**
+
+```json
+{
+  "valid": true,
+  "errors": []
+}
+```
+
+## Validate with Schema
+
+**Request:**
+
+```bash
+curl -X POST http://localhost:8090/validate-schema \
+  -H "Content-Type: application/json" \
+  -d '{
+    "source": "user { name = João, age = 25 }",
+    "schema": "{ \"type\": \"object\" }",
+    "output_format": "json"
+  }'
+```
+
+**Response:**
+
+```json
+{
+  "valid": true,
+  "errors": [],
+  "format": "json",
+  "schema_type": "json-schema",
+  "transpile_time_ms": 0.1,
+  "validate_time_ms": 0.05,
+  "transpiled_data": { "user": { "name": "João", "age": 25 } }
+}
+```
+
+## Health Check
+
+```bash
+curl http://localhost:8090/health
+```
+
+```json
+{
+  "status": "healthy",
+  "service": "jsson",
+  "version": "0.1.0",
+  "jsson_version": "0.0.6",
+  "timestamp": "2025-12-24T12:00:00Z"
+}
+```
+
+## Version
+
+```bash
+curl http://localhost:8090/version
+```
+
+```json
+{
+  "server_version": "0.1.0",
+  "jsson_version": "0.0.6",
+  "go_version": "1.21+"
+}
+```
+
+## Use Cases
+
+### Playground Backend
+
+```javascript
+const response = await fetch('http://localhost:8090/transpile', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ source: code, format: 'json' })
+});
+const { output, errors } = await response.json();
+```
+
+### CI/CD Validation
+
+```bash
+curl -X POST http://localhost:8090/validate-schema \
+  -d '{"source": "...", "schema": "..."}' \
+  | jq -e '.valid'
+```
+
+### Docker
+
+```dockerfile
+FROM alpine
+COPY jsson /usr/local/bin/
+EXPOSE 8090
+CMD ["jsson", "serve"]
+```

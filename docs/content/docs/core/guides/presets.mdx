@@ -1,0 +1,164 @@
+---
+title: Presets Guide
+description: Create reusable configuration templates.
+---
+
+## Overview
+
+Presets define reusable configurations with `@preset` and apply them with `@use`.
+
+```javascript
+@preset "defaults" {
+  timeout = 30
+  retries = 3
+  ssl = true
+}
+
+api = @use "defaults" {
+  endpoint = "/api"
+}
+```
+
+Output:
+```json
+{
+  "api": {
+    "timeout": 30,
+    "retries": 3,
+    "ssl": true,
+    "endpoint": "/api"
+  }
+}
+```
+
+## Overriding Values
+
+Override any preset value:
+
+```javascript
+@preset "api_config" {
+  timeout = 30
+  retries = 3
+}
+
+services {
+  fast = @use "api_config" {
+    timeout = 10        // Override
+    endpoint = "/fast"
+  }
+  
+  slow = @use "api_config" {
+    timeout = 120       // Override
+    endpoint = "/slow"
+  }
+}
+```
+
+## Examples
+
+### Database Connections
+
+```javascript
+@preset "db_base" {
+  pool_size = 10
+  timeout = 5000
+  ssl = true
+}
+
+databases {
+  primary = @use "db_base" {
+    host = "db-primary.example.com"
+    port = 5432
+  }
+  
+  replica = @use "db_base" {
+    host = "db-replica.example.com"
+    pool_size = 5       // Smaller for replica
+  }
+}
+```
+
+### API Routes
+
+```javascript
+@preset "route_defaults" {
+  timeout = 30
+  auth = true
+  rate_limit = 100
+}
+
+routes [
+  template { service, path }
+  
+  map (r) = @use "route_defaults" {
+    service = r.service
+    path = r.path
+  }
+  
+  "auth", "/auth"
+  "payment", "/payment"
+]
+```
+
+### User Roles
+
+```javascript
+@preset "user_base" {
+  active = true
+  verified = false
+}
+
+users {
+  admin = @use "user_base" {
+    name = "Alice"
+    role = "admin"
+    verified = true
+  }
+  
+  regular = @use "user_base" {
+    name = "Bob"
+    role = "user"
+  }
+}
+```
+
+## Best Practices
+
+**Do:**
+```javascript
+// ✅ Descriptive names
+@preset "api_production_defaults" { ... }
+
+// ✅ Focused presets
+@preset "timeout_config" {
+  timeout = 30
+  retries = 3
+}
+```
+
+**Don't:**
+```javascript
+// ❌ Vague names
+@preset "config1" { ... }
+
+// ❌ Too many unrelated settings
+@preset "everything" {
+  timeout = 30
+  database = "postgres"
+  cache = true
+  // ...
+}
+```
+
+## Troubleshooting
+
+**Preset not found:**
+```javascript
+// ❌ Used before defined
+config = @use "my_preset" { ... }
+@preset "my_preset" { ... }
+
+// ✅ Define first
+@preset "my_preset" { ... }
+config = @use "my_preset" { ... }
+```
