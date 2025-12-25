@@ -187,7 +187,7 @@ users [
         <div className="mx-auto flex max-w-4xl items-center justify-between text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground">
           <div className="flex gap-8">
             <Link
-              href="https://github.com/jssonlang/jsson"
+              href="https://github.com/jsson-lang/jsson"
               className="hover:text-foreground transition-colors"
             >
               GitHub

@@ -47,7 +47,7 @@ export function Footer() {
               </h3>
               <div className="flex flex-col gap-2">
                 <Link
-                  href="https://github.com/jssonlang/jsson"
+                  href="https://github.com/jsson-lang/jsson"
                   className="text-sm font-bold uppercase tracking-tight hover:opacity-70 transition-opacity"
                 >
                   GitHub

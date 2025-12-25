@@ -38,6 +38,6 @@ export function baseOptions(): BaseLayoutProps {
         active: 'nested-url',
       },
     ],
-    githubUrl: 'https://github.com/jssonlang/jsson',
+    githubUrl: 'https://github.com/jsson-lang/jsson',
   };
 }
