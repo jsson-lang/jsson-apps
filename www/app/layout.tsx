@@ -11,7 +11,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: 'JSSON — JavaScript Simplified Object Notation | Config Meta-Language',
   description:
-    'JSSON is a powerful meta-language and transpiler that generates JSON, YAML, TOML, and TypeScript. Features templates, ranges, maps, and streaming for large datasets. Write configs 10x faster.',
+    'JSSON is a powerful meta-language and transpiler that generates JSON, YAML, TOML, and TypeScript. Features presets, auto-generated data, templates, and full LSP support.',
   keywords: [
     'JSSON',
     'JSSON language',
@@ -26,6 +26,9 @@ export const metadata: Metadata = {
     'template syntax',
     'configuration tool',
     'JSSON syntax',
+    'Presets',
+    'Validators',
+    'LSP',
   ],
   verification: {
     google: '6qeyW-HDbBat5RyhEyy94NNXlTpn_gyBGuX9kCi8EBw',
@@ -37,7 +40,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'JSSON — The Config Meta-Language for Modern Development',
     description:
-      'JSSON transpiler: Write once, generate JSON, YAML, TOML & TypeScript. Features templates, smart ranges, maps, and streaming for 100k+ items. 10x faster config writing.',
+      'JSSON transpiler: Write once, generate JSON, YAML, TOML & TypeScript. Features presets, auto-generated data, templates, and full LSP support.',
     url: 'https://jssonlang.tech',
     siteName: 'JSSON Language',
     type: 'website',
@@ -54,7 +57,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'JSSON — Config Meta-Language',
     description:
-      'JSSON transpiler for JSON, YAML, TOML & TypeScript. Templates, ranges, maps & streaming.',
+      'JSSON transpiler for JSON, YAML, TOML & TypeScript. Presets, validators, templates & LSP.',
     creator: '@jssonlang',
     images: ['/og-image.png'],
   },
@@ -74,7 +77,7 @@ export default function RootLayout({
     name: 'JSSON',
     applicationCategory: 'DeveloperApplication',
     description:
-      'JSSON - JavaScript Simplified Object Notation. A powerful meta-language and transpiler for generating JSON, YAML, TOML, and TypeScript with templates, ranges, and streaming support.',
+      'JSSON - JavaScript Simplified Object Notation. A powerful meta-language and transpiler for generating JSON, YAML, TOML, and TypeScript with presets, auto-validators, and LSP support.',
     url: 'https://jssonlang.tech',
     operatingSystem: 'Windows, macOS, Linux',
     offers: {
@@ -87,7 +90,7 @@ export default function RootLayout({
       name: 'JSSON',
       url: 'https://jssonlang.tech',
     },
-    softwareVersion: '0.0.5.2',
+    softwareVersion: '0.0.6',
     releaseNotes: 'https://docs.jssonlang.tech/changelog/',
     programmingLanguage: 'Go',
     keywords: 'JSSON, transpiler, config generator, YAML, TOML, TypeScript, templates',

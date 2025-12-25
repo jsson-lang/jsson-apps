@@ -181,6 +181,88 @@ features = {
       </div>
     ),
   },
+  {
+    icon: Sparkles,
+    title: 'Presets & @use',
+    subtitle: 'Reusable Infrastructure',
+    badge: 'DRY Config',
+    code: `@preset "api-tier" {
+  timeout = 30
+  retries = 3
+}
+
+prod = @use "api-tier" {
+  endpoint = "/v1"
+  replicas = 5
+}`,
+    visual: (
+      <div className="flex flex-col gap-2 p-8">
+        {['AUTH', 'PAYMENT'].map((svc) => (
+          <div key={svc} className="p-3 rounded border border-emerald-500/20">
+            <div className="flex justify-between items-center mb-1">
+              <span className="text-[10px] font-bold">{svc} SERVICE</span>
+              <span className="text-[9px] px-1 bg-emerald-500 text-background font-bold tracking-tighter">@USE(API)</span>
+            </div>
+            <div className="flex gap-2 text-[9px] text-muted-foreground uppercase">
+              <span>Timeout: 30s</span>
+              <span>Retries: 3</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    ),
+  },
+  {
+    icon: Route,
+    title: 'Smart Validators',
+    subtitle: 'Realistic Mock Data',
+    badge: 'Auto-Generated',
+    code: `user {
+  id = @uuid
+  email = @email
+  createdAt = @datetime
+  status = @bool ? "up" : "down"
+}`,
+    visual: (
+      <div className="flex flex-col gap-2 p-8">
+        <div className="p-3 rounded border border-border bg-background">
+          <div className="text-[9px] font-mono text-muted-foreground truncate mb-1">
+            uuid: 550e8400-e29b...
+          </div>
+          <div className="text-[10px] font-bold">user_kx7m@example.com</div>
+          <div className="mt-2 flex items-center gap-1.5">
+            <div className="h-1.5 w-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
+            <span className="text-[9px] font-black uppercase tracking-tighter text-emerald-500">Active Now</span>
+          </div>
+        </div>
+      </div>
+    ),
+  },
+  {
+    icon: Sparkles,
+    title: 'Embedded Server',
+    subtitle: 'Production-Ready Serving',
+    badge: 'API Ready',
+    code: `# Start the server
+jsson --serve --port 8080 -i prod.jsson
+
+# Fetch from any service
+curl http://localhost:8080/config`,
+    visual: (
+      <div className="flex flex-col gap-2 p-8 font-mono">
+        <div className="p-3 rounded bg-zinc-950 text-zinc-100 text-[9px] border border-zinc-800 shadow-2xl">
+          <div className="flex gap-1.5 mb-2">
+            <div className="w-2 h-2 rounded-full bg-red-500/50" />
+            <div className="w-2 h-2 rounded-full bg-amber-500/50" />
+            <div className="w-2 h-2 rounded-full bg-emerald-500/50" />
+          </div>
+          <div className="text-emerald-400">$ jsson --serve</div>
+          <div className="text-zinc-500">Listening on :8080...</div>
+          <div className="mt-1 text-blue-400">GET /config - 200 OK</div>
+        </div>
+      </div>
+    ),
+  },
 ];
 
 export function Showcase() {

@@ -24,6 +24,26 @@ const faqs = [
       'Yes. Ranges, arithmetic, template blocks, and nested maps are all built-in. JSSON can generate thousands of records from a few lines of logic.',
   },
   {
+    question: "What's new in v0.0.6?",
+    answer: "v0.0.6 introduces Presets (@preset/@use), Auto-Validators (@uuid, @email), Boolean Literals (yes/no), and full LSP support for a professional developer experience. It's the last pre-alpha version before v1.0.0.",
+  },
+  {
+    question: 'How do Presets help me?',
+    answer: "Presets allow you to define reusable configuration blocks once and apply them globally or locally with overrides. It eliminates copy-pasting and makes your infrastructure definitions DRY.",
+  },
+  {
+    question: 'Is JSSON ready for production?',
+    answer: "v0.0.6 is highly stable and used internally for our projects. While technically 'pre-alpha', it follows strict semantic versioning and comes with a comprehensive test suite (1,300+ tests).",
+  },
+  {
+    question: 'How does the built-in HTTP server work?',
+    answer: "The JSSON CLI includes a `--serve` flag that starts a lightweight, production-ready HTTP server. It serves your transpiled configurations directly as JSON or other formats, allowing you to fetch config updates dynamically without redeploying services.",
+  },
+  {
+    question: 'When is v1.0.0 coming?',
+    answer: "We are currently in a 'feature freeze' phase with v0.0.6. v1.0.0 is planned for early 2026 and will mark the stable, frozen specification of the language.",
+  },
+  {
     question: 'Is JSSON whitespace-dependent?',
     answer:
       'No. JSSON has clear delimiters and is not indentation-sensitive. You can minify or inline it however you want.',

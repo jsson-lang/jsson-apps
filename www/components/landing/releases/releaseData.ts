@@ -10,19 +10,17 @@ interface Release {
 export const releases: Release[] = [
   {
     version: 'v0.0.6',
-    title: 'Unified Infrastructure & Server',
+    title: 'Presets, Validators & LSP',
     description:
-      'Introducing a built-in HTTP server for config serving, reusable Presets, and advanced custom format validation.',
-    date: 'In development',
-    tag: 'Coming soon',
-    branch: 'feat/jsson-v0.0.6',
+      'The last pre-alpha release. Introduces presets for reusable config, validators for auto-generated data, and full LSP support for VS Code.',
+    date: 'Dec 25, 2025',
+    tag: 'Latest',
   },
   {
     version: 'v0.0.5.2',
     title: 'Variable Arithmetic Fix',
     description: 'Improved stability in mathematical operations and variable resolution.',
     date: 'Dec 02, 2025',
-    tag: 'Latest',
   },
   {
     version: 'v0.0.5.1',

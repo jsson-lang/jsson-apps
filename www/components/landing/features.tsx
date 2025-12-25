@@ -4,6 +4,18 @@ import DecoratorsGrid from '@/components/shared/decorators-grid';
 
 const features = [
   {
+    title: 'Built-in HTTP Server',
+    description: 'Instantly serve your configuration across your infrastructure with a production-ready emmbeded server.',
+  },
+  {
+    title: 'Presets & Reusability',
+    description: 'Define reusable configuration blocks once and apply them everywhere with @preset and @use.',
+  },
+  {
+    title: 'Auto-Generated Data',
+    description: 'Integrated validators for UUIDs, emails, dates, and IPs. Perfect for realistic test data.',
+  },
+  {
     title: 'Universal Output',
     description:
       'Write once, export everywhere. Convert JSSON into JSON, YAML, TOML, or TypeScript.',
@@ -25,20 +37,12 @@ const features = [
     description: 'Generate massive datasets with 1..10000 and range-driven maps instantly.',
   },
   {
-    title: 'Arithmetic & Logic',
-    description: 'Full math, comparisons, modulo, and ternaries right inside the DSL.',
+    title: 'Natural Booleans',
+    description: 'Pick your style: use yes/no or on/off as intuitive alternatives to true/false.',
   },
   {
-    title: 'Nested Structures',
-    description: 'Naturally express deep arrays and multi-level data expansions.',
-  },
-  {
-    title: 'Composition',
-    description: 'Break large configs into parts and merge them with clean include rules.',
-  },
-  {
-    title: 'Native Types',
-    description: 'Clean syntax for strings, numbers, and booleans without quoting hell.',
+    title: 'Professional LSP',
+    description: 'Full IDE support with real-time diagnostics, auto-complete, and go-to-definition.',
   },
 ];
 

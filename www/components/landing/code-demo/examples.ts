@@ -1,5 +1,156 @@
 export const codeExamples = [
   {
+    title: 'Presets & @use',
+    jsson: `// Define reusable configuration
+@preset "http-defaults" {
+  timeout = 30
+  retries = 3
+  ssl = yes
+}
+
+// Instantiate with custom values
+api = @use "http-defaults" {
+  endpoint = "/v1"
+  timeout = 60
+}
+
+db = @use "http-defaults" {
+  endpoint = "/db"
+  ssl = no
+}`,
+    json: `{
+  "api": {
+    "timeout": 60,
+    "retries": 3,
+    "ssl": true,
+    "endpoint": "/v1"
+  },
+  "db": {
+    "timeout": 30,
+    "retries": 3,
+    "ssl": false,
+    "endpoint": "/db"
+  }
+}`,
+    yaml: `api:
+  timeout: 60
+  retries: 3
+  ssl: true
+  endpoint: /v1
+db:
+  timeout: 30
+  retries: 3
+  ssl: false
+  endpoint: /db`,
+    toml: `[api]
+timeout = 60
+retries = 3
+ssl = true
+endpoint = "/v1"
+
+[db]
+timeout = 30
+retries = 3
+ssl = false
+endpoint = "/db"`,
+    typescript: `export const config = {
+  api: {
+    timeout: 60,
+    retries: 3,
+    ssl: true,
+    endpoint: "/v1"
+  },
+  db: {
+    timeout: 30,
+    retries: 3,
+    ssl: false,
+    endpoint: "/db"
+  }
+} as const;`,
+  },
+  {
+    title: 'Auto-Validators',
+    jsson: `// Generate realistic test data
+users = 1..3 map (id) = {
+  id = @uuid
+  email = @email
+  createdAt = @datetime
+  status = @bool ? "active" : "pending"
+  port = @int(3000, 4000)
+}`,
+    json: `{
+  "users": [
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440000",
+      "email": "user_1@example.com",
+      "createdAt": "2025-12-25T12:00:00Z",
+      "status": "active",
+      "port": 3452
+    },
+    {
+      "id": "678e8400-e29b-41d4-a716-446655440001",
+      "email": "user_2@example.com",
+      "createdAt": "2025-12-25T12:05:00Z",
+      "status": "pending",
+      "port": 3891
+    },
+    {
+      "id": "890e8400-e29b-41d4-a716-446655440002",
+      "email": "user_3@example.com",
+      "createdAt": "2025-12-25T12:10:00Z",
+      "status": "active",
+      "port": 3120
+    }
+  ]
+}`,
+    yaml: `users:
+  - id: 550e8400-e29b-41d4-a716-446655440000
+    email: user_1@example.com
+    createdAt: "2025-12-25T12:00:00Z"
+    status: active
+    port: 3452
+  - id: 678e8400-e29b-41d4-a716-446655440001
+    email: user_2@example.com
+    createdAt: "2025-12-25T12:05:00Z"
+    status: pending
+    port: 3891
+  - id: 890e8400-e29b-41d4-a716-446655440002
+    email: user_3@example.com
+    createdAt: "2025-12-25T12:10:00Z"
+    status: active
+    port: 3120`,
+    toml: `[[users]]
+id = "550e8400-e29b-41d4-a716-446655440000"
+email = "user_1@example.com"
+createdAt = "2025-12-25T12:00:00Z"
+status = "active"
+port = 3452
+
+[[users]]
+id = "678e8400-e29b-41d4-a716-446655440001"
+email = "user_2@example.com"
+createdAt = "2025-12-25T12:05:00Z"
+status = "pending"
+port = 3891
+
+[[users]]
+id = "890e8400-e29b-41d4-a716-446655440002"
+email = "user_3@example.com"
+createdAt = "2025-12-25T12:10:00Z"
+status = "active"
+port = 3120`,
+    typescript: `export const users = [
+  {
+    id: "550e8400-e29b-41d4-a716-446655440000",
+    email: "user_1@example.com",
+    createdAt: "2025-12-25T12:00:00Z",
+    status: "active",
+    port: 3452
+  },
+  // ... more users
+] as const;`,
+  },
+  {
     title: 'Basic Configuration',
     jsson: `// Simple configuration
 api {
