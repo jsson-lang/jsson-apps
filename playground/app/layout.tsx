@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Google_Sans_Code, Inter } from 'next/font/google';
+import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import { AnchoredToastProvider, ToastProvider } from '@/components/ui/toast';
-import { NuqsAdapter } from 'nuqs/adapters/next/app'
 import './globals.css';
 
 const inter = Inter({
@@ -111,9 +111,7 @@ export default function RootLayout({
       <body className={`${inter.className} ${mono.variable} antialiased`}>
         <ToastProvider position="top-center">
           <AnchoredToastProvider>
-            <NuqsAdapter>
-              {children}
-            </NuqsAdapter>
+            <NuqsAdapter>{children}</NuqsAdapter>
           </AnchoredToastProvider>
         </ToastProvider>
       </body>

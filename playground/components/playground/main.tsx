@@ -1,12 +1,12 @@
 'use client';
 
+import { Code2, Terminal } from 'lucide-react';
 import { useEffect } from 'react';
 import { JSSONEditor } from '@/components/playground/editor';
 import { OutputViewer } from '@/components/playground/output-viewer';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { usePlaygroundContext } from '@/contexts/playground-context';
 import { useTranspiler } from '@/hooks/use-transpiler';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Code2, Terminal } from 'lucide-react';
 
 const DEFAULT_CODE = `// Welcome to the JSSON Playground!
 // Try editing this code to see the magic happen.

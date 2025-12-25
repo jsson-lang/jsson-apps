@@ -3,9 +3,9 @@
 import Editor, { type OnMount, useMonaco } from '@monaco-editor/react';
 import { Play } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
+import { toastManager } from '@/components/ui/toast';
 import { Button } from '../ui/button';
 import ExamplesSheet from './examples';
-import { toastManager } from '@/components/ui/toast';
 
 interface JSSONEditorProps {
   value: string;
@@ -18,7 +18,12 @@ interface JSSONEditorProps {
   };
 }
 
-export function JSSONEditor({ value, onChange, runCode: runCodeCallback, metrics }: JSSONEditorProps) {
+export function JSSONEditor({
+  value,
+  onChange,
+  runCode: runCodeCallback,
+  metrics,
+}: JSSONEditorProps) {
   const monaco = useMonaco();
   const editorRef = useRef<Parameters<OnMount>[0] | null>(null);
   const [cursorPos, setCursorPos] = useState({ ln: 1, col: 1 });

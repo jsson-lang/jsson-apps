@@ -2,9 +2,9 @@
 
 import { ArrowRight, Sparkles } from 'lucide-react';
 import Link from 'next/link';
+import { Badge } from '@/components/ui/badge';
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { Badge } from '@/components/ui/badge';
 import Logo from '../shared/logo';
 
 export function Hero() {
@@ -20,7 +20,8 @@ export function Hero() {
         </h1>
 
         <p className="mt-8 max-w-3xl text-xl text-muted-foreground sm:text-2xl font-medium tracking-tight uppercase">
-          Write logic, not JSON. Presets, validators, HTTP server and LSP support. <br className="hidden sm:block" />
+          Write logic, not JSON. Presets, validators, HTTP server and LSP support.{' '}
+          <br className="hidden sm:block" />
           One source for JSON, YAML, TOML, and TypeScript.
         </p>
 

@@ -238,10 +238,10 @@ export const EXAMPLES: Example[] = [
     description: 'Configure load balancers with health checks and routing.',
     category: 'Infrastructure',
     icon: Network,
-    code: `backends [\n  template { name, port, weight }\n\n  map (b) = {\n    name = b.name\n    host = b.name + \".internal\"\n    port = b.port\n    weight = b.weight\n    health_check = {\n      path = \"/health\"\n      interval = 30\n      timeout = 5\n      healthy_threshold = 2\n      unhealthy_threshold = 3\n    }\n    ssl = b.port == 443\n  }\n\n  \"api-server-1\", 8080, 100\n  \"api-server-2\", 8080, 100\n  \"api-server-3\", 8080, 50\n]
+    code: `backends [\n  template { name, port, weight }\n\n  map (b) = {\n    name = b.name\n    host = b.name + ".internal"\n    port = b.port\n    weight = b.weight\n    health_check = {\n      path = "/health"\n      interval = 30\n      timeout = 5\n      healthy_threshold = 2\n      unhealthy_threshold = 3\n    }\n    ssl = b.port == 443\n  }\n\n  "api-server-1", 8080, 100\n  "api-server-2", 8080, 100\n  "api-server-3", 8080, 50\n]
 
 loadbalancer {
-  algorithm = \"round-robin\"
+  algorithm = "round-robin"
   sticky_sessions = true
   timeout = 60
 }`,
@@ -253,7 +253,7 @@ loadbalancer {
     description: 'Define deployment pipelines for multiple environments.',
     category: 'Infrastructure',
     icon: GitBranch,
-    code: `pipeline [\n  template { stage, env, auto_deploy }\n\n  map (s) = {\n    name = s.stage + \"-\" + s.env\n    stage = s.stage\n    environment = s.env\n    auto_deploy = s.auto_deploy\n    \n    steps = s.stage == \"build\" ? [\n      \"npm install\",\n      \"npm run build\",\n      \"npm test\"\n    ] : s.stage == \"deploy\" ? [\n      \"docker build\",\n      \"docker push\",\n      \"kubectl apply\"\n    ] : [\"echo done\"]\n    \n    timeout = s.stage == \"build\" ? 600 : 300\n    retry = s.auto_deploy ? 3 : 1\n  }\n\n  \"build\", \"dev\", true\n  \"deploy\", \"dev\", true\n  \"build\", \"staging\", true\n  \"deploy\", \"staging\", false\n  \"build\", \"prod\", false\n  \"deploy\", \"prod\", false\n]`,
+    code: `pipeline [\n  template { stage, env, auto_deploy }\n\n  map (s) = {\n    name = s.stage + "-" + s.env\n    stage = s.stage\n    environment = s.env\n    auto_deploy = s.auto_deploy\n    \n    steps = s.stage == "build" ? [\n      "npm install",\n      "npm run build",\n      "npm test"\n    ] : s.stage == "deploy" ? [\n      "docker build",\n      "docker push",\n      "kubectl apply"\n    ] : ["echo done"]\n    \n    timeout = s.stage == "build" ? 600 : 300\n    retry = s.auto_deploy ? 3 : 1\n  }\n\n  "build", "dev", true\n  "deploy", "dev", true\n  "build", "staging", true\n  "deploy", "staging", false\n  "build", "prod", false\n  "deploy", "prod", false\n]`,
   },
 
   {
@@ -262,7 +262,7 @@ loadbalancer {
     description: 'Configure monitoring rules and alert thresholds.',
     category: 'Infrastructure',
     icon: Settings,
-    code: `alerts [\n  template { metric, threshold, severity }\n\n  map (a) = {\n    name = a.metric + \"-alert\"\n    metric = a.metric\n    threshold = a.threshold\n    severity = a.severity\n    \n    // Conditional notification channels\n    notify = a.severity == \"critical\" ? [\n      \"pagerduty\",\n      \"slack\",\n      \"email\"\n    ] : a.severity == \"warning\" ? [\n      \"slack\",\n      \"email\"\n    ] : [\"email\"]\n    \n    // Auto-scaling trigger\n    auto_scale = a.metric == \"cpu\" ? true : false\n    cooldown = 300\n  }\n\n  \"cpu\", 80, \"warning\"\n  \"cpu\", 95, \"critical\"\n  \"memory\", 85, \"warning\"\n  \"disk\", 90, \"critical\"\n  \"latency\", 1000, \"warning\"\n]`,
+    code: `alerts [\n  template { metric, threshold, severity }\n\n  map (a) = {\n    name = a.metric + "-alert"\n    metric = a.metric\n    threshold = a.threshold\n    severity = a.severity\n    \n    // Conditional notification channels\n    notify = a.severity == "critical" ? [\n      "pagerduty",\n      "slack",\n      "email"\n    ] : a.severity == "warning" ? [\n      "slack",\n      "email"\n    ] : ["email"]\n    \n    // Auto-scaling trigger\n    auto_scale = a.metric == "cpu" ? true : false\n    cooldown = 300\n  }\n\n  "cpu", 80, "warning"\n  "cpu", 95, "critical"\n  "memory", 85, "warning"\n  "disk", 90, "critical"\n  "latency", 1000, "warning"\n]`,
   },
 
   {
@@ -382,7 +382,7 @@ schedule = (["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"] map (day) = (
   },
 
   // ADVANCED EXAMPLES (v0.0.6)
-  
+
   {
     id: 'ternary-chains',
     title: 'Ternary Chains',
@@ -518,7 +518,7 @@ products [
   },
 
   // ===== NEW v0.0.6 EXAMPLES =====
-  
+
   {
     id: 'validators',
     title: 'Auto-Generate Data',

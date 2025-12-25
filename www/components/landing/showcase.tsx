@@ -201,7 +201,9 @@ prod = @use "api-tier" {
           <div key={svc} className="p-3 rounded border border-emerald-500/20">
             <div className="flex justify-between items-center mb-1">
               <span className="text-[10px] font-bold">{svc} SERVICE</span>
-              <span className="text-[9px] px-1 bg-emerald-500 text-background font-bold tracking-tighter">@USE(API)</span>
+              <span className="text-[9px] px-1 bg-emerald-500 text-background font-bold tracking-tighter">
+                @USE(API)
+              </span>
             </div>
             <div className="flex gap-2 text-[9px] text-muted-foreground uppercase">
               <span>Timeout: 30s</span>
@@ -232,7 +234,9 @@ prod = @use "api-tier" {
           <div className="text-[10px] font-bold">user_kx7m@example.com</div>
           <div className="mt-2 flex items-center gap-1.5">
             <div className="h-1.5 w-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
-            <span className="text-[9px] font-black uppercase tracking-tighter text-emerald-500">Active Now</span>
+            <span className="text-[9px] font-black uppercase tracking-tighter text-emerald-500">
+              Active Now
+            </span>
           </div>
         </div>
       </div>

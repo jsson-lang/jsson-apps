@@ -1,8 +1,8 @@
 'use client';
 
 import { BookOpen, ChevronRight } from 'lucide-react';
-import { Suspense, useEffect, useState } from 'react';
 import { useQueryState } from 'nuqs';
+import { Suspense, useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
 import { Button } from '../ui/button';
 import {
@@ -14,8 +14,8 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '../ui/sheet';
-import { EXAMPLES } from './examples-data';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
+import { EXAMPLES } from './examples-data';
 
 interface ExamplesSheetProps {
   onSelect: (code: string) => void;
@@ -74,16 +74,16 @@ function ExamplesSheetContent({ onSelect }: ExamplesSheetProps) {
           <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
             <div className="px-8 pt-6 pb-2 border-b dashed-separator sticky top-0 bg-background z-30">
               <TabsList className="w-full justify-start gap-1 h-auto p-0 bg-transparent rounded-none">
-                <TabsTrigger 
-                  value="all" 
+                <TabsTrigger
+                  value="all"
                   className="px-4 py-2 text-[10px] font-black uppercase tracking-widest rounded-none border border-border data-[state=active]:bg-foreground data-[state=active]:text-background transition-all"
                 >
                   All
                 </TabsTrigger>
-                {Array.from(new Set(EXAMPLES.map(e => e.category))).map(category => (
-                  <TabsTrigger 
+                {Array.from(new Set(EXAMPLES.map((e) => e.category))).map((category) => (
+                  <TabsTrigger
                     key={category}
-                    value={category.toLowerCase()} 
+                    value={category.toLowerCase()}
                     className="px-4 py-2 text-[10px] font-black uppercase tracking-widest rounded-none border border-border data-[state=active]:bg-foreground data-[state=active]:text-background transition-all"
                   >
                     {category}
@@ -100,10 +100,14 @@ function ExamplesSheetContent({ onSelect }: ExamplesSheetProps) {
               </div>
             </TabsContent>
 
-            {Array.from(new Set(EXAMPLES.map(e => e.category))).map(category => (
-              <TabsContent key={category} value={category.toLowerCase()} className="mt-0 outline-none">
+            {Array.from(new Set(EXAMPLES.map((e) => e.category))).map((category) => (
+              <TabsContent
+                key={category}
+                value={category.toLowerCase()}
+                className="mt-0 outline-none"
+              >
                 <div className="grid gap-0 divide-y dashed-separator">
-                  {EXAMPLES.filter(e => e.category === category).map((example) => (
+                  {EXAMPLES.filter((e) => e.category === category).map((example) => (
                     <ExampleButton key={example.id} example={example} onSelect={handleSelect} />
                   ))}
                 </div>
@@ -117,7 +121,7 @@ function ExamplesSheetContent({ onSelect }: ExamplesSheetProps) {
 }
 
 interface ExampleButtonProps {
-  example: typeof EXAMPLES[number];
+  example: (typeof EXAMPLES)[number];
   onSelect: (code: string) => void;
 }
 
@@ -155,12 +159,14 @@ function ExampleButton({ example, onSelect }: ExampleButtonProps) {
 
 export default function ExamplesSheet(props: ExamplesSheetProps) {
   return (
-    <Suspense fallback={
-      <Button variant="outline" className="gap-2 group" disabled>
-        <BookOpen className="h-4 w-4 text-muted-foreground" />
-        <span className="text-[10px] font-black uppercase tracking-widest">Examples</span>
-      </Button>
-    }>
+    <Suspense
+      fallback={
+        <Button variant="outline" className="gap-2 group" disabled>
+          <BookOpen className="h-4 w-4 text-muted-foreground" />
+          <span className="text-[10px] font-black uppercase tracking-widest">Examples</span>
+        </Button>
+      }
+    >
       <ExamplesSheetContent {...props} />
     </Suspense>
   );

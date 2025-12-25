@@ -1,4 +1,13 @@
-import { ArrowRight, Zap, Code2, Server, FileJson, Terminal, Sparkles, CheckCircle } from 'lucide-react';
+import {
+  ArrowRight,
+  CheckCircle,
+  Code2,
+  FileJson,
+  Server,
+  Sparkles,
+  Terminal,
+  Zap,
+} from 'lucide-react';
 import Link from 'next/link';
 import Logo from '@/components/logo';
 
@@ -48,7 +57,7 @@ export default function HomePage() {
                 config.jsson
               </div>
               <pre className="text-sm leading-relaxed overflow-x-auto">
-{`@preset "api" {
+                {`@preset "api" {
   timeout = 30
   retries = 3
 }
@@ -72,7 +81,7 @@ users [
                 Output (100 users)
               </div>
               <pre className="text-sm leading-relaxed overflow-x-auto text-muted-foreground">
-{`{
+                {`{
   "users": [
     {
       "timeout": 30,
@@ -116,7 +125,8 @@ users [
                 <h3 className="text-sm font-bold uppercase tracking-widest">Universal Output</h3>
               </div>
               <p className="text-muted-foreground leading-relaxed">
-                One source file for JSON, YAML, TOML, and TypeScript. Never sync configs manually again.
+                One source file for JSON, YAML, TOML, and TypeScript. Never sync configs manually
+                again.
               </p>
             </div>
 
@@ -126,17 +136,21 @@ users [
                 <h3 className="text-sm font-bold uppercase tracking-widest">Logic Built-In</h3>
               </div>
               <p className="text-muted-foreground leading-relaxed">
-                Variables, ranges, map transformations, arithmetic, and conditionals. No external tools needed.
+                Variables, ranges, map transformations, arithmetic, and conditionals. No external
+                tools needed.
               </p>
             </div>
 
             <div className="flex flex-col gap-4">
               <div className="flex items-center gap-3">
                 <Sparkles className="h-5 w-5 text-purple-500" />
-                <h3 className="text-sm font-bold uppercase tracking-widest">Presets & Validators</h3>
+                <h3 className="text-sm font-bold uppercase tracking-widest">
+                  Presets & Validators
+                </h3>
               </div>
               <p className="text-muted-foreground leading-relaxed">
-                Reusable templates with @preset/@use. Auto-generate UUIDs, emails, dates with validators.
+                Reusable templates with @preset/@use. Auto-generate UUIDs, emails, dates with
+                validators.
               </p>
             </div>
 
@@ -146,7 +160,8 @@ users [
                 <h3 className="text-sm font-bold uppercase tracking-widest">HTTP Server</h3>
               </div>
               <p className="text-muted-foreground leading-relaxed">
-                Built-in REST API for transpilation. Perfect for playgrounds, CI/CD, and microservices.
+                Built-in REST API for transpilation. Perfect for playgrounds, CI/CD, and
+                microservices.
               </p>
             </div>
 
@@ -156,7 +171,8 @@ users [
                 <h3 className="text-sm font-bold uppercase tracking-widest">VS Code Extension</h3>
               </div>
               <p className="text-muted-foreground leading-relaxed">
-                Full LSP support with syntax highlighting, diagnostics, auto-complete, and go-to-definition.
+                Full LSP support with syntax highlighting, diagnostics, auto-complete, and
+                go-to-definition.
               </p>
             </div>
 
@@ -198,10 +214,7 @@ users [
             >
               Playground
             </Link>
-            <Link
-              href="/docs"
-              className="hover:text-foreground transition-colors"
-            >
+            <Link href="/docs" className="hover:text-foreground transition-colors">
               Docs
             </Link>
           </div>

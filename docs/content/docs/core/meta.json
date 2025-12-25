@@ -3,13 +3,5 @@
   "description": "JSSON Language Reference",
   "icon": "BookOpen",
   "root": true,
-  "pages": [
-    "index",
-    "guides",
-    "reference",
-    "patterns",
-    "examples",
-    "real-world",
-    "faq"
-  ]
+  "pages": ["index", "guides", "reference", "patterns", "examples", "real-world", "faq"]
 }

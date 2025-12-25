@@ -25,7 +25,11 @@ export default function PlaygroundPage() {
               <Stats />
             </div>
             <Link href="https://docs.jssonlang.tech/" target="_blank">
-              <Button size="sm" variant="outline" className="h-8 px-2 sm:px-4 text-[10px] sm:text-xs uppercase font-bold tracking-wider">
+              <Button
+                size="sm"
+                variant="outline"
+                className="h-8 px-2 sm:px-4 text-[10px] sm:text-xs uppercase font-bold tracking-wider"
+              >
                 <span className="hidden sm:inline">Go to docs</span>
                 <span className="sm:hidden">Docs</span>
               </Button>

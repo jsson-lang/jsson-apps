@@ -5,15 +5,18 @@ import DecoratorsGrid from '@/components/shared/decorators-grid';
 const features = [
   {
     title: 'Built-in HTTP Server',
-    description: 'Instantly serve your configuration across your infrastructure with a production-ready emmbeded server.',
+    description:
+      'Instantly serve your configuration across your infrastructure with a production-ready emmbeded server.',
   },
   {
     title: 'Presets & Reusability',
-    description: 'Define reusable configuration blocks once and apply them everywhere with @preset and @use.',
+    description:
+      'Define reusable configuration blocks once and apply them everywhere with @preset and @use.',
   },
   {
     title: 'Auto-Generated Data',
-    description: 'Integrated validators for UUIDs, emails, dates, and IPs. Perfect for realistic test data.',
+    description:
+      'Integrated validators for UUIDs, emails, dates, and IPs. Perfect for realistic test data.',
   },
   {
     title: 'Universal Output',
@@ -42,7 +45,8 @@ const features = [
   },
   {
     title: 'Professional LSP',
-    description: 'Full IDE support with real-time diagnostics, auto-complete, and go-to-definition.',
+    description:
+      'Full IDE support with real-time diagnostics, auto-complete, and go-to-definition.',
   },
 ];
 

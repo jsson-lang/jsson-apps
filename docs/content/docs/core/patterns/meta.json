@@ -1,7 +1,4 @@
 {
   "title": "Patterns",
-  "pages": [
-    "index",
-    "anti-patterns"
-  ]
+  "pages": ["index", "anti-patterns"]
 }
