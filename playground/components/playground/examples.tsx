@@ -1,7 +1,7 @@
 'use client';
 
 import { BookOpen, ChevronRight } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useQueryState } from 'nuqs';
 import { cn } from '@/lib/utils';
 import { Button } from '../ui/button';
@@ -21,7 +21,7 @@ interface ExamplesSheetProps {
   onSelect: (code: string) => void;
 }
 
-export default function ExamplesSheet({ onSelect }: ExamplesSheetProps) {
+function ExamplesSheetContent({ onSelect }: ExamplesSheetProps) {
   const [open, setOpen] = useState(false);
   const [activeTab, setActiveTab] = useQueryState('tab', { defaultValue: 'all' });
 
@@ -150,5 +150,18 @@ function ExampleButton({ example, onSelect }: ExampleButtonProps) {
       </div>
       <ChevronRight className="h-4 w-4 text-muted-foreground/20 group-hover:text-foreground transition-colors self-center" />
     </button>
+  );
+}
+
+export default function ExamplesSheet(props: ExamplesSheetProps) {
+  return (
+    <Suspense fallback={
+      <Button variant="outline" className="gap-2 group" disabled>
+        <BookOpen className="h-4 w-4 text-muted-foreground" />
+        <span className="text-[10px] font-black uppercase tracking-widest">Examples</span>
+      </Button>
+    }>
+      <ExamplesSheetContent {...props} />
+    </Suspense>
   );
 }
