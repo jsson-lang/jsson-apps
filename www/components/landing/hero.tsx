@@ -11,12 +11,6 @@ export function Hero() {
   return (
     <section className="relative flex flex-col items-center justify-center px-6 py-32 text-center min-h-[80vh]">
       <div className="flex flex-col items-center">
-        <div className="mb-8">
-          <Badge variant="outline" className="h-8 px-4 text-xs font-black uppercase tracking-[0.2em] bg-muted/50 gap-2 rounded-full border-border/50">
-             <Sparkles className="h-3 w-3 text-amber-500 fill-amber-500" />
-             v0.0.6 - Last pre-alpha
-          </Badge>
-        </div>
         <div className="mb-12">
           <Logo size="xl" />
         </div>

@@ -10,9 +10,9 @@ interface Release {
 export const releases: Release[] = [
   {
     version: 'v0.0.6',
-    title: 'Presets, Validators & LSP',
+    title: 'Presets, Validators, LSP & Introduction Http Server',
     description:
-      'The last pre-alpha release. Introduces presets for reusable config, validators for auto-generated data, and full LSP support for VS Code.',
+      'The last pre-alpha release. Introduces presets for reusable config, Http Server, validators for auto-generated data, and full LSP support for VS Code.',
     date: 'Dec 25, 2025',
     tag: 'Latest',
   },
