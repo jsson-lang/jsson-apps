@@ -3,7 +3,7 @@ title: Changelog
 description: List of changes and improvements by version.
 ---
 
-## v0.0.6 — Presets & Validators (2025-12-23)
+## v0.0.6 — Presets & Validators (2025-12-25)
 
 ### New Features
 
@@ -87,6 +87,64 @@ user {
 - Mock API responses
 - Database seeding
 - Placeholder values
+
+#### Built-in HTTP Server 🌐
+
+Serve your JSSON configurations directly via HTTP with the new `--serve` flag. Perfect for distributing configs across your infrastructure without redeployment.
+
+**Starting the server:**
+
+```bash
+# Basic server on default port 8080
+jsson --serve -i config.jsson
+
+# Custom port
+jsson --serve --port 3000 -i config.jsson
+
+# Serve with specific output format
+jsson --serve --format yaml -i config.jsson
+```
+
+**Fetching configurations:**
+
+```bash
+# Get JSON output
+curl http://localhost:8080/config
+
+# Use in your services
+fetch('http://config-server:8080/config')
+  .then(res => res.json())
+  .then(config => console.log(config))
+```
+
+**Key Features:**
+- Production-ready lightweight server
+- Hot-reload on file changes
+- CORS support for web clients
+- Multiple output formats (JSON, YAML, TOML)
+- Zero configuration required
+
+#### CLI Improvements 🛠️
+
+**New Flags:**
+
+- `--serve` / `-s`: Start HTTP server mode
+- `--port`: Specify server port (default: 8080)
+- `--minify` / `-m`: Output minified JSON (no whitespace)
+- `--indent`: Custom indentation (default: 2 spaces)
+
+**Examples:**
+
+```bash
+# Minified output
+jsson -i config.jsson --minify
+
+# Custom indentation (4 spaces)
+jsson -i config.jsson --indent 4
+
+# Serve on custom port
+jsson --serve --port 9000 -i prod.jsson
+```
 
 #### Boolean Literals 💡
 
